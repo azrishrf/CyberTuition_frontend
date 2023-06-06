@@ -412,7 +412,7 @@ export default {
                 console.log(tuitionFeeData);
                 axios
                     .post(
-                        `http://localhost:3001/api/tuitionfee`,
+                        `http://localhost:3001/api/checktuitionfee`,
                         tuitionFeeData
                     )
                     .then((response) => {

@@ -22,7 +22,7 @@ async function redirectlogin() {
         </button>
     </div>
     <!-- Body -->
-    <div class="bg-slate-50 w-screen min-h-screen">
+    <div class="bg-slate-50 w-full min-h-screen">
         <h1 class="text-center text-3xl font-semibold my-7">
             PENDAFTARAN PELAJAR
         </h1>
@@ -302,21 +302,7 @@ export default {
                             console.log("Student created:", response.data);
                             this.studentId = response.data.idStudent;
                             this.createStudentSubjects();
-                            // create tuition fee
-                            // Get current date
-                            const currentDate = new Date();
-                            const month = currentDate.getMonth() + 1; // Add 1 because months are zero-based
-                            const year = currentDate.getFullYear();
-                            const tuitionFee = {
-                                idStudent: this.studentId,
-                                month: month,
-                                year: year,
-                                subjectsList: this.selectedSubjects.join(", "),
-                            };
-                            console.log(tuitionFee);
-                            axios
-                                .post(baseAPI + "/api/tuitionfee", tuitionFee)
-                                .then((response) => {});
+                            this.createTuitionFee();
                         })
                         .catch((error) => {
                             console.error("Error creating student:", error);
@@ -336,6 +322,7 @@ export default {
                 this.selectedSubjects.push(subject); // Add the subject to the array
             }
             console.log(this.selectedSubjects);
+            // this.createTuitionFee();
         },
 
         // Create data subjects for student
@@ -358,6 +345,38 @@ export default {
                     });
             });
             alert("Register success!");
+        },
+
+        // Create data for tuition fee
+        createTuitionFee() {
+            // Filter subjects based on selectedSubjects
+            const selectedSubjectsArray = this.subjects.filter((subject) =>
+                this.selectedSubjects.includes(subject.name)
+            );
+
+            // Calculate the total tuition fee amount
+            const totalAmount = selectedSubjectsArray.reduce((sum, subject) => {
+                return sum + parseInt(subject.fee);
+            }, 0);
+
+            // Get current date
+            const currentDate = new Date();
+            const month = currentDate.getMonth() + 1; // Add 1 because months are zero-based
+            const year = currentDate.getFullYear();
+            const tuitionFee = {
+                idStudent: this.studentId,
+                month: month,
+                year: year,
+                amount: totalAmount,
+                subjectsList: this.selectedSubjects.join(", "),
+            };
+            // console.log(tuitionFee);
+            axios
+                .post(baseAPI + "/api/tuitionfee", tuitionFee)
+                .then((response) => {
+                    const tuitionFee = response.data;
+                    console.log(tuitionFee);
+                });
         },
     },
 };
