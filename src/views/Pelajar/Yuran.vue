@@ -209,7 +209,7 @@ async function ubahKataLaluan() {
             <!-- Kaedah Pembayaran -->
             <div
                 class="shadow-login bg-white py-4 px-10 rounded-2xl my-5"
-                v-if="tuitionFee.isPaid === false"
+                v-if="tuitionFee.isPaid === false && isConfirm"
             >
                 <h1 class="text-base font-semibold my-2">
                     Kaedah Pembayaran (Sila Pilih Salah Satu)
