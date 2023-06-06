@@ -1,7 +1,3 @@
-# Vue 3 + Vite
+# Cyber Tuition Saujana Utama Management System
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+A system to efficiently manage all information related to the tuition center. The use of QR code scanning is used to take attendance without using the attendance form manually. Even payment of tuition fees can also be done directly by using the payment gateway technology in the system. The developed system is web-based using HTML, CSS and JavaScript programming languages to build the system.
