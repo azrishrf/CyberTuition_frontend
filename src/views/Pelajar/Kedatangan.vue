@@ -141,6 +141,7 @@ export default {
         const dateString = date.toISOString().substring(0, 10);
         console.log(dateString);
     },
+
     methods: {
         sortAttendancesByDate() {
             this.attendances.sort((a, b) => {

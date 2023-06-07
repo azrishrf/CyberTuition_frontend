@@ -23,7 +23,7 @@ function handleUploaderEvent(e) {
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
-        <!-- <SideBarPelajar linkActive="kedatangan" /> -->
+        <SideBarPelajar linkActive="kedatangan" />
         <!-- Page Content -->
         <div class="w-full px-6 lg:px-12 pb-4 pt-2">
             <!-- Top Bar -->

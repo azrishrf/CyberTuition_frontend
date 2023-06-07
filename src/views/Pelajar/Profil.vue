@@ -134,7 +134,6 @@ async function ubahKataLaluan() {
                 </div>
                 <!-- Maklumat Ibu Bapa -->
             </div>
-
             <!-- Ubah kata laluan -->
             <div
                 class="shadow-login bg-white py-4 px-5 rounded-2xl my-6 w-1/2 flex gap-10"

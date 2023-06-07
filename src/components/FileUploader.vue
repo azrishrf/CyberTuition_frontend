@@ -39,9 +39,9 @@ onMounted(() => {
     --cfg-confirm-upload: 1;
     --cfg-show-empty-list: 1;
     --darkmode: 0;
-    --h-accent: 216;
-    --s-accent: 12%;
-    --l-accent: 84%;
+    --h-accent: 0;
+    --s-accent: 64%;
+    --l-accent: 42%;
     --h-background: 0;
     --s-background: 0%;
     --l-background: 100%;
