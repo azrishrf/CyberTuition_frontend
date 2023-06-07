@@ -86,7 +86,7 @@ document.title = "Pengesahan | Kerani";
                             {{ studentData.noICStudent }}
                         </td>
                         <td class="font-semibold">
-                            {{ studentData.dateOfBirth }}
+                            {{ formatDate(studentData.dateOfBirth) }}
                         </td>
                         <td
                             class="font-semibold py-3 flex items-center justify-center"
@@ -137,6 +137,15 @@ export default {
             );
             pengesahan.value = response;
             router.push("/kerani/pelajar/pengesahan/maklumatpengesahan");
+        },
+        // format date
+        formatDate(dateString) {
+            const parts = dateString.split("-"); // Split the date string by "-"
+            const day = parts[2];
+            const month = parts[1];
+            const year = parts[0];
+
+            return `${day}/${month}/${year}`;
         },
     },
 };

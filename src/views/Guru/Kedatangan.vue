@@ -90,8 +90,7 @@ document.title = "Kedatangan | Guru";
                     </div>
                 </div>
                 <p
-                    class="error-message text-sm mb-3 text-red grow"
-                    v-if="errorMessage"
+                    class="error-message text-xs text-red grow mb-3 font-semibold"
                 >
                     {{ errorMessage }}
                 </p>
@@ -333,7 +332,7 @@ export default {
         // Confirm all detail subject and display qr code
         confirmForm() {
             if (!this.subjectData || !this.date || !this.time) {
-                this.errorMessage = "Sila isi semua maklumat";
+                this.errorMessage = "* Sila isi semua maklumat";
             } else {
                 const attendance = {
                     idSubject: this.selectedSubject.idSubject,

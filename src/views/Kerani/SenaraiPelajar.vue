@@ -79,7 +79,7 @@ document.title = "Senarai Pelajar | Kerani";
                             {{ studentData.noICStudent }}
                         </td>
                         <td class="font-semibold">
-                            {{ studentData.dateOfBirth }}
+                            {{ formatDate(studentData.dateOfBirth) }}
                         </td>
                         <td class="font-semibold">
                             <router-link
@@ -169,11 +169,12 @@ export default {
         // Sort students based on registration date, with the latest registered student at the end
     },
     methods: {
+        // toggle confirm delete student
         toggleConfirmDelete(idStudent) {
             this.selectedStudent = idStudent;
             this.isOpen = !this.isOpen;
         },
-
+        // Delete data
         async deleteData() {
             await axios
                 .delete(
@@ -188,6 +189,15 @@ export default {
                     );
                 })
                 .catch((error) => console.log(error));
+        },
+        // format date
+        formatDate(dateString) {
+            const parts = dateString.split("-"); // Split the date string by "-"
+            const day = parts[2];
+            const month = parts[1];
+            const year = parts[0];
+
+            return `${day}/${month}/${year}`;
         },
     },
 };

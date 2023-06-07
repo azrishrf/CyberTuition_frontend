@@ -42,8 +42,14 @@ async function redirectlogin() {
                         placeholder="Nama Penuh"
                         name="fullname"
                         v-model="nameStudent"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(nameStudent)
+                                : '',
+                        }"
+                        class="border-2 rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                     />
+
                     <!-- IC Number-->
                     <p class="text-sm mb-3">No Kad Pengenalan</p>
                     <input
@@ -51,6 +57,11 @@ async function redirectlogin() {
                         placeholder="No Kad Pengenalan"
                         name="noIC"
                         v-model="noICStudent"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(noICStudent)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                     />
                     <!-- Phone Number -->
@@ -60,6 +71,11 @@ async function redirectlogin() {
                         placeholder="No Telefon"
                         name="noPhone"
                         v-model="noPhoneStudent"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(noPhoneStudent)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                     />
                 </div>
@@ -71,6 +87,11 @@ async function redirectlogin() {
                         placeholder="E-Mel"
                         name="email"
                         v-model="email"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(email)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                     />
                     <!-- Birth Date -->
@@ -80,6 +101,11 @@ async function redirectlogin() {
                         placeholder="Tarikh Lahir"
                         name="birthdate"
                         v-model="dateOfBirth"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(dateOfBirth)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                     />
                     <!-- Form -->
@@ -87,6 +113,11 @@ async function redirectlogin() {
                     <select
                         name="tingkatan"
                         v-model="form"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(form)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-4/12 py-3 px-4 block mb-5 text-sm"
                     >
                         <option disabled value="" selected>
@@ -104,6 +135,9 @@ async function redirectlogin() {
                 placeholder="Alamat Rumah"
                 name="address"
                 v-model="address"
+                :style="{
+                    borderColor: shouldValidate ? validateInput(address) : '',
+                }"
                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm h-16"
             />
 
@@ -119,6 +153,11 @@ async function redirectlogin() {
                         placeholder="Nama Penuh Ibu Bapa"
                         name="fullnameParents"
                         v-model="nameParent"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(nameParent)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                     />
                     <!-- No KP IbuBapa-->
@@ -128,6 +167,11 @@ async function redirectlogin() {
                         placeholder="No Kad Pengenalan"
                         name="noICParents"
                         v-model="noICParent"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(noICParent)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                     />
                 </div>
@@ -139,6 +183,11 @@ async function redirectlogin() {
                         placeholder="No Telefon"
                         name="noPhoneParents"
                         v-model="noPhoneParent"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(noPhoneParent)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm"
                     />
                 </div>
@@ -154,6 +203,11 @@ async function redirectlogin() {
                         placeholder="Kata Laluan"
                         name="Kata Laluan"
                         v-model="password"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(password)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 mb-5 px-4 block text-sm"
                     />
                 </div>
@@ -165,6 +219,11 @@ async function redirectlogin() {
                         placeholder="Pengesahan Kata Laluan"
                         name="Pengesahan Kata Laluan"
                         v-model="confirmPassword"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(confirmPassword)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm"
                     />
                 </div>
@@ -194,7 +253,7 @@ async function redirectlogin() {
                         "
                         class="w-20"
                     />
-                    <label class="font-bold gap-9 text-sm pt-2">
+                    <label class="font-semibold gap-9 text-sm pt-2">
                         {{ subjectData.name }}
                     </label>
                     <i
@@ -225,30 +284,30 @@ async function redirectlogin() {
 <script>
 import axios from "axios";
 import { baseAPI } from "../stores/index.js";
+import { useToast } from "vue-toastification";
 
 export default {
     data() {
         return {
-            user: {
-                email: "",
-                password: "",
-            },
-            student: {
-                nameStudent: "",
-                noICStudent: "",
-                dateOfBirth: "",
-                noPhoneStudent: "",
-                form: "",
-                address: "",
-                nameParent: "",
-                noICParent: "",
-                noPhoneParent: "",
-                isRegistered: false,
-            },
+            email: "",
+            password: "",
+            confirmPassword: "",
+            nameStudent: "",
+            noICStudent: "",
+            dateOfBirth: "",
+            noPhoneStudent: "",
+            form: "",
+            address: "",
+            nameParent: "",
+            noICParent: "",
+            noPhoneParent: "",
+            isRegistered: false,
+            nameStudent: "",
             subjects: [],
             selectedSubjects: [],
-            // selectedSubjects2: [],
             studentId: null,
+            toast: useToast(),
+            shouldValidate: false,
         };
     },
     async mounted() {
@@ -261,56 +320,119 @@ export default {
     beforeUnmount() {
         document.removeEventListener("click", this.handleClickOutside);
     },
+
     methods: {
-        async register() {
-            console.log(this.selectedSubjects);
-            if (this.password !== this.confirmPassword) {
-                alert("Kata Laluan dan Sahkan Kata Laluan tidak sama.");
-                return;
+        validateInput(input) {
+            // Your validation logic here
+            if (input === "") {
+                return "rgb(200 61 40)"; // Example: Set border color to red for empty input
             }
+        },
 
-            const user = {
-                email: this.email,
-                password: this.password,
-                role: "Student",
-            };
+        async register() {
+            this.shouldValidate = true;
+            if (
+                !this.nameStudent ||
+                !this.noICStudent ||
+                !this.dateOfBirth ||
+                !this.noPhoneStudent ||
+                !this.form ||
+                !this.address ||
+                !this.nameParent ||
+                !this.noICParent ||
+                !this.noPhoneParent ||
+                !this.email ||
+                !this.password ||
+                !this.confirmPassword ||
+                this.selectedSubjects.length === 0
+            ) {
+                this.toast.error("Sila isi semua maklumat!", {
+                    timeout: 3000,
+                });
+                window.scrollTo({
+                    top: window.innerHeight / 3,
+                    behavior: "smooth", // Use 'smooth' for smooth scrolling effect
+                });
+            } else if (this.password !== this.confirmPassword) {
+                this.toast.error(
+                    "Kata Laluan dan Pengesahan Kata Laluan adalah tidak sama!",
+                    {
+                        timeout: 3000,
+                    }
+                );
+            } else {
+                // Check existing user
+                const checkUser = await axios.post(
+                    baseAPI + `/api/existinguser/${this.email}`
+                );
+                const existingUser = checkUser.data;
+                // Check existing student
+                const checkStudent = await axios.post(
+                    baseAPI + `/api/existingstudent/${this.noICStudent}`
+                );
+                const existingStudent = checkStudent.data;
 
-            const student = {
-                nameStudent: this.nameStudent,
-                noICStudent: this.noICStudent,
-                dateOfBirth: this.dateOfBirth,
-                noPhoneStudent: this.noPhoneStudent,
-                form: parseInt(this.form),
-                address: this.address,
-                nameParent: this.nameParent,
-                noICParent: this.noICParent,
-                noPhoneParent: this.noPhoneParent,
-                isRegistered: false,
-            };
+                if (existingUser) {
+                    this.toast.error("Email sudah digunakan!", {
+                        timeout: 3000,
+                    });
+                } else if (existingStudent) {
+                    this.toast.error("Nombor Kad Pengenalan sudah digunakan!", {
+                        timeout: 3000,
+                    });
+                } else {
+                    const user = {
+                        email: this.email,
+                        password: this.password,
+                        role: "Student",
+                    };
+                    const student = {
+                        nameStudent: this.nameStudent,
+                        noICStudent: this.noICStudent,
+                        dateOfBirth: this.dateOfBirth,
+                        noPhoneStudent: this.noPhoneStudent,
+                        form: parseInt(this.form),
+                        address: this.address,
+                        nameParent: this.nameParent,
+                        noICParent: this.noICParent,
+                        noPhoneParent: this.noPhoneParent,
+                        isRegistered: false,
+                    };
 
-            axios
-                .post(baseAPI + "/api/user", user)
-                .then((response) => {
-                    // Extract the user ID from the response data
-                    const userId = response.data.idUser;
-                    // Associate the student with the user by setting its idUser field
-                    student.idUser = userId;
-                    // Make the POST request to create the student
                     axios
-                        .post(baseAPI + "/api/students_notregistered", student)
+                        .post(baseAPI + "/api/user", user)
                         .then((response) => {
-                            console.log("Student created:", response.data);
-                            this.studentId = response.data.idStudent;
-                            this.createStudentSubjects();
-                            this.createTuitionFee();
+                            // Extract the user ID from the response data
+                            const userId = response.data.idUser;
+                            // Associate the student with the user by setting its idUser field
+                            student.idUser = userId;
+                            // Make the POST request to create the student
+                            axios
+                                .post(
+                                    baseAPI + "/api/students_notregistered",
+                                    student
+                                )
+                                .then((response) => {
+                                    console.log(
+                                        "Student created:",
+                                        response.data
+                                    );
+                                    this.studentId = response.data.idStudent;
+                                    this.createStudentSubjects();
+                                    this.createTuitionFee();
+                                })
+                                .catch((error) => {
+                                    console.error(
+                                        "Error creating student:",
+                                        error
+                                    );
+                                });
                         })
                         .catch((error) => {
-                            console.error("Error creating student:", error);
+                            console.error("Error creating user:", error);
                         });
-                })
-                .catch((error) => {
-                    console.error("Error creating user:", error);
-                });
+                }
+            }
         },
 
         // Insert subject into array selectedSubjects
@@ -344,7 +466,9 @@ export default {
                         console.error("Error creating student_subject:", error);
                     });
             });
-            alert("Register success!");
+            this.toast.success("Pendaftaran Berjaya", {
+                timeout: 3000,
+            });
         },
 
         // Create data for tuition fee

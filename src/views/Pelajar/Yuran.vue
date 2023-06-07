@@ -84,8 +84,7 @@ async function ubahKataLaluan() {
                     </div>
                 </div>
                 <p
-                    class="error-message text-sm mb-3 text-red grow"
-                    v-if="errorMessage"
+                    class="error-message text-xs text-red grow mb-3 font-semibold"
                 >
                     {{ errorMessage }}
                 </p>
@@ -398,7 +397,7 @@ export default {
         // Confirm month and year
         confirmForm() {
             if (!this.month || !this.year) {
-                this.errorMessage = "Sila isi semua maklumat";
+                this.errorMessage = "* Sila isi semua maklumat";
             } else {
                 this.isConfirm = true;
                 this.errorMessage = "";
