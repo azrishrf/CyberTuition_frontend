@@ -240,6 +240,7 @@ async function ubahKataLaluan() {
                     <!-- Upload bank receipt -->
                     <button
                         class="shadow-login bg-white py-6 px-10 rounded-2xl my-5 inline-block ml-20"
+                        @click="redirectTo()"
                     >
                         <div class="text-center">
                             <img
@@ -459,6 +460,11 @@ export default {
             this.year = "";
             // Reset the isConfirm flag to false
             this.isConfirm = false;
+        },
+
+        // Redirect to page Upload receipt Bank
+        redirectTo() {
+            router.push("/pelajar/yuran/muatnaikresitbank");
         },
     },
 };

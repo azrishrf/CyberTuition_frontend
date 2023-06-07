@@ -2,14 +2,28 @@
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
 import router from "../../router";
 import SubmitButton from "../../components/SubmitButton.vue";
+import FileUploader from "../../components/FileUploader.vue";
+import { ref } from "vue";
 
 document.title = "Muat Naik Resit Bank | Pelajar";
+
+window.addEventListener("LR_UPLOAD_FINISH", async (e) => {
+    const dataUpload = e.detail.data[0];
+    await uploadNewResume(dataUpload.cdnUrl + dataUpload.name);
+});
+
+const file = ref({});
+function handleUploaderEvent(e) {
+    const { data: uploadedFiles } = e.detail;
+    file.value = uploadedFiles;
+    console.log(e.detail);
+}
 </script>
 
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
-        <SideBarPelajar linkActive="kedatangan" />
+        <!-- <SideBarPelajar linkActive="kedatangan" /> -->
         <!-- Page Content -->
         <div class="w-full px-6 lg:px-12 pb-4 pt-2">
             <!-- Top Bar -->
@@ -40,7 +54,7 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                         <h1 class="text-base font-semibold mb-3">
                             Maklumat Akaun Bank
                         </h1>
-                        <table class="text-xs md:text-sm">
+                        <table class="text-sm">
                             <tr>
                                 <td class="font-semibold text-black pb-2">
                                     Nama Akaun:
@@ -89,14 +103,16 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                         <h1 class="text-base font-semibold mb-3">
                             Muat Naik Resit Bank
                         </h1>
-                        <button
+
+                        <FileUploader v-on:upload="handleUploaderEvent" />
+                        <!-- <button
                             class="font-semibold bg-slate-200 py-4 px-6 rounded-2xl hover:bg-gray-300"
                         >
                             <i
                                 class="fa-sharp fa-solid fa-cloud-arrow-up text-gray-500"
                             ></i>
                             Upload File
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@uploadcare/blocks": "0.22.9",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
