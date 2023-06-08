@@ -3,21 +3,17 @@ import SideBarPelajar from "../../components/SideBarPelajar.vue";
 import router from "../../router";
 import SubmitButton from "../../components/SubmitButton.vue";
 import FileUploader from "../../components/FileUploader.vue";
-import { ref } from "vue";
+// import axios from "axios";
 
 document.title = "Muat Naik Resit Bank | Pelajar";
 
 window.addEventListener("LR_UPLOAD_FINISH", async (e) => {
     const dataUpload = e.detail.data[0];
-    await uploadNewResume(dataUpload.cdnUrl + dataUpload.name);
-});
+    // await this.uploadNewResume(dataUpload.cdnUrl + dataUpload.name);
+    console.log(dataUpload.cdnUrl + dataUpload.name);
 
-const file = ref({});
-function handleUploaderEvent(e) {
-    const { data: uploadedFiles } = e.detail;
-    file.value = uploadedFiles;
-    console.log(e.detail);
-}
+    // fetch api later
+});
 </script>
 
 <template>
@@ -136,49 +132,11 @@ const user = JSON.parse(sessionStorage.getItem("idUser"));
 
 export default {
     data() {
-        return {
-            studentAttendanceData: router.currentRoute.value.params.id,
-            studentData: {},
-            subjectData: {},
-            attendanceData: {},
-        };
+        return {};
     },
 
-    async mounted() {
-        const response = await axios.get(
-            `http://localhost:3001/api/studentAttendance/${this.studentAttendanceData}`
-        );
-        this.studentAttendanceData = response.data;
-        this.studentData = this.studentAttendanceData.student;
-        this.subjectData = this.studentAttendanceData.attendance.subject;
-        this.attendanceData = this.studentAttendanceData.attendance;
+    async mounted() {},
 
-        // location.reload();
-        if (!sessionStorage.getItem("pageReloaded")) {
-            sessionStorage.setItem("pageReloaded", "true");
-            location.reload();
-        }
-    },
-    methods: {
-        redirectKedatangan() {
-            router.push("/pelajar/kedatangan");
-        },
-        convertDate(dateString) {
-            const options = {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-            };
-            const date = new Date(dateString);
-            return date.toLocaleDateString("ms-MY", options);
-        },
-        convertDay(dateString) {
-            const options = {
-                weekday: "long",
-            };
-            const date = new Date(dateString);
-            return date.toLocaleDateString("ms-MY", options);
-        },
-    },
+    methods: {},
 };
 </script>

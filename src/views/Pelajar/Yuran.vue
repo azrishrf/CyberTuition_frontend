@@ -199,16 +199,11 @@ async function ubahKataLaluan() {
                     </tr>
                 </table>
             </div>
-            <!-- check -->
-            <!-- <div>
-                <p v-if="isTuitionFeePaid">Fee has been paid</p>
-                <p v-else>Fee has not been paid</p>
-            </div> -->
 
             <!-- Kaedah Pembayaran -->
             <div
                 class="shadow-login bg-white py-4 px-10 rounded-2xl my-5"
-                v-if="tuitionFee.isPaid === false && isConfirm"
+                v-if="tuitionFee.statusPayment === 'Belum Dibayar' && isConfirm"
             >
                 <h1 class="text-base font-semibold my-2">
                     Kaedah Pembayaran (Sila Pilih Salah Satu)
@@ -336,63 +331,94 @@ export default {
     methods: {
         // Create bill to toyyibPay payment gateway
         createBill() {
-            const formData = new FormData();
-            // Convert totalFee to cent because toyyibPay receive value in cent
-            const totalFeeCent = this.totalFee * 100;
+            axios
+                .get(
+                    `http://localhost:3001/api/tuitionfee/paymentgateway/${this.tuitionFee.idTuitionFee}`
+                )
+                .then((response) => {
+                    const existingPaymentGatewayData = response.data;
+                    if (existingPaymentGatewayData) {
+                        this.billcode = existingPaymentGatewayData.billCode;
+                        window.location.href = `https://dev.toyyibpay.com/${this.billcode}`;
+                    } else {
+                        // Create new bill
+                        const formData = new FormData();
+                        // Convert totalFee to cent because toyyibPay receive value in cent
+                        const totalFeeCent = this.totalFee * 100;
 
-            // Pass the following parameters to generate Bill Code
-            console.log(this.studentData.nameStudent);
-            console.log(this.userData.email);
-            formData.append(
-                "userSecretKey",
-                import.meta.env.VITE_SECRETKEY_TOYYIBPAY
-            );
-            formData.append("categoryCode", "33qq2cj6");
-            formData.append("billName", "Yuran Bulanan Cyber Tuition");
-            formData.append(
-                "billDescription",
-                "Bulan: " + this.month + ", " + "Tahun: " + this.year
-            );
-            formData.append("billPriceSetting", "1");
-            formData.append("billPayorInfo", "1");
-            formData.append("billAmount", totalFeeCent);
-            formData.append(
-                "billReturnUrl",
-                "http://localhost:5173/pelajar/statuspembayaran"
-            );
-            formData.append("billCallbackUrl", "");
-            formData.append("billExternalReferenceNo", "");
-            formData.append("billTo", this.studentData.nameStudent);
-            formData.append("billEmail", this.userData.email);
-            formData.append("billPhone", this.studentData.noPhoneStudent);
-            formData.append("billPaymentChannel", "0");
-            formData.append(
-                "billContentEmail",
-                "Terima Kasih kerana telah membayar yuran pada bulan ini!"
-            );
+                        // Pass the following parameters to generate Bill Code
+                        console.log(this.studentData.nameStudent);
+                        console.log(this.userData.email);
+                        formData.append(
+                            "userSecretKey",
+                            import.meta.env.VITE_SECRETKEY_TOYYIBPAY
+                        );
+                        formData.append("categoryCode", "33qq2cj6");
+                        formData.append(
+                            "billName",
+                            "Yuran Bulanan Cyber Tuition"
+                        );
+                        formData.append(
+                            "billDescription",
+                            "Bulan: " +
+                                this.month +
+                                ", " +
+                                "Tahun: " +
+                                this.year
+                        );
+                        formData.append("billPriceSetting", "1");
+                        formData.append("billPayorInfo", "1");
+                        formData.append("billAmount", totalFeeCent);
+                        formData.append(
+                            "billReturnUrl",
+                            "http://localhost:5173/pelajar/statuspembayaran"
+                        );
+                        formData.append("billCallbackUrl", "");
+                        formData.append("billExternalReferenceNo", "");
+                        formData.append("billTo", this.studentData.nameStudent);
+                        formData.append("billEmail", this.userData.email);
+                        formData.append(
+                            "billPhone",
+                            this.studentData.noPhoneStudent
+                        );
+                        formData.append("billPaymentChannel", "0");
+                        formData.append(
+                            "billContentEmail",
+                            "Terima Kasih kerana telah membayar yuran pada bulan ini!"
+                        );
 
-            // Display the key/value pairs
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ", " + pair[1]);
-            }
+                        // Display the key/value pairs
+                        for (var pair of formData.entries()) {
+                            console.log(pair[0] + ", " + pair[1]);
+                        }
 
-            // Insert tuitionFee into session
-            sessionStorage.setItem(
-                "tuitionFee",
-                JSON.stringify(this.tuitionFee.idTuitionFee)
-            );
+                        // Insert tuitionFee into session
+                        sessionStorage.setItem(
+                            "tuitionFee",
+                            JSON.stringify(this.tuitionFee.idTuitionFee)
+                        );
 
-            fetch("https://dev.toyyibpay.com/index.php/api/createBill", {
-                method: "POST",
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((result) => {
-                    console.log(result[0].BillCode);
-                    // Redirect the user to the URL
-                    window.location.href = `https://dev.toyyibpay.com/${result[0].BillCode}`;
+                        fetch(
+                            "https://dev.toyyibpay.com/index.php/api/createBill",
+                            {
+                                method: "POST",
+                                body: formData,
+                            }
+                        )
+                            .then((response) => response.json())
+                            .then((result) => {
+                                console.log(result[0].BillCode);
+                                // Redirect the user to the URL
+                                window.location.href = `https://dev.toyyibpay.com/${result[0].BillCode}`;
+                            })
+                            .catch((error) => console.error("Error:", error));
+                    }
                 })
-                .catch((error) => console.error("Error:", error));
+                .catch((error) => {
+                    // console.error("Error:", error.response.data);
+                    console.log(error);
+                    // Handle the error
+                });
         },
         // Confirm month and year
         confirmForm() {
@@ -410,6 +436,7 @@ export default {
                     idStudent: this.studentId,
                 };
                 console.log(tuitionFeeData);
+                // Get Tuition Fee data
                 axios
                     .post(
                         `http://localhost:3001/api/checktuitionfee`,
@@ -417,7 +444,7 @@ export default {
                     )
                     .then((response) => {
                         this.tuitionFee = response.data;
-                        console.log(this.tuitionFee.subjectsList);
+                        console.log(this.tuitionFee);
 
                         // Divide subjectList into separate subjects
                         const subjectNames = this.tuitionFee.subjectsList
@@ -463,6 +490,11 @@ export default {
 
         // Redirect to page Upload receipt Bank
         redirectTo() {
+            // Insert tuitionFee into session
+            sessionStorage.setItem(
+                "tuitionFee",
+                JSON.stringify(this.tuitionFee.idTuitionFee)
+            );
             router.push("/pelajar/yuran/muatnaikresitbank");
         },
     },

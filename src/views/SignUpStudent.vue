@@ -21,6 +21,7 @@ async function redirectlogin() {
             LOG MASUK
         </button>
     </div>
+
     <!-- Body -->
     <div class="bg-slate-50 w-full min-h-screen">
         <h1 class="text-center text-3xl font-semibold my-7">
@@ -118,7 +119,7 @@ async function redirectlogin() {
                                 ? validateInput(form)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-4/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-5 text-sm"
                     >
                         <option disabled value="" selected>
                             -- Pilih Tingkatan --
@@ -172,7 +173,7 @@ async function redirectlogin() {
                                 ? validateInput(noICParent)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm"
                     />
                 </div>
                 <div class="grow">
@@ -195,37 +196,66 @@ async function redirectlogin() {
             <!-- Kata Laluan -->
             <h4 class="text-lg font-semibold mb-4">Kata Laluan Akaun</h4>
             <div class="flex max-md:flex-col mb-10">
-                <div class="grow">
+                <div class="flex-1 relative">
                     <!-- Kata Laluan -->
                     <p class="text-sm mb-3">Kata Laluan</p>
                     <input
-                        type="password"
+                        :type="showPassword ? 'text' : 'password'"
                         placeholder="Kata Laluan"
                         name="Kata Laluan"
                         v-model="password"
+                        @click="shouldValidatePassword = true"
                         :style="{
-                            borderColor: shouldValidate
-                                ? validateInput(password)
+                            borderColor: shouldValidatePassword
+                                ? validateInputPassword(password)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 mb-5 px-4 block text-sm"
+                        class="border-2 rounded-md w-11/12 py-3 px-4 block text-sm focus:border-cyan-500 focus:outline-none"
                     />
+                    <i
+                        class="absolute top-12 right-11 sm:right-20 cursor-pointer transition duration-300 ease-in-out"
+                        :class="{
+                            'fa-solid fa-eye-slash hover:text-red':
+                                !showPassword,
+                            'fa-solid fa-eye hover:text-red': showPassword,
+                        }"
+                        @click="togglePasswordVisibility"
+                    ></i>
+                    <p
+                        v-if="shouldValidatePassword"
+                        class="text-xs mt-2 mb-4 md:mb-0 inline-block font-bold text-red w-11/12"
+                    >
+                        * Kata laluan hendaklah sekurang-kurangnya 8 aksara
+                        panjang dan termasuk huruf besar, huruf kecil, nombor
+                        dan aksara khas.
+                    </p>
                 </div>
-                <div class="grow">
+                <div class="flex-1 relative">
                     <!-- Pengesahan Kata Laluan-->
                     <p class="text-sm mb-3">Pengesahan Kata Laluan</p>
                     <input
-                        type="password"
+                        :type="showConfirmPassword ? 'text' : 'password'"
                         placeholder="Pengesahan Kata Laluan"
                         name="Pengesahan Kata Laluan"
                         v-model="confirmPassword"
+                        @click="shouldValidateConfirmPassword = true"
                         :style="{
-                            borderColor: shouldValidate
-                                ? validateInput(confirmPassword)
+                            borderColor: shouldValidateConfirmPassword
+                                ? validateInputConfirmPassword(confirmPassword)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm"
+                        class="border-2 rounded-md w-11/12 py-3 mb-5 px-4 block text-sm focus:border-cyan-500 focus:outline-none"
                     />
+                    <i
+                        class="absolute top-12 right-11 sm:right-20 cursor-pointer transition duration-300 ease-in-out"
+                        :class="{
+                            'fa-solid fa-eye-slash hover:text-red':
+                                !showConfirmPassword,
+                            'fa-solid fa-eye hover:text-red':
+                                showConfirmPassword,
+                        }"
+                        @click="toggleConfirmPasswordVisibility"
+                    ></i>
                 </div>
             </div>
 
@@ -308,6 +338,10 @@ export default {
             studentId: null,
             toast: useToast(),
             shouldValidate: false,
+            shouldValidatePassword: false,
+            shouldValidateConfirmPassword: false,
+            showPassword: false,
+            showConfirmPassword: false,
         };
     },
     async mounted() {
@@ -323,14 +357,45 @@ export default {
 
     methods: {
         validateInput(input) {
-            // Your validation logic here
             if (input === "") {
                 return "rgb(200 61 40)"; // Example: Set border color to red for empty input
             }
         },
 
+        validateInputPassword(input) {
+            if (input.length < 8) {
+                return "rgb(200 61 40)"; // Set border color to red for passwords less than 8 characters
+            }
+            if (!/\d/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no number found
+            }
+            if (!/[a-z]/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no lowercase letter found
+            }
+            if (!/[A-Z]/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no uppercase letter found
+            }
+            if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no special character found
+            }
+            // shouldValidatePassword = false;
+            return ""; // No validation errors, no border color applied
+        },
+
+        validateInputConfirmPassword(input) {
+            if (input.length == 0) {
+                return "rgb(200 61 40)"; // Set border color to red for passwords less than 8 characters
+            }
+            if (input !== this.password) {
+                return "rgb(200 61 40)"; // Set border color to red for passwords less than 8 characters
+            }
+            return ""; // No validation errors, no border color applied
+        },
+
         async register() {
             this.shouldValidate = true;
+            this.shouldValidatePassword = true;
+            this.shouldValidateConfirmPassword = true;
             if (
                 !this.nameStudent ||
                 !this.noICStudent ||
@@ -433,6 +498,14 @@ export default {
                         });
                 }
             }
+        },
+
+        // Toggle password
+        togglePasswordVisibility() {
+            this.showPassword = !this.showPassword;
+        },
+        toggleConfirmPasswordVisibility() {
+            this.showConfirmPassword = !this.showConfirmPassword;
         },
 
         // Insert subject into array selectedSubjects

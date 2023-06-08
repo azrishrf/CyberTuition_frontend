@@ -168,63 +168,6 @@ document.title = "Yuran | Kerani";
                             </button>
                         </td>
                     </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">1</td>
-                        <td class="font-semibold">Azri Ishraf</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">
-                            <p
-                                class="bg-darkred text-white px-8 py-1 rounded-xl text-xs hover:bg-cyan-700 inline-block"
-                            >
-                                Belum Dibayar
-                            </p>
-                        </td>
-                        <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">2</td>
-                        <td class="font-semibold">Syamil Afizan</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">
-                            <p
-                                class="bg-darkred text-white px-8 py-1 rounded-xl text-xs hover:bg-cyan-700 inline-block"
-                            >
-                                Belum Dibayar
-                            </p>
-                        </td>
-                        <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">3</td>
-                        <td class="font-semibold">Syahir Hamid</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">
-                            <p
-                                class="bg-darkred text-white px-8 py-1 rounded-xl text-xs hover:bg-cyan-700 inline-block"
-                            >
-                                Belum Dibayar
-                            </p>
-                        </td>
-                        <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
                 </table>
             </div>
         </div>

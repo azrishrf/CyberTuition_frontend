@@ -16,11 +16,14 @@ document.title = "Log Masuk";
             <form v-on:submit.prevent="login()">
                 <!-- Email -->
                 <div
-                    class="shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    :style="{
+                        borderColor: shouldValidate ? validateInput(email) : '',
+                    }"
                 >
                     <i class="bi bi-person inline mr-3 text-grey text-lg"></i>
                     <input
-                        class="focus:outline-none w-full"
+                        class="focus:outline-none w-full input"
                         type="email"
                         placeholder="E-Mel"
                         name="email"
@@ -29,7 +32,12 @@ document.title = "Log Masuk";
                 </div>
                 <!-- Password -->
                 <div
-                    class="shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    :style="{
+                        borderColor: shouldValidate
+                            ? validateInput(password)
+                            : '',
+                    }"
                 >
                     <i class="bi bi-lock inline mr-3 text-grey text-base"></i>
                     <input
@@ -62,44 +70,97 @@ document.title = "Log Masuk";
 <script>
 import axios from "axios";
 const baseurl = "http://localhost:3001";
+import { useToast } from "vue-toastification";
 
 export default {
     data() {
         return {
             email: "",
             password: "",
+            shouldValidate: false,
+            toast: useToast(),
         };
     },
     methods: {
+        // validate input
+        validateInput(input) {
+            if (input === "") {
+                return "rgb(190 18 60)"; // Example: Set border color to red for empty input
+            }
+        },
+        // check and send input to database to login
         async login() {
-            try {
-                const response = await axios.post(baseurl + "/api/login", {
-                    email: this.email,
-                    password: this.password,
+            this.shouldValidate = true;
+
+            if (!this.email || !this.password) {
+                this.toast.error("E-mel dan kata laluan diperlukan!", {
+                    timeout: 3000,
                 });
-                sessionStorage.setItem("idUser", JSON.stringify(response.data));
+            } else {
+                axios
+                    .post(baseurl + "/api/login", {
+                        email: this.email,
+                        password: this.password,
+                    })
+                    .then(async (response) => {
+                        // Handle successful login
+                        sessionStorage.setItem(
+                            "idUser",
+                            JSON.stringify(response.data)
+                        );
+                        const responseUser = await axios.get(
+                            `http://localhost:3001/api/user/${response.data}`
+                        );
+                        console.log(response.data);
+                        console.log(responseUser);
 
-                const responseUser = await axios.get(
-                    `http://localhost:3001/api/user/${response.data}`
-                );
+                        if (
+                            responseUser.data.role === "Student" &&
+                            responseUser.data.student.isRegistered === true
+                        ) {
+                            this.toast.success("Log Masuk Berjaya", {
+                                timeout: 3000,
+                            });
+                            router.push("/pelajar/dashboard");
+                        } else if (responseUser.data.role === "Teacher") {
+                            this.toast.success("Log Masuk Berjaya", {
+                                timeout: 3000,
+                            });
+                            router.push("/guru/dashboard");
+                        } else if (responseUser.data.role === "Clerk") {
+                            this.toast.success("Log Masuk Berjaya", {
+                                timeout: 3000,
+                            });
+                            router.push("/kerani/dashboard");
+                        } else if (
+                            responseUser.data.student.isRegistered === false
+                        ) {
+                            this.toast.warning(
+                                "Akaun anda masih belum mendapatkan pengesahan",
+                                { timeout: 3000 }
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        // Handle error
+                        if (error.response && error.response.status === 401) {
+                            const errorMessage = error.response.data.error;
 
-                if (
-                    responseUser.data.role === "Student" &&
-                    responseUser.data.student.isRegistered === true
-                ) {
-                    router.push("/pelajar/dashboard");
-                } else if (responseUser.data.role === "Teacher") {
-                    router.push("/guru/dashboard");
-                } else if (responseUser.data.role === "Clerk") {
-                    router.push("/kerani/dashboard");
-                } else if (responseUser.data.student.isRegistered === false) {
-                    alert("Not registered yet");
-                }
-            } catch (error) {
-                console.error(error);
-                alert("Invalid email or password");
+                            this.toast.warning(errorMessage, { timeout: 3000 });
+                        }
+                    });
             }
         },
     },
 };
 </script>
+
+<style>
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: black !important;
+}
+</style>

@@ -29,7 +29,7 @@ onMounted(() => {
 
 <style>
 .my-config {
-    --cfg-pubkey: var(--public-key);
+    --cfg-pubkey: "0510b6f91ece51c623a4";
     --cfg-img-only: 0;
     --cfg-multiple: 0;
     --cfg-max-local-file-size-bytes: 5242880;
