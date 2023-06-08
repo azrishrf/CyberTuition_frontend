@@ -156,16 +156,31 @@ async function ubahKataLaluan() {
 
                             <td class="font-semibold">
                                 <p
-                                    v-if="tuitionFee.isPaid === true"
+                                    v-if="
+                                        tuitionFee.statusPayment ===
+                                        'Telah Dibayar'
+                                    "
                                     class="bg-green text-white px-8 py-1 rounded-xl text-xs inline-block"
                                 >
-                                    Sudah Dibayar
+                                    Telah Dibayar
                                 </p>
                                 <p
-                                    v-else
+                                    v-if="
+                                        tuitionFee.statusPayment ===
+                                        'Belum Dibayar'
+                                    "
                                     class="bg-darkred text-white px-8 py-1 rounded-xl text-xs inline-block"
                                 >
                                     Belum Dibayar
+                                </p>
+                                <p
+                                    v-if="
+                                        tuitionFee.statusPayment ===
+                                        'Menunggu Pengesahan'
+                                    "
+                                    class="bg-yellow-400 text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                >
+                                    Menunggu Pengesahan
                                 </p>
                             </td>
                         </tr>
@@ -341,6 +356,10 @@ export default {
                         this.billcode = existingPaymentGatewayData.billCode;
                         window.location.href = `https://dev.toyyibpay.com/${this.billcode}`;
                     } else {
+                        sessionStorage.setItem(
+                            "idTuitionFee",
+                            JSON.stringify(this.tuitionFee.idTuitionFee)
+                        );
                         // Create new bill
                         const formData = new FormData();
                         // Convert totalFee to cent because toyyibPay receive value in cent
@@ -392,12 +411,6 @@ export default {
                             console.log(pair[0] + ", " + pair[1]);
                         }
 
-                        // Insert tuitionFee into session
-                        sessionStorage.setItem(
-                            "tuitionFee",
-                            JSON.stringify(this.tuitionFee.idTuitionFee)
-                        );
-
                         fetch(
                             "https://dev.toyyibpay.com/index.php/api/createBill",
                             {
@@ -408,6 +421,35 @@ export default {
                             .then((response) => response.json())
                             .then((result) => {
                                 console.log(result[0].BillCode);
+                                // Create data payment gateway
+                                const paymentGatewayData = {
+                                    billCode: result[0].BillCode,
+                                    idTuitionFee: this.tuitionFee.idTuitionFee,
+                                };
+
+                                axios
+                                    .post(
+                                        "http://localhost:3001/api/paymentgateway",
+                                        paymentGatewayData
+                                    )
+                                    .then((response) => {
+                                        const createdPaymentGateway =
+                                            response.data;
+                                        console.log(createdPaymentGateway);
+                                        // Insert paymentGatewayId into session
+                                        sessionStorage.setItem(
+                                            "paymentGatewayId",
+                                            JSON.stringify(
+                                                createdPaymentGateway.paymentGatewayId
+                                            )
+                                        );
+                                    })
+                                    .catch((error) => {
+                                        const errorMessage =
+                                            error.response.data.error;
+                                        console.log(errorMessage);
+                                    });
+
                                 // Redirect the user to the URL
                                 window.location.href = `https://dev.toyyibpay.com/${result[0].BillCode}`;
                             })

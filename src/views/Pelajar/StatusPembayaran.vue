@@ -185,6 +185,7 @@ export default {
         return {
             statusId: "",
             transactionId: "",
+            billCode: "",
             tuitionFeeData: "",
             userData: "",
             currentDateTime: "",
@@ -192,23 +193,44 @@ export default {
     },
 
     mounted() {
+        // Get data user
         axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
             this.userData = response.data;
         });
+        // Get id Tuition Fee
+        const idTuitionFee = JSON.parse(sessionStorage.getItem("idTuitionFee"));
+        // Get id Tuition Fee
+        const paymentGatewayId = JSON.parse(
+            sessionStorage.getItem("paymentGatewayId")
+        );
+        console.log(paymentGatewayId);
+        // Get data from param URL
         this.statusId = this.$route.query.status_id;
         this.transactionId = this.$route.query.transaction_id;
 
+        // Create data payment gateway
+        const updatePaymentGatewayData = {
+            transactionBill: this.transactionId,
+            paymentGatewayId: paymentGatewayId,
+        };
+
+        axios
+            .put(
+                "http://localhost:3001/api/paymentgateway",
+                updatePaymentGatewayData
+            )
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.error;
+                console.log(errorMessage);
+            });
+
         if (this.statusId == 1) {
-            console.log("test");
-            const idTuitionFee = JSON.parse(
-                sessionStorage.getItem("tuitionFee")
-            );
-            console.log(idTuitionFee);
             this.date();
             axios
-                .put(`http://localhost:3001/api/tuitionfee/${idTuitionFee}`, {
-                    transactionDate: this.currentDateTime,
-                })
+                .put(`http://localhost:3001/api/tuitionfee/${idTuitionFee}`)
                 .then((response) => {
                     console.log(response.data);
                     this.tuitionFeeData = response.data;
