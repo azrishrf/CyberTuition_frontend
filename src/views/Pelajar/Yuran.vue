@@ -534,7 +534,7 @@ export default {
         redirectTo() {
             // Insert tuitionFee into session
             sessionStorage.setItem(
-                "tuitionFee",
+                "idTuitionFee",
                 JSON.stringify(this.tuitionFee.idTuitionFee)
             );
             router.push("/pelajar/yuran/muatnaikresitbank");

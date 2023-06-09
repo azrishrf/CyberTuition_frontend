@@ -6,20 +6,12 @@ import FileUploader from "../../components/FileUploader.vue";
 // import axios from "axios";
 
 document.title = "Muat Naik Resit Bank | Pelajar";
-
-window.addEventListener("LR_UPLOAD_FINISH", async (e) => {
-    const dataUpload = e.detail.data[0];
-    // await this.uploadNewResume(dataUpload.cdnUrl + dataUpload.name);
-    console.log(dataUpload.cdnUrl + dataUpload.name);
-
-    // fetch api later
-});
 </script>
 
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
-        <SideBarPelajar linkActive="kedatangan" />
+        <!-- <SideBarPelajar linkActive="yuran" /> -->
         <!-- Page Content -->
         <div class="w-full px-6 lg:px-12 pb-4 pt-2">
             <!-- Top Bar -->
@@ -93,22 +85,22 @@ window.addEventListener("LR_UPLOAD_FINISH", async (e) => {
             <!-- Upload receipt bank -->
             <div class="">
                 <div
-                    class="shadow-login bg-white gap-8 rounded-2xl py-6 px-4 lg:px-6 mb-6 max-md:flex-col flex lg:w-3/6"
+                    class="shadow-login bg-white gap-8 rounded-2xl py-6 px-4 lg:px-6 mb-6 lg:w-3/6"
                 >
-                    <div>
-                        <h1 class="text-base font-semibold mb-3">
-                            Muat Naik Resit Bank
-                        </h1>
-
+                    <h1 class="text-base font-semibold mb-3">
+                        Muat Naik Resit Bank
+                    </h1>
+                    <div v-if="!filePath">
                         <FileUploader v-on:upload="handleUploaderEvent" />
-                        <!-- <button
-                            class="font-semibold bg-slate-200 py-4 px-6 rounded-2xl hover:bg-gray-300"
-                        >
-                            <i
-                                class="fa-sharp fa-solid fa-cloud-arrow-up text-gray-500"
-                            ></i>
-                            Upload File
-                        </button> -->
+                    </div>
+                    <div v-else>
+                        <p>{{ storedFileName }}</p>
+                        <a :href="storedFilePath" download target="_blank"
+                            >Download
+                        </a>
+                        <button class="btn-remove" @click="removeFile">
+                            Remove
+                        </button>
                     </div>
                 </div>
             </div>
@@ -128,15 +120,73 @@ window.addEventListener("LR_UPLOAD_FINISH", async (e) => {
 </template>
 <script>
 import axios from "axios";
-const user = JSON.parse(sessionStorage.getItem("idUser"));
+// const user = JSON.parse(sessionStorage.getItem("idUser"));
 
 export default {
     data() {
-        return {};
+        return {
+            fileName: "",
+            filePath: "",
+            createdReceiptBank: {},
+            // storedFilePath: "",
+            receiptBankId: "",
+        };
+    },
+    computed: {
+        storedFileName() {
+            return localStorage.getItem("fileName") || this.fileName;
+        },
+        storedFilePath() {
+            return localStorage.getItem("filePath") || this.filePath;
+        },
+    },
+    async mounted() {
+        window.addEventListener("LR_UPLOAD_FINISH", this.handleUploadFinish);
+        this.filePath = localStorage.getItem("filePath") || "";
+        this.fileName = localStorage.getItem("fileName") || "";
+        this.receiptBankId = localStorage.getItem("receiptBankId") || "";
     },
 
-    async mounted() {},
+    methods: {
+        handleUploadFinish(e) {
+            const dataUpload = e.detail.data[0];
+            this.fileName = dataUpload.name;
+            this.filePath = dataUpload.cdnUrl + dataUpload.name;
 
-    methods: {},
+            const idTuitionFee = JSON.parse(
+                sessionStorage.getItem("idTuitionFee")
+            );
+            // fetch api later
+            const receiptBankData = {
+                filePath: this.filePath,
+                idTuitionFee: idTuitionFee,
+            };
+            axios
+                .post("http://localhost:3001/api/receiptbank", receiptBankData)
+                .then((response) => {
+                    this.createdReceiptBank = response.data;
+                    console.log(this.createdReceiptBank);
+                    localStorage.setItem("filePath", this.filePath);
+                    localStorage.setItem("fileName", this.fileName);
+                    localStorage.setItem(
+                        "receiptBankId",
+                        this.createdReceiptBank.receiptBankId
+                    );
+                });
+        },
+
+        // Remove file uploaded
+        async removeFile() {
+            await axios.delete(
+                `http://localhost:3001/api/receiptbank/${this.receiptBankId}`
+            );
+            this.fileName = "";
+            this.filePath = "";
+
+            // Also clear the locally stored data
+            localStorage.removeItem("fileName");
+            localStorage.removeItem("filePath");
+        },
+    },
 };
 </script>
