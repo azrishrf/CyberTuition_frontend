@@ -86,6 +86,11 @@ const router = createRouter({
             name: "keraniYuran",
             component: () => import("../views/Kerani/Yuran.vue"),
         },
+        {
+            path: "/kerani/laporan",
+            name: "keraniLaporan",
+            component: () => import("../views/Kerani/Laporan.vue"),
+        },
 
         // Pelajar
         {

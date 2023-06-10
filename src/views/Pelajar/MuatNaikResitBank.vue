@@ -11,7 +11,7 @@ document.title = "Muat Naik Resit Bank | Pelajar";
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
-        <!-- <SideBarPelajar linkActive="yuran" /> -->
+        <SideBarPelajar linkActive="yuran" />
         <!-- Page Content -->
         <div class="w-full px-6 lg:px-12 pb-4 pt-2">
             <!-- Top Bar -->
@@ -93,14 +93,24 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                     <div v-if="!filePath">
                         <FileUploader v-on:upload="handleUploaderEvent" />
                     </div>
-                    <div v-else>
-                        <p>{{ storedFileName }}</p>
-                        <a :href="storedFilePath" download target="_blank"
-                            >Download
-                        </a>
-                        <button class="btn-remove" @click="removeFile">
-                            Remove
-                        </button>
+                    <div v-else class="my-6">
+                        <div
+                            class="shadow-login bg-gray-200 gap-8 rounded-2xl py-3 px-4 inline"
+                        >
+                            <a :href="filePath" download target="_blank"
+                                ><p
+                                    class="inline font-medium mr-6 hover:text-blue-800 hover:underline text-sm"
+                                >
+                                    {{ fileName }}
+                                </p>
+                            </a>
+
+                            <i
+                                class="fa-solid fa-trash-can bg-slate-500 hover:bg-red text-white rounded-full p-2 cursor-pointer"
+                                @click="removeFile"
+                            ></i>
+                        </div>
+                        <br />
                     </div>
                 </div>
             </div>
@@ -120,31 +130,36 @@ document.title = "Muat Naik Resit Bank | Pelajar";
 </template>
 <script>
 import axios from "axios";
-// const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { useToast } from "vue-toastification";
 
 export default {
     data() {
         return {
             fileName: "",
             filePath: "",
-            createdReceiptBank: {},
-            // storedFilePath: "",
+            idTuitionFee: "",
             receiptBankId: "",
+            toast: useToast(),
         };
-    },
-    computed: {
-        storedFileName() {
-            return localStorage.getItem("fileName") || this.fileName;
-        },
-        storedFilePath() {
-            return localStorage.getItem("filePath") || this.filePath;
-        },
     },
     async mounted() {
         window.addEventListener("LR_UPLOAD_FINISH", this.handleUploadFinish);
-        this.filePath = localStorage.getItem("filePath") || "";
-        this.fileName = localStorage.getItem("fileName") || "";
-        this.receiptBankId = localStorage.getItem("receiptBankId") || "";
+        // Get existing receipt bank
+        this.idTuitionFee = JSON.parse(sessionStorage.getItem("idTuitionFee"));
+        try {
+            const response = await axios.get(
+                `http://localhost:3001/api/receiptbank/${this.idTuitionFee}`
+            );
+            const existingReceiptBankData = response.data;
+            console.log(existingReceiptBankData);
+            if (existingReceiptBankData) {
+                this.fileName = existingReceiptBankData.fileName;
+                this.filePath = existingReceiptBankData.filePath;
+                this.receiptBankId = existingReceiptBankData.receiptBankId;
+            }
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     methods: {
@@ -153,25 +168,21 @@ export default {
             this.fileName = dataUpload.name;
             this.filePath = dataUpload.cdnUrl + dataUpload.name;
 
-            const idTuitionFee = JSON.parse(
-                sessionStorage.getItem("idTuitionFee")
-            );
-            // fetch api later
+            // create receipt bank data
             const receiptBankData = {
+                fileName: this.fileName,
                 filePath: this.filePath,
-                idTuitionFee: idTuitionFee,
+                idTuitionFee: this.idTuitionFee,
             };
             axios
                 .post("http://localhost:3001/api/receiptbank", receiptBankData)
                 .then((response) => {
-                    this.createdReceiptBank = response.data;
-                    console.log(this.createdReceiptBank);
-                    localStorage.setItem("filePath", this.filePath);
-                    localStorage.setItem("fileName", this.fileName);
-                    localStorage.setItem(
-                        "receiptBankId",
-                        this.createdReceiptBank.receiptBankId
-                    );
+                    const createdReceiptBank = response.data;
+                    this.receiptBankId = createdReceiptBank.receiptBankId;
+                    console.log(createdReceiptBank);
+                    this.toast.success("Fail berjaya dimuat naik", {
+                        timeout: 3000,
+                    });
                 });
         },
 
@@ -180,12 +191,12 @@ export default {
             await axios.delete(
                 `http://localhost:3001/api/receiptbank/${this.receiptBankId}`
             );
+            this.toast.warning("Fail telah dipadam", {
+                timeout: 3000,
+            });
             this.fileName = "";
             this.filePath = "";
-
-            // Also clear the locally stored data
-            localStorage.removeItem("fileName");
-            localStorage.removeItem("filePath");
+            window.location.reload();
         },
     },
 };
