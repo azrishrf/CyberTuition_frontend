@@ -36,5 +36,23 @@ export default {
             default: () => {},
         },
     },
+    mounted() {
+        this.renderChart();
+    },
+    watch: {
+        chartData: {
+            deep: true,
+            handler() {
+                this.renderChart();
+            },
+        },
+    },
+    methods: {
+        renderChart() {
+            if (this.$refs.chart) {
+                this.$refs.chart.renderChart(this.chartData, this.chartOptions);
+            }
+        },
+    },
 };
 </script>

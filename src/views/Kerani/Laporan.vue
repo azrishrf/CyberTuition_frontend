@@ -25,7 +25,7 @@ document.title = "Laporan | Kerani";
             <h1 class="mt-3 mb-2 font-semibold text-xl">LAPORAN</h1>
             <p class="font-semibold text-xs inline mb-4">
                 Dashboard &nbsp;
-                <span class="font-semibold text-xs inline text-red"
+                <span class="font-semibold text-xs inline text-red">
                     >> &nbsp; Laporan</span
                 >
             </p>
@@ -35,37 +35,16 @@ document.title = "Laporan | Kerani";
                 <h1 class="mt-3 mb-2 font-semibold text-xl">
                     Laporan Statistik Bilangan Pelajar
                 </h1>
-                <div>
+                <div v-if="totalStudents !== null">
                     <BarChart
                         :chartData="chartData1"
                         :chartOptions="chartOptions"
                     />
                 </div>
+                <div v-else>
+                    <p>Loading...</p>
+                </div>
             </div>
-
-            <!-- Bilangan guru -->
-            <!-- <div class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login">
-                <h1 class="mt-3 mb-2 font-semibold text-xl">
-                    Laporan Statistik Bilangan Guru
-                </h1>
-                <div>
-                    <BarChart
-                        :chartData="chartData2"
-                        :chartOptions="chartOptions"
-                    />
-                </div>
-            </div> -->
-
-            <!-- Combined chart -->
-            <!-- <div class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login">
-                <h1 class="mt-3 mb-2 font-semibold text-xl">Combined Graph</h1>
-                <div>
-                    <BarChart
-                        :chartData="combinedChartData"
-                        :chartOptions="chartOptions"
-                    />
-                </div>
-            </div> -->
         </div>
     </div>
 </template>
@@ -73,10 +52,11 @@ document.title = "Laporan | Kerani";
 <script>
 import BarChart from "../../components/BarChart.vue";
 import axios from "axios";
+import { reactive, toRef } from "vue";
+import { LogRequest } from "pocketbase";
+// import { LogRequest } from "pocketbase";
 
 export default {
-    name: "BarChart",
-    components: { BarChart },
     data() {
         // Get months
         const months = [
@@ -111,27 +91,36 @@ export default {
                     {
                         label: "Pelajar",
                         backgroundColor: "#F59095",
-                        data: [],
+                        data: [1, 2, 3, 4, 5],
                     },
                 ],
             },
             chartOptions: {
                 responsive: true,
             },
+            totalStudents: "",
         };
+        const totalStudents = reactive({ value: null });
     },
+
     async mounted() {
         try {
             const response = await axios.get(
                 "http://localhost:3001/api/totalstudents"
             );
-            const totalStudents = response.data;
-            console.log("Total Students:", totalStudents);
-            this.chartData1.datasets[0].data = totalStudents;
-            console.log(this.chartData1.datasets[0].data);
+            this.totalStudents = response.data;
+            this.chartData1.datasets[0].data = this.totalStudents;
+            this.$set(this.chartData1.datasets[0], "data", this.totalStudents); // Use $set to ensure reactivity
         } catch (error) {
             console.error("Error:", error);
         }
+    },
+
+    methods: {
+        // updateChartData() {
+        //     // Modify the data array
+        //     this.chartData1.datasets[0].data = [10, 20, 30, 40, 50]; // Change the data values here
+        // },
     },
 };
 </script>
