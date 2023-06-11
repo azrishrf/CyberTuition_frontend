@@ -59,18 +59,12 @@ document.title = "Laporan | Kerani";
                             class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-3 text-sm w-80"
                         >
                             <option disabled value="">-- Pilih Bulan --</option>
-                            <option value="Januari">Januari</option>
-                            <option value="Februari">Februari</option>
-                            <option value="Mac">Mac</option>
-                            <option value="April">April</option>
-                            <option value="Mei">Mei</option>
-                            <option value="Jun">Jun</option>
-                            <option value="Julai">Julai</option>
-                            <option value="Ogos">Ogos</option>
-                            <option value="September">September</option>
-                            <option value="Oktober">Oktober</option>
-                            <option value="November">November</option>
-                            <option value="Disember">Disember</option>
+                            <option
+                                v-for="option in monthOptions"
+                                :value="option.value"
+                            >
+                                {{ option.text }}
+                            </option>
                         </select>
                     </div>
                     <div class="">
@@ -79,18 +73,16 @@ document.title = "Laporan | Kerani";
                         <select
                             placeholder="Tahun"
                             name="Tahun"
-                            v-model="currentYear"
+                            v-model="year"
                             class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-3 text-sm w-80"
                         >
                             <option disabled value="">-- Pilih Tahun --</option>
-                            <option :value="currentYear - 2">
-                                {{ currentYear - 2 }}
-                            </option>
-                            <option :value="currentYear - 1">
-                                {{ currentYear - 1 }}
-                            </option>
-                            <option :value="currentYear" selected>
-                                {{ currentYear }}
+                            <option
+                                v-for="yearOption in yearOptions"
+                                :value="yearOption.value"
+                                :key="yearOption.value"
+                            >
+                                {{ yearOption.text }}
                             </option>
                         </select>
                     </div>
@@ -117,8 +109,10 @@ document.title = "Laporan | Kerani";
                         src="../../../assets/Logo V1.jpg.png"
                         class="w-60 m-auto"
                     />
-                    <h1 class="font-semibold">LAPORAN PELAJAR</h1>
-                    <h1 class="font-semibold mb-5">{{ this.formattedDate }}</h1>
+                    <h1 class="font-semibold">LAPORAN BULANAN</h1>
+                    <h1 class="font-semibold mb-5">
+                        {{ monthName.toUpperCase() }} {{ year }}
+                    </h1>
                 </div>
 
                 <div class="flex pl-10 gap-4">
@@ -139,7 +133,7 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold py-3 px-4 text-center text-fontgrey"
                                     >
-                                        113
+                                        {{ studentsData.totalStudents }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -149,7 +143,9 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        12
+                                        {{
+                                            studentsData.totalStudentsNewRegistered
+                                        }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -159,7 +155,7 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        50
+                                        {{ studentsData.totalForm4Students }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -169,7 +165,7 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        63
+                                        {{ studentsData.totalForm5Students }}
                                     </td>
                                 </tr>
                             </table>
@@ -189,7 +185,7 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold py-3 px-4 text-center text-fontgrey"
                                     >
-                                        10
+                                        {{ teachersData.totalTeachers }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -199,7 +195,9 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        2
+                                        {{
+                                            teachersData.totalTeachersNewRegistered
+                                        }}
                                     </td>
                                 </tr>
                             </table>
@@ -209,17 +207,17 @@ document.title = "Laporan | Kerani";
                             <h1
                                 class="font-semibold my-2 bg-gray-600 text-sm text-white py-2 px-2 rounded-2xl text-center w-full"
                             >
-                                Kelas
+                                Subjek
                             </h1>
                             <table class="text-sm bg-slate-100 rounded-2xl">
                                 <tr>
                                     <td class="font-semibold py-3 pl-4">
-                                        Jumlah Kelas:
+                                        Jumlah Subjek:
                                     </td>
                                     <td
                                         class="font-semibold py-3 px-4 text-center text-fontgrey"
                                     >
-                                        10
+                                        {{ subjectsData.totalClasses }}
                                     </td>
                                 </tr>
                             </table>
@@ -242,7 +240,7 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold py-3 px-4 text-center text-fontgrey"
                                     >
-                                        40
+                                        {{ attendanceData.totalAttendance }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -252,7 +250,11 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        380/400
+                                        {{ attendanceData.totalStudentAttends }}
+                                        /
+                                        {{
+                                            attendanceData.totalStudentAttendanceAll
+                                        }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -262,7 +264,7 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        80%
+                                        {{ attendanceData.percentageAttends }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -272,7 +274,13 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        20/400
+                                        {{
+                                            attendanceData.totalStudentNotAttends
+                                        }}
+                                        /
+                                        {{
+                                            attendanceData.totalStudentAttendanceAll
+                                        }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -282,7 +290,9 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        20%
+                                        {{
+                                            attendanceData.percentageNotAttends
+                                        }}
                                     </td>
                                 </tr>
                             </table>
@@ -302,7 +312,8 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold py-3 px-4 text-center text-fontgrey"
                                     >
-                                        RM 1199.00
+                                        RM
+                                        {{ tuitionFeesData.totalTuitionFees }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -312,7 +323,10 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        RM 978.00
+                                        RM
+                                        {{
+                                            tuitionFeesData.totalTuitionFeesPaid
+                                        }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -322,7 +336,10 @@ document.title = "Laporan | Kerani";
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        RM 153.00
+                                        RM
+                                        {{
+                                            tuitionFeesData.totalTuitionFeesUnpaid
+                                        }}
                                     </td>
                                 </tr>
                             </table>
@@ -335,37 +352,17 @@ document.title = "Laporan | Kerani";
                             <h1
                                 class="font-semibold my-2 bg-gray-600 text-sm text-white py-2 px-2 rounded-2xl text-center w-full"
                             >
-                                Jumlah Pelajar Mengikut Kelas
+                                Jumlah Pelajar Mengikut Subjek
                             </h1>
                             <table class="text-sm bg-slate-100 rounded-2xl">
-                                <tr>
-                                    <td class="font-semibold py-3 pl-4">
-                                        Bahasa Inggeris
+                                <tr v-for="subjectData in subjectStudentCounts">
+                                    <td class="font-semibold py-2 pl-4">
+                                        {{ subjectData.subjectName }}
                                     </td>
                                     <td
-                                        class="font-semibold py-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold py-2 px-4 text-center text-fontgrey"
                                     >
-                                        10
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pb-3 pl-4">
-                                        Matematik Tambahan
-                                    </td>
-                                    <td
-                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
-                                    >
-                                        12
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pb-3 pl-4">
-                                        Prinsip Perakaunan
-                                    </td>
-                                    <td
-                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
-                                    >
-                                        11
+                                        {{ subjectData.totalStudents }}
                                     </td>
                                 </tr>
                             </table>
@@ -384,12 +381,21 @@ export default {
     data() {
         return {
             month: "",
-            currentYear: "",
+            year: "",
+            monthName: "",
+            malayMonthNames: "",
+            monthOptions: "",
+            studentsData: "",
+            teachersData: "",
+            subjectsData: "",
+            subjectStudentCounts: "",
+            attendanceData: "",
+            tuitionFeesData: "",
         };
     },
     async mounted() {
         // Create an array of month names in Malay
-        const malayMonthNames = [
+        this.malayMonthNames = [
             "Januari",
             "Februari",
             "Mac",
@@ -403,20 +409,126 @@ export default {
             "November",
             "Disember",
         ];
+        // this.monthName = malayMonthNames[this.month - 1];
+        console.log(this.monthName);
 
-        // Get the current month index (0-11)
         const currentMonthIndex = new Date().getMonth();
+        const monthOptions = [];
 
-        // Set the default value of the month select element to the current month in Malay
-        this.month = malayMonthNames[currentMonthIndex];
+        for (let i = currentMonthIndex; i >= 0; i--) {
+            const monthValue = i + 1;
+            const monthName = this.malayMonthNames[i];
+            monthOptions.push({ value: monthValue, text: monthName });
+        }
 
-        // Get the current year
-        this.currentYear = new Date().getFullYear();
+        // Set the options array in your Vue.js component's data
+        this.monthOptions = monthOptions.reverse();
+
+        // Set the default value of the month select element to the current month
+        this.month = currentMonthIndex + 1;
+
+        const currentYear = new Date().getFullYear();
+        const yearOptions = [];
+
+        for (let i = 0; i < 3; i++) {
+            const yearValue = currentYear - i;
+            yearOptions.push({ value: yearValue, text: yearValue.toString() });
+        }
+        this.yearOptions = yearOptions.reverse();
+        this.year = currentYear;
     },
     methods: {
         confirmForm() {
-            // this.monthYear = this.month + " / " + this.year;
-            // console.log(this.monthYear);
+            this.monthName = this.malayMonthNames[this.month - 1];
+
+            this.studentsReport();
+            this.teachersReport();
+            this.subjectsReport();
+            this.attendanceReport();
+            this.tuitionFeesReport();
+        },
+
+        async studentsReport() {
+            // Make the API request
+            try {
+                const response = await axios.post(
+                    "http://localhost:3001/api/report/students",
+                    {
+                        month: this.month,
+                        year: this.year,
+                    }
+                );
+                this.studentsData = response.data;
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        },
+        async teachersReport() {
+            // Make the API request
+            try {
+                const response = await axios.post(
+                    "http://localhost:3001/api/report/teachers",
+                    {
+                        month: this.month,
+                        year: this.year,
+                    }
+                );
+                this.teachersData = response.data;
+                console.log(this.teachersData);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        },
+        async subjectsReport() {
+            // Make the API request
+            try {
+                const response = await axios.post(
+                    "http://localhost:3001/api/report/subjects",
+                    {
+                        month: this.month,
+                        year: this.year,
+                    }
+                );
+                this.subjectsData = response.data;
+                this.subjectStudentCounts =
+                    this.subjectsData.subjectStudentCounts;
+                console.log(this.subjectStudentCounts);
+                console.log(this.subjectsData);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        },
+        async attendanceReport() {
+            // Make the API request
+            try {
+                const response = await axios.post(
+                    "http://localhost:3001/api/report/attendance",
+                    {
+                        month: this.month,
+                        year: this.year,
+                    }
+                );
+                this.attendanceData = response.data;
+                console.log(this.attendanceData);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        },
+        async tuitionFeesReport() {
+            // Make the API request
+            try {
+                const response = await axios.post(
+                    "http://localhost:3001/api/report/tuitionfees",
+                    {
+                        month: this.month,
+                        year: this.year,
+                    }
+                );
+                this.tuitionFeesData = response.data;
+                console.log(this.tuitionFeesData);
+            } catch (error) {
+                console.error("Error:", error);
+            }
         },
     },
 };

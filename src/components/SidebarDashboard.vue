@@ -49,10 +49,7 @@ async function logout() {
             }"
             ><div
                 class="flex items-center"
-                style="
-                    font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200,
-                        'opsz' 20;
-                "
+                style="font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200,'opsz' 20; "
             >
                 <span
                     class="material-symbols-outlined"
@@ -97,10 +94,7 @@ async function logout() {
                 >
                     <div
                         class="flex items-center"
-                        style="
-                            font-variation-settings: 'FILL' 1, 'wght' 300,
-                                'GRAD' 200, 'opsz' 20;
-                        "
+                        style="font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200,'opsz' 20; "
                     >
                         <span
                             class="material-symbols-outlined"
