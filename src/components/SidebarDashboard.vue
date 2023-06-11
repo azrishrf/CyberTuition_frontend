@@ -49,7 +49,10 @@ async function logout() {
             }"
             ><div
                 class="flex items-center"
-                style="font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200,'opsz' 20;"
+                style="
+                    font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200,
+                        'opsz' 20;
+                "
             >
                 <span
                     class="material-symbols-outlined"
@@ -93,8 +96,11 @@ async function logout() {
                     }"
                 >
                     <div
-                    class="flex items-center"
-                style="font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200,'opsz' 20;"
+                        class="flex items-center"
+                        style="
+                            font-variation-settings: 'FILL' 1, 'wght' 300,
+                                'GRAD' 200, 'opsz' 20;
+                        "
                     >
                         <span
                             class="material-symbols-outlined"
@@ -289,7 +295,7 @@ async function logout() {
             to="/kerani/laporan"
             class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-4 mb-2"
             v-bind:class="{
-               'bg-red text-white': linkActive === 'laporan',
+                'bg-red text-white': linkActive === 'laporan',
                 'text-grey2 hover:bg-gray-100': linkActive !== 'laporan',
             }"
             ><i
