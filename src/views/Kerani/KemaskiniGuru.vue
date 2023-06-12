@@ -28,7 +28,7 @@ document.title = "Kemaskini Guru | Kerani";
                 Dashboard &nbsp; > &nbsp; Guru &nbsp; > &nbsp; Senarai Guru
                 &nbsp;
                 <span class="font-semibold text-xs inline text-red"
-                    >> &nbsp; Kemaskini Pelajar</span
+                    >> &nbsp; Kemaskini Guru</span
                 >
             </p>
             <!-- Content -->
