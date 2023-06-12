@@ -348,13 +348,7 @@ export default {
         // Fetch all subjects and store them in the `subjects` array
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
-        console.log(response.data);
-        document.addEventListener("click", this.handleClickOutside);
     },
-    beforeUnmount() {
-        document.removeEventListener("click", this.handleClickOutside);
-    },
-
     methods: {
         validateInput(input) {
             if (input === "") {
@@ -478,10 +472,6 @@ export default {
                                     student
                                 )
                                 .then((response) => {
-                                    console.log(
-                                        "Student created:",
-                                        response.data
-                                    );
                                     this.studentId = response.data.idStudent;
                                     this.createStudentSubjects();
                                     this.createTuitionFee();
@@ -516,8 +506,6 @@ export default {
             } else {
                 this.selectedSubjects.push(subject); // Add the subject to the array
             }
-            console.log(this.selectedSubjects);
-            // this.createTuitionFee();
         },
 
         // Create data subjects for student
@@ -526,18 +514,11 @@ export default {
                 const subject = this.subjects.find(
                     (s) => s.name === subjectName
                 );
-                console.log(subject);
-                axios
-                    .post(baseAPI + "/api/student_subject", {
-                        idSubject: subject.idSubject,
-                        idStudent: this.studentId,
-                    })
-                    .then((responses) => {
-                        console.log("Created student_subject");
-                    })
-                    .catch((error) => {
-                        console.error("Error creating student_subject:", error);
-                    });
+
+                axios.post(baseAPI + "/api/student_subject", {
+                    idSubject: subject.idSubject,
+                    idStudent: this.studentId,
+                });
             });
             this.toast.success("Pendaftaran Berjaya", {
                 timeout: 3000,
@@ -567,12 +548,11 @@ export default {
                 amount: totalAmount,
                 subjectsList: this.selectedSubjects.join(", "),
             };
-            // console.log(tuitionFee);
+
             axios
                 .post(baseAPI + "/api/tuitionfee", tuitionFee)
                 .then((response) => {
                     const tuitionFee = response.data;
-                    console.log(tuitionFee);
                 });
         },
     },

@@ -33,15 +33,15 @@ import SubmitButton from "../../components/SubmitButton.vue";
             <!-- Content -->
             <div class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login">
                 <form
-                    class="bg-white m-auto py-1 px-6"
-                    v-on:submit.prevent="register()"
+                    class="bg-white m-auto pl-5 py-2"
+                    @submit.prevent="register()"
                 >
                     <!-- Maklumat Diri Pelajar -->
                     <h4 class="text-lg font-semibold mb-4">
                         Maklumat Diri Pelajar
                     </h4>
 
-                    <div class="flex gap-9 max-md:flex-col">
+                    <div class="flex max-md:flex-col">
                         <div class="grow">
                             <!-- Full Name -->
                             <p class="text-sm mb-3">Nama Penuh</p>
@@ -50,8 +50,14 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="Nama Penuh"
                                 name="fullname"
                                 v-model="nameStudent"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(nameStudent)
+                                        : '',
+                                }"
+                                class="border-2 rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
+
                             <!-- IC Number-->
                             <p class="text-sm mb-3">No Kad Pengenalan</p>
                             <input
@@ -59,6 +65,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="No Kad Pengenalan"
                                 name="noIC"
                                 v-model="noICStudent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(noICStudent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- Phone Number -->
@@ -68,6 +79,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="No Telefon"
                                 name="noPhone"
                                 v-model="noPhoneStudent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(noPhoneStudent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                         </div>
@@ -79,6 +95,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="E-Mel"
                                 name="email"
                                 v-model="email"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(email)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- Birth Date -->
@@ -88,6 +109,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="Tarikh Lahir"
                                 name="birthdate"
                                 v-model="dateOfBirth"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(dateOfBirth)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- Form -->
@@ -95,20 +121,19 @@ import SubmitButton from "../../components/SubmitButton.vue";
                             <select
                                 name="tingkatan"
                                 v-model="form"
-                                class="border-2 border-slate-grey rounded-md w-4/12 py-3 px-4 block mb-5 text-sm"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(form)
+                                        : '',
+                                }"
+                                class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-5 text-sm"
                             >
+                                <option disabled value="" selected>
+                                    -- Pilih Tingkatan --
+                                </option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
-                            <!-- Password -->
-                            <!-- <p class="text-sm mb-3">Kata Laluan</p>
-                    <input
-                        type="text"
-                        placeholder="password"
-                        name="password"
-                        v-model="password"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
-                    /> -->
                         </div>
                     </div>
                     <!-- Address -->
@@ -118,6 +143,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                         placeholder="Alamat Rumah"
                         name="address"
                         v-model="address"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(address)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm h-16"
                     />
 
@@ -126,7 +156,7 @@ import SubmitButton from "../../components/SubmitButton.vue";
                         Maklumat Ibu Bapa
                     </h4>
 
-                    <div class="flex gap-9 max-md:flex-col mb-10">
+                    <div class="flex max-md:flex-col mb-10">
                         <div class="grow">
                             <!-- FullName IbuBapa -->
                             <p class="text-sm mb-3">Nama Penuh Ibu Bapa</p>
@@ -135,6 +165,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="Nama Penuh Ibu Bapa"
                                 name="fullnameParents"
                                 v-model="nameParent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(nameParent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- No KP IbuBapa-->
@@ -144,6 +179,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="No Kad Pengenalan"
                                 name="noICParents"
                                 v-model="noICParent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(noICParent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm"
                             />
                         </div>
@@ -155,6 +195,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
                                 placeholder="No Telefon"
                                 name="noPhoneParents"
                                 v-model="noPhoneParent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(noPhoneParent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm"
                             />
                         </div>
@@ -163,99 +208,57 @@ import SubmitButton from "../../components/SubmitButton.vue";
                     <!-- Pilihan Subjek -->
                     <h4 class="text-lg font-semibold mb-4">Pilihan Subjek</h4>
 
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Bahasa Malaysia"
-                            v-model="selectedSubjects"
-                        />
-                        Bahasa Malaysia
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Bahasa Inggeris"
-                            v-model="selectedSubjects"
-                        />
-                        Bahasa Inggeris
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Matematik"
-                            v-model="selectedSubjects"
-                        />
-                        Matematik
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Sains"
-                            v-model="selectedSubjects"
-                        />
-                        Sains
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Sejarah"
-                            v-model="selectedSubjects"
-                        />
-                        Sejarah
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Matematik Tambahan"
-                            v-model="selectedSubjects"
-                        />
-                        Matematik Tambahan
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Fizik"
-                            v-model="selectedSubjects"
-                        />
-                        Fizik
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Kimia"
-                            v-model="selectedSubjects"
-                        />
-                        Kimia
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Biologi"
-                            v-model="selectedSubjects"
-                        />
-                        Biologi
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Prinsip Perakaunan"
-                            v-model="selectedSubjects"
-                        />
-                        Prinsip Perakaunan
-                    </label>
+                    <div class="flex flex-wrap gap-8 py-5">
+                        <button
+                            type="button"
+                            class="relative bg-white shadow-login py-4 px-2 items-center rounded-2xl w-36 transition duration-300 ease-in-out hover:scale-110 flex flex-col"
+                            v-bind:class="{
+                                'bg-red text-white ': selectedSubjects.includes(
+                                    subjectData.name
+                                ),
+                            }"
+                            @click="selectSubject(subjectData.name)"
+                            v-for="subjectData in subjects"
+                            :key="subjectData.idSubject"
+                        >
+                            <img
+                                v-bind:src="
+                                    '../../../assets/subjek/' +
+                                    subjectData.name +
+                                    '.png'
+                                "
+                                class="w-20"
+                            />
+                            <label class="font-semibold gap-9 text-sm pt-2">
+                                {{ subjectData.name }}
+                            </label>
+                            <i
+                                class=""
+                                v-bind:class="{
+                                    'fa-solid fa-circle-check absolute right-3 top-3 text-white':
+                                        selectedSubjects.includes(
+                                            subjectData.name
+                                        ),
+                                }"
+                            ></i>
+                        </button>
+                    </div>
 
-                    <SubmitButton
-                        type="submit"
-                        txt="Sahkan"
-                        class="mt-6 px-9"
-                    />
-                    <!-- <button
-                        txt="Batalkan"
-                        class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
-                        @click="redirectlogin()"
-                    >
-                        Batalkan
-                    </button> -->
+                    <div class="flex">
+                        <SubmitButton
+                            type="submit"
+                            txt="Sahkan"
+                            class="mt-6 px-9"
+                        />
+                        <button
+                            txt="Batalkan"
+                            type="button"
+                            class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
+                            @click="redirectlogin()"
+                        >
+                            Batalkan
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -264,108 +267,196 @@ import SubmitButton from "../../components/SubmitButton.vue";
 
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores/index.js";
+import { useToast } from "vue-toastification";
 
 export default {
     data() {
         return {
-            user: {
-                email: "",
-                password: "",
-            },
-            student: {
-                nameStudent: "",
-                noICStudent: "",
-                dateOfBirth: "",
-                noPhoneStudent: "",
-                form: "",
-                address: "",
-                nameParent: "",
-                noICParent: "",
-                noPhoneParent: "",
-                isRegistered: false,
-            },
+            email: "",
+            // password: "",
+            // confirmPassword: "",
+            nameStudent: "",
+            noICStudent: "",
+            dateOfBirth: "",
+            noPhoneStudent: "",
+            form: "",
+            address: "",
+            nameParent: "",
+            noICParent: "",
+            noPhoneParent: "",
+            isRegistered: false,
+            nameStudent: "",
             subjects: [],
             selectedSubjects: [],
             studentId: null,
+            toast: useToast(),
+            shouldValidate: false,
         };
     },
     async mounted() {
         // Fetch all subjects and store them in the `subjects` array
         const response = await axios.get("http://localhost:3001/api/subjects");
         this.subjects = response.data;
-        console.log(response.data);
     },
     methods: {
-        async register() {
-            console.log(this.password, this.confirmPassword);
-            if (this.password !== this.confirmPassword) {
-                alert("Kata Laluan dan Sahkan Kata Laluan tidak sama.");
-                return;
+        validateInput(input) {
+            if (input === "") {
+                return "rgb(200 61 40)"; // Example: Set border color to red for empty input
             }
-            // const hashedPassword = await bcrypt.hash(this.password, 10);
+        },
+        async register() {
+            this.shouldValidate = true;
+            if (
+                !this.nameStudent ||
+                !this.noICStudent ||
+                !this.dateOfBirth ||
+                !this.noPhoneStudent ||
+                !this.form ||
+                !this.address ||
+                !this.nameParent ||
+                !this.noICParent ||
+                !this.noPhoneParent ||
+                !this.email ||
+                this.selectedSubjects.length === 0
+            ) {
+                this.toast.error("Sila isi semua maklumat!", {
+                    timeout: 3000,
+                });
+                window.scrollTo({
+                    top: window.innerHeight / 3,
+                    behavior: "smooth", // Use 'smooth' for smooth scrolling effect
+                });
+            } else if (this.password !== this.confirmPassword) {
+                this.toast.error(
+                    "Kata Laluan dan Pengesahan Kata Laluan adalah tidak sama!",
+                    {
+                        timeout: 3000,
+                    }
+                );
+            } else {
+                // Check existing user
+                const checkUser = await axios.post(
+                    baseAPI + `/api/existinguser/${this.email}`
+                );
+                const existingUser = checkUser.data;
+                // Check existing student
+                const checkStudent = await axios.post(
+                    baseAPI + `/api/existingstudent/${this.noICStudent}`
+                );
+                const existingStudent = checkStudent.data;
 
-            const user = {
-                email: this.email,
-                password: this.noICStudent,
-                role: "Student",
-            };
+                if (existingUser) {
+                    this.toast.error("Email sudah digunakan!", {
+                        timeout: 3000,
+                    });
+                } else if (existingStudent) {
+                    this.toast.error("Nombor Kad Pengenalan sudah digunakan!", {
+                        timeout: 3000,
+                    });
+                } else {
+                    const user = {
+                        email: this.email,
+                        password: this.noICStudent,
+                        role: "Student",
+                    };
+                    const student = {
+                        nameStudent: this.nameStudent,
+                        noICStudent: this.noICStudent,
+                        dateOfBirth: this.dateOfBirth,
+                        noPhoneStudent: this.noPhoneStudent,
+                        form: parseInt(this.form),
+                        address: this.address,
+                        nameParent: this.nameParent,
+                        noICParent: this.noICParent,
+                        noPhoneParent: this.noPhoneParent,
+                        isRegistered: true,
+                    };
 
-            const student = {
-                nameStudent: this.nameStudent,
-                noICStudent: this.noICStudent,
-                dateOfBirth: this.dateOfBirth,
-                noPhoneStudent: this.noPhoneStudent,
-                form: parseInt(this.form),
-                address: this.address,
-                nameParent: this.nameParent,
-                noICParent: this.noICParent,
-                noPhoneParent: this.noPhoneParent,
-                isRegistered: false,
-            };
-
-            axios
-                .post("http://localhost:3001/api/user", user)
-                .then((response) => {
-                    // Extract the user ID from the response data
-                    const userId = response.data.idUser;
-                    // Associate the student with the user by setting its idUser field
-                    student.idUser = userId;
-                    // Make the POST request to create the student
                     axios
-                        .post("http://localhost:3001/api/student", student)
+                        .post(baseAPI + "/api/user", user)
                         .then((response) => {
-                            console.log("Student created:", response.data);
-                            this.studentId = response.data.idStudent;
-                            this.createStudentSubjects();
+                            // Extract the user ID from the response data
+                            const userId = response.data.idUser;
+                            // Associate the student with the user by setting its idUser field
+                            student.idUser = userId;
+                            // Make the POST request to create the student
+                            axios
+                                .post(baseAPI + "/api/student", student)
+                                .then((response) => {
+                                    this.studentId = response.data.idStudent;
+                                    this.createStudentSubjects();
+                                    this.createTuitionFee();
+                                })
+                                .catch((error) => {
+                                    console.error(
+                                        "Error creating student:",
+                                        error
+                                    );
+                                });
                         })
                         .catch((error) => {
-                            console.error("Error creating student:", error);
+                            console.error("Error creating user:", error);
                         });
-                })
-                .catch((error) => {
-                    console.error("Error creating user:", error);
-                });
+                }
+            }
+        },
+        // Insert subject into array selectedSubjects
+        selectSubject(subject) {
+            const index = this.selectedSubjects.indexOf(subject);
+            if (index > -1) {
+                this.selectedSubjects.splice(index, 1); // Remove the subject from the array
+            } else {
+                this.selectedSubjects.push(subject); // Add the subject to the array
+            }
         },
 
+        // Create data subjects for student
         createStudentSubjects() {
-            // subjects
             this.selectedSubjects.forEach(async (subjectName) => {
                 const subject = this.subjects.find(
                     (s) => s.name === subjectName
                 );
-                axios
-                    .post("http://localhost:3001/api/student_subject", {
-                        idSubject: subject.idSubject,
-                        idStudent: this.studentId,
-                    })
-                    .then((responses) => {
-                        console.log("Created student_subject");
-                    })
-                    .catch((error) => {
-                        console.error("Error creating student_subject:", error);
-                    });
+
+                axios.post(baseAPI + "/api/student_subject", {
+                    idSubject: subject.idSubject,
+                    idStudent: this.studentId,
+                });
             });
-            alert("Register success!");
+            this.toast.success("Pendaftaran Berjaya", {
+                timeout: 3000,
+            });
+        },
+
+        // Create data for tuition fee
+        createTuitionFee() {
+            // Filter subjects based on selectedSubjects
+            const selectedSubjectsArray = this.subjects.filter((subject) =>
+                this.selectedSubjects.includes(subject.name)
+            );
+
+            // Calculate the total tuition fee amount
+            const totalAmount = selectedSubjectsArray.reduce((sum, subject) => {
+                return sum + parseInt(subject.fee);
+            }, 0);
+
+            // Get current date
+            const currentDate = new Date();
+            const month = currentDate.getMonth() + 1; // Add 1 because months are zero-based
+            const year = currentDate.getFullYear();
+            const tuitionFee = {
+                idStudent: this.studentId,
+                month: month,
+                year: year,
+                amount: totalAmount,
+                subjectsList: this.selectedSubjects.join(", "),
+            };
+
+            axios
+                .post(baseAPI + "/api/tuitionfee", tuitionFee)
+                .then((response) => {
+                    const tuitionFee = response.data;
+                });
         },
     },
 };

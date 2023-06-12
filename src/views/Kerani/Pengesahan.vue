@@ -91,12 +91,15 @@ document.title = "Pengesahan | Kerani";
                         <td
                             class="font-semibold py-3 flex items-center justify-center"
                         >
-                            <button
+                            <router-link
                                 class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                                @click="lihatButiran(studentData.idStudent)"
+                                v-bind:to="
+                                    `/kerani/pelajar/pengesahan/maklumatpengesahan/` +
+                                    studentData.idStudent
+                                "
                             >
                                 quick_reference_all
-                            </button>
+                            </router-link>
                         </td>
                     </tr>
                 </table>

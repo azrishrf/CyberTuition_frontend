@@ -55,7 +55,7 @@ document.title = "Senarai Pelajar | Kerani";
                         <th class="font-semibold">E-Mel</th>
                         <th class="font-semibold">Tingkatan</th>
                         <th class="font-semibold">No Kad Pengenalan</th>
-                        <th class="font-semibold">Tarikh Lahir</th>
+                        <!-- <th class="font-semibold">Tarikh Lahir</th> -->
                         <th class="font-semibold rounded-r-2xl">Tindakan</th>
                     </tr>
 
@@ -78,9 +78,9 @@ document.title = "Senarai Pelajar | Kerani";
                         <td class="font-semibold">
                             {{ studentData.noICStudent }}
                         </td>
-                        <td class="font-semibold">
+                        <!-- <td class="font-semibold">
                             {{ formatDate(studentData.dateOfBirth) }}
-                        </td>
+                        </td> -->
                         <td class="font-semibold">
                             <router-link
                                 v-bind:to="

@@ -3,11 +3,6 @@ import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        // {
-        //     path: "/",
-        //     name: "home",
-        //     component: () => import("../views/HomeView.vue"),
-        // },
         {
             path: "/",
             name: "login",
@@ -37,7 +32,12 @@ const router = createRouter({
                 {
                     path: "",
                     component: () =>
-                        import("../views/Kerani/KemaskiniPelajar.vue"),
+                        import("../views/Kerani/KemaskiniPelajarBase.vue"),
+                },
+                {
+                    path: "kemaskini",
+                    component: () =>
+                        import("../views/Kerani/KemaskiniPelajarChild.vue"),
                 },
             ],
         },
@@ -47,7 +47,7 @@ const router = createRouter({
             component: () => import("../views/Kerani/Pengesahan.vue"),
         },
         {
-            path: "/kerani/pelajar/pengesahan/maklumatpengesahan",
+            path: "/kerani/pelajar/pengesahan/maklumatpengesahan/:id",
             name: "maklumatPengesahan",
             component: () => import("../views/Kerani/MaklumatPengesahan.vue"),
         },
