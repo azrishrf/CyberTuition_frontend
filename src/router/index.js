@@ -77,9 +77,21 @@ const router = createRouter({
             component: () => import("../views/Kerani/Kelas.vue"),
         },
         {
-            path: "/kerani/kelas/kemaskinikelas/:id",
+            path: "/kerani/kelas/maklumatkelas/:id",
             name: "kemaskiniKelas",
-            component: () => import("../views/Kerani/KemaskiniKelas.vue"),
+            component: () => import("../views/Kerani/MaklumatKelas.vue"),
+            children: [
+                {
+                    path: "",
+                    component: () =>
+                        import("../views/Kerani/MaklumatKelasBase.vue"),
+                },
+                {
+                    path: "kemaskinikelas",
+                    component: () =>
+                        import("../views/Kerani/KemaskiniKelas.vue"),
+                },
+            ],
         },
         {
             path: "/kerani/yuran",

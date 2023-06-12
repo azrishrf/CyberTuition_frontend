@@ -32,21 +32,21 @@ document.title = "Laporan | Kerani";
                 >
             </p>
 
-            <h1 class="mt-3 mb-2 font-semibold text-lg">
+            <!-- <h1 class="mt-3 mb-2 font-semibold text-lg">
                 Graf Statistik Bulanan
-            </h1>
+            </h1> -->
 
             <!-- Graf Bilangan pelajar -->
-            <div
+            <!-- <div
                 class="bg-white rounded-2xl py-5 px-5 shadow-login inline-block"
             >
                 <h1 class="mb-2 font-semibold text-base">
                     Laporan Statistik Bilangan Pelajar
                 </h1>
-            </div>
+            </div> -->
 
             <!-- Laporan Bulanan -->
-            <h1 class="mt-3 mb-2 font-semibold text-lg">Laporan Bulanan</h1>
+            <!-- <h1 class="mt-3 mb-2 font-semibold text-lg">Laporan Bulanan</h1> -->
             <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
                 <div class="flex gap-20">
                     <div class="">
@@ -103,7 +103,10 @@ document.title = "Laporan | Kerani";
             </div>
 
             <!-- Data Laporan -->
-            <div class="shadow-login bg-white py-7 px-20 rounded-2xl my-5">
+            <div
+                class="shadow-login bg-white py-7 px-20 rounded-2xl my-5"
+                v-if="showReport"
+            >
                 <div class="text-center">
                     <img
                         src="../../../assets/Logo V1.jpg.png"
@@ -391,6 +394,7 @@ export default {
             subjectStudentCounts: "",
             attendanceData: "",
             tuitionFeesData: "",
+            showReport: false,
         };
     },
     async mounted() {
@@ -439,6 +443,7 @@ export default {
     },
     methods: {
         confirmForm() {
+            this.showReport = true;
             this.monthName = this.malayMonthNames[this.month - 1];
 
             this.studentsReport();

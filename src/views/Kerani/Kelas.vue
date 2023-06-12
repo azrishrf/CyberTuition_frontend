@@ -84,7 +84,7 @@ document.title = "Kelas | Kerani";
                     <router-link
                         class="fa-solid fa-pen-to-square text-base text-gray-500 cursor-pointer hover:text-red absolute right-4 top-2"
                         v-bind:to="
-                            `/kerani/kelas/kemaskinikelas/` +
+                            `/kerani/kelas/maklumatkelas/` +
                             subjectData.idSubject
                         "
                     ></router-link>
