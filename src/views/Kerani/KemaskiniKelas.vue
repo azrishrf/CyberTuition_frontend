@@ -4,10 +4,10 @@ import SubmitButton from "../../components/SubmitButton.vue";
 </script>
 
 <template>
-    <div class="bg-white my-5 rounded-2xl py-6 px-11 shadow-login">
+    <div class="bg-white my-5 rounded-2xl py-5 px-11 shadow-login">
         <form class="bg-white m-auto" v-on:submit.prevent="updateSubject()">
             <!-- Maklumat Diri Pelajar -->
-            <h4 class="text-lg font-semibold mb-4">Maklumat Subjek</h4>
+            <h4 class="text-lg font-semibold mt-2 mb-4">Maklumat Subjek</h4>
 
             <div class="flex gap-9 max-md:flex-col">
                 <div class="grow">

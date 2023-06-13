@@ -4,7 +4,7 @@ import router from "../../router";
 
 <template>
     <!-- Maklumat Subjek -->
-    <div class="shadow-login bg-white py-6 px-11 rounded-2xl my-5">
+    <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
         <div>
             <RouterLink
                 class="bg-red hover:bg-darkred text-white py-2 px-5 text-sm rounded-2xl font-semibold float-right"
@@ -17,7 +17,7 @@ import router from "../../router";
                 <i class="fa-solid fa-pen-to-square mr-2"></i>
                 Kemaskini
             </RouterLink>
-            <h1 class="text-lg font-semibold mb-4">Maklumat Subjek</h1>
+            <h1 class="text-lg font-semibold mt-2 mb-4">Maklumat Subjek</h1>
             <table class="text-sm">
                 <tr>
                     <td class="font-semibold pb-3 w-80">Nama Subjek:</td>
