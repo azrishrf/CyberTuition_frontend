@@ -99,6 +99,17 @@ const router = createRouter({
             component: () => import("../views/Kerani/Yuran.vue"),
         },
         {
+            path: "/kerani/yuran/pengesahan/:id",
+            name: "keraniPengesahanResitBank",
+            component: () => import("../views/Kerani/PengesahanResitBank.vue"),
+        },
+        {
+            path: "/kerani/yuran/penyatakewanganpelajar/:id",
+            name: "keraniPenyataKewanganPelajar",
+            component: () =>
+                import("../views/Kerani/PenyataKewanganPelajar.vue"),
+        },
+        {
             path: "/kerani/laporan",
             name: "keraniLaporan",
             component: () => import("../views/Kerani/Laporan.vue"),
@@ -192,7 +203,7 @@ const router = createRouter({
             component: () => import("../views/Guru/Kelas.vue"),
         },
         {
-            path: "/guru/kelas/maklumatkelas",
+            path: "/guru/kelas/maklumatkelas/:id",
             name: "guruMaklumatKelas",
             component: () => import("../views/Guru/MaklumatKelas.vue"),
         },

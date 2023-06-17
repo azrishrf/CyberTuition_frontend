@@ -1,11 +1,8 @@
 <script setup>
-// import { ref } from "vue";
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
 import router from "../../router";
-import KemaskiniPelajar from "../Kerani/KemaskiniPelajar.vue";
 
-document.title = "Dashboard | Pelajar";
+document.title = "Profil Diri | Pelajar";
 
 // Kemaskin profil
 async function kemaskiniProfilDiri() {

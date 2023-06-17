@@ -1,9 +1,7 @@
 <script setup>
-// import { ref } from "vue";
 import SidebarGuru from "../../components/SidebarGuru.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 import router from "../../router";
-import KemaskiniPelajar from "../Kerani/KemaskiniPelajar.vue";
 
 document.title = "Profil Diri | Guru";
 
@@ -46,13 +44,13 @@ async function ubahKataLaluan() {
 
             <!-- Profil Diri -->
             <!-- Maklumat Guru -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
+            <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
                 <form
-                    class="bg-white m-auto py-1 px-6"
-                    v-on:submit.prevent="kemaskiniGuru()"
+                    class="bg-white m-auto"
+                    v-on:submit.prevent="updateProfile()"
                 >
                     <!-- Maklumat Diri Pelajar -->
-                    <h4 class="text-lg font-semibold mb-4">
+                    <h4 class="text-lg font-semibold mt-2 mb-4">
                         Maklumat Diri Guru
                     </h4>
 
@@ -64,7 +62,12 @@ async function ubahKataLaluan() {
                                 type="text"
                                 placeholder="Nama Penuh"
                                 name="fullname"
-                                v-model="fullname"
+                                v-model="teacherData.nameTeacher"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(teacherData.nameTeacher)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- IC Number-->
@@ -73,7 +76,12 @@ async function ubahKataLaluan() {
                                 type="text"
                                 placeholder="No Kad Pengenalan"
                                 name="noIC"
-                                v-model="noIC"
+                                v-model="teacherData.noICTeacher"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(teacherData.noICTeacher)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- Phone Number -->
@@ -82,7 +90,14 @@ async function ubahKataLaluan() {
                                 type="text"
                                 placeholder="No Telefon"
                                 name="noPhone"
-                                v-model="noPhone"
+                                v-model="teacherData.noPhoneTeacher"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(
+                                              teacherData.noPhoneTeacher
+                                          )
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                         </div>
@@ -93,16 +108,26 @@ async function ubahKataLaluan() {
                                 type="email"
                                 placeholder="E-Mel"
                                 name="email"
-                                v-model="email"
+                                v-model="userEmail"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(userEmail)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- Birth Date -->
-                            <p class="text-sm mb-3">Tarikh Lahir</p>
+                            <p class="text-sm mb-3">Umur</p>
                             <input
-                                type="date"
-                                placeholder="Tarikh Lahir"
-                                name="birthdate"
-                                v-model="birthdate"
+                                type="number"
+                                placeholder="Umur"
+                                name="age"
+                                v-model="teacherData.ageTeacher"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(teacherData.ageTeacher)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                         </div>
@@ -113,7 +138,12 @@ async function ubahKataLaluan() {
                         type="text"
                         placeholder="Alamat Rumah"
                         name="address"
-                        v-model="address"
+                        v-model="teacherData.addressTeacher"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(teacherData.addressTeacher)
+                                : '',
+                        }"
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm h-16"
                     />
 
@@ -123,9 +153,10 @@ async function ubahKataLaluan() {
                         class="mt-6 px-9"
                     />
                     <button
+                        type="button"
                         txt="Batalkan"
                         class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
-                        @click="redirect()"
+                        @click="cancel()"
                     >
                         Batalkan
                     </button>
@@ -134,3 +165,93 @@ async function ubahKataLaluan() {
         </div>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { useToast } from "vue-toastification";
+
+export default {
+    data() {
+        return {
+            teacherData: "",
+            userEmail: "",
+            teacherId: "",
+            toast: useToast(),
+            shouldValidate: false,
+        };
+    },
+
+    async mounted() {
+        // Get Student Data
+        axios
+            .get(`http://localhost:3001/api/user/${user}`)
+            .then((response) => {
+                this.teacherId = response.data.teacher.idTeacher;
+                this.userEmail = response.data.email;
+                axios
+                    .get(`http://localhost:3001/api/teacher/${this.teacherId}`)
+                    .then((response) => {
+                        this.teacherData = response.data;
+                    });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    },
+    methods: {
+        // input change to red if blank
+        validateInput(input) {
+            if (input === "") {
+                return "rgb(200 61 40)"; // Example: Set border color to red for empty input
+            }
+        },
+        // update profile
+        async updateProfile() {
+            this.shouldValidate = true;
+            if (
+                !this.teacherData.nameTeacher ||
+                !this.teacherData.noICTeacher ||
+                !this.teacherData.ageTeacher ||
+                !this.teacherData.noPhoneTeacher ||
+                !this.teacherData.addressTeacher
+            ) {
+                this.toast.error("Sila isi semua maklumat!", {
+                    timeout: 3000,
+                });
+                window.scrollTo({
+                    top: window.innerHeight / 3,
+                    behavior: "smooth", // Use 'smooth' for smooth scrolling effect
+                });
+            } else {
+                const updatedUser = {
+                    email: this.userEmail,
+                };
+                const updatedTeacher = {
+                    nameTeacher: this.teacherData.nameTeacher,
+                    noICTeacher: this.teacherData.noICTeacher,
+                    ageTeacher: this.teacherData.ageTeacher,
+                    noPhoneTeacher: this.teacherData.noPhoneTeacher,
+                    addressTeacher: this.teacherData.addressTeacher,
+                };
+                await axios.put(
+                    `http://localhost:3001/api/user/${user}`,
+                    updatedUser
+                );
+                await axios.put(
+                    `http://localhost:3001/api/teacher/${this.teacherId}`,
+                    updatedTeacher
+                );
+                this.toast.success("Kemaskini Profil Berjaya", {
+                    timeout: 3000,
+                });
+                this.$router.back();
+            }
+        },
+        // cancel update
+        cancel() {
+            this.$router.back();
+        },
+    },
+};
+</script>

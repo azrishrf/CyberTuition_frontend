@@ -1,20 +1,8 @@
 <script setup>
-// import { ref } from "vue";
 import SidebarGuru from "../../components/SidebarGuru.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
 import router from "../../router";
-import KemaskiniPelajar from "../Kerani/KemaskiniPelajar.vue";
 
 document.title = "Profil Diri | Guru";
-
-// Kemaskin profil
-async function kemaskiniProfilDiri() {
-    router.push("/guru/profil/kemaskini");
-}
-// Ubah Kata Laluan
-async function ubahKataLaluan() {
-    router.push("/guru/profil/katalaluan");
-}
 </script>
 
 <template>
@@ -46,56 +34,55 @@ async function ubahKataLaluan() {
 
             <!-- Profil Diri -->
             <!-- Maklumat Guru -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
+            <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
                 <button
-                    class="bg-red text-white py-2 px-5 text-xs rounded-2xl font-semibold float-right"
+                    class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold float-right"
                     @click="kemaskiniProfilDiri()"
                 >
                     <i class="fa-solid fa-pen-to-square text-xs"></i>
                     Kemaskini
                 </button>
                 <div>
-                    <h1 class="text-base font-semibold my-2">
+                    <h1 class="text-lg font-semibold mt-2 mb-4">
                         Maklumat Diri Guru
                     </h1>
                     <table class="text-sm w-4/5">
                         <tr>
-                            <td class="font-semibold pb-2">Nama Penuh:</td>
-                            <td class="text-fontgrey font-medium">
-                                Muhammad Hafiz Taufik
+                            <td class="font-semibold pb-3 w-80">Nama Penuh:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ teacherData.nameTeacher }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">E-mel:</td>
-                            <td class="text-fontgrey font-medium">
-                                hafiztau@gmail.com
+                            <td class="font-semibold pb-3">E-mel:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ userEmail }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">
+                            <td class="font-semibold pb-3">
                                 No Kad Pengenalan:
                             </td>
-                            <td class="text-fontgrey font-medium">
-                                8704241010632
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ teacherData.noICTeacher }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">Tarikh Lahir:</td>
-                            <td class="text-fontgrey font-medium">
-                                04/03/1987
+                            <td class="font-semibold pb-3">Umur:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ teacherData.ageTeacher }} Tahun
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">No Telefon:</td>
-                            <td class="text-fontgrey font-medium">
-                                01156484550
+                            <td class="font-semibold pb-3">No Telefon:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ teacherData.noPhoneTeacher }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">Alamat Rumah:</td>
-                            <td class="text-fontgrey font-medium">
-                                No.8, Jln SP 3/2 Seri Pristana, 47000 Sungai
-                                Buloh, Selangor
+                            <td class="font-semibold pb-3">Alamat Rumah:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ teacherData.addressTeacher }}
                             </td>
                         </tr>
                     </table>
@@ -103,7 +90,7 @@ async function ubahKataLaluan() {
             </div>
 
             <!-- Ubah kata laluan -->
-            <div
+            <!-- <div
                 class="shadow-login bg-white py-4 px-5 rounded-2xl my-6 w-1/2 flex gap-10"
             >
                 <div>
@@ -124,7 +111,43 @@ async function ubahKataLaluan() {
                 <div>
                     <img src="../../../assets/password.png" class="w-48" />
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+const user = JSON.parse(sessionStorage.getItem("idUser"));
+
+export default {
+    data() {
+        return {
+            teacherData: "",
+            userEmail: "",
+            teacherId: "",
+        };
+    },
+
+    async mounted() {
+        // Get Teacher Data
+        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+            this.teacherId = response.data.teacher.idTeacher;
+            this.userEmail = response.data.email;
+
+            axios
+                .get(`http://localhost:3001/api/teacher/${this.teacherId}`)
+                .then((response) => {
+                    this.teacherData = response.data;
+                });
+        });
+    },
+
+    methods: {
+        // Kemaskini profil
+        async kemaskiniProfilDiri() {
+            router.push("/guru/profil/kemaskini");
+        },
+    },
+};
+</script>

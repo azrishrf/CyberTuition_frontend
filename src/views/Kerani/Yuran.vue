@@ -1,10 +1,6 @@
 <script setup>
-import PocketBase from "pocketbase";
-import { ref } from "vue";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import { onMounted } from "vue";
-import router from "../../router";
-// import { kemaskini } from "../../stores/index";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 document.title = "Yuran | Kerani";
 </script>
@@ -35,8 +31,8 @@ document.title = "Yuran | Kerani";
                 >
             </p>
             <!-- Content -->
-            <div class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login">
-                <h1 class="mt-3 mb-2 font-semibold text-xl">
+            <div class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login">
+                <h1 class="mb-4 font-semibold text-lg">
                     Pengesahan Resit Bank
                 </h1>
 
@@ -46,58 +42,113 @@ document.title = "Yuran | Kerani";
                         <th class="font-semibold py-2 px-2 rounded-l-2xl">
                             No
                         </th>
-                        <th class="font-semibold">Nama Penuh</th>
+                        <th class="font-semibold" style="width: 25rem">
+                            Nama Penuh
+                        </th>
                         <th class="font-semibold">Tingkatan</th>
                         <th class="font-semibold">Tarikh Pembayaran</th>
+                        <th class="font-semibold">Bulan</th>
                         <th class="font-semibold rounded-r-2xl">Tindakan</th>
                     </tr>
-
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">1</td>
-                        <td class="font-semibold">Azri Ishraf</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">2023-01-19</td>
-                        <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
+                    <tr
+                        class="text-fontgrey text-sm border-b-2"
+                        v-for="receipt in receiptsBank"
+                        :key="receiptsBank.receiptBankId"
+                    >
+                        <td class="py-3 text-center">
+                            {{ receiptsBank.indexOf(receipt) + 1 }}
                         </td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">2</td>
-                        <td class="font-semibold">Syamil Afizan</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">2023-01-19</td>
                         <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
+                            {{ receipt.tuitionFee.student.nameStudent }}
                         </td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">3</td>
-                        <td class="font-semibold">Syahir Hamid</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">2023-01-19</td>
                         <td class="font-semibold">
-                            <button
+                            {{ receipt.tuitionFee.student.form }}
+                        </td>
+                        <td class="font-semibold">
+                            {{ formatDate(receipt.createdAt) }}
+                        </td>
+                        <td class="font-semibold">
+                            {{ malayMonths[receipt.tuitionFee.month - 1] }}
+                        </td>
+                        <td class="font-semibold">
+                            <router-link
+                                v-bind:to="
+                                    `/kerani/yuran/pengesahan/` +
+                                    receipt.receiptBankId
+                                "
                                 class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
                             >
                                 quick_reference_all
-                            </button>
+                            </router-link>
                         </td>
                     </tr>
                 </table>
             </div>
 
-            <div class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login">
-                <h1 class="mt-3 mb-2 font-semibold text-xl">
+            <div class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login">
+                <h1 class="mb-4 font-semibold text-lg">
                     Status Pembayaran Yuran
                 </h1>
+
+                <div class="flex gap-20 pb-4">
+                    <div>
+                        <!-- Bulan-->
+                        <p class="text-sm mb-3">Bulan</p>
+                        <select
+                            placeholder="Bulan"
+                            name="Bulan"
+                            v-model="month"
+                            class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-3 text-sm w-80"
+                        >
+                            <option disabled value="">-- Pilih Bulan --</option>
+                            <option
+                                v-for="option in monthOptions"
+                                :value="option.value"
+                            >
+                                {{ option.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <!-- Tahun -->
+                        <p class="text-sm mb-3">Tahun</p>
+                        <select
+                            placeholder="Tahun"
+                            name="Tahun"
+                            v-model="year"
+                            class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-3 text-sm w-80"
+                        >
+                            <option disabled value="">-- Pilih Tahun --</option>
+                            <option
+                                v-for="yearOption in yearOptions"
+                                :value="yearOption.value"
+                                :key="yearOption.value"
+                            >
+                                {{ yearOption.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="my-auto mt-9">
+                        <SubmitButton
+                            type="button"
+                            txt="Sahkan"
+                            class="px-8"
+                            @click="submit()"
+                        />
+                    </div>
+                </div>
+
+                <!-- Search bar -->
+                <div class="relative">
+                    <input
+                        type="text"
+                        placeholder="Carian Nama Pelajar..."
+                        class="font-semibold border-2 border-slate-grey text-sm px-8 py-2 mb-6 rounded-xl w-11/12 flex justify-between items-center"
+                    />
+                    <i
+                        class="fa-solid fa-magnifying-glass text-grey absolute right-40 top-3"
+                    ></i>
+                </div>
 
                 <!-- Jadual Senarai Pelajar -->
                 <table class="w-11/12 text-center">
@@ -105,59 +156,54 @@ document.title = "Yuran | Kerani";
                         <th class="font-semibold py-2 px-2 rounded-l-2xl">
                             No
                         </th>
-                        <th class="font-semibold">Nama Penuh</th>
+                        <th class="font-semibold" style="width: 25rem">
+                            Nama Penuh
+                        </th>
                         <th class="font-semibold">Tingkatan</th>
                         <th class="font-semibold">Status Pembayaran</th>
                         <th class="font-semibold rounded-r-2xl">Tindakan</th>
                     </tr>
 
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">1</td>
-                        <td class="font-semibold">Hassan Abdullah</td>
-                        <td class="font-semibold">5</td>
+                    <tr
+                        class="text-fontgrey text-sm border-b-2"
+                        v-for="studentData in tuitionFees"
+                    >
+                        <td class="py-3 text-center">
+                            {{ tuitionFees.indexOf(studentData) + 1 }}
+                        </td>
+                        <td class="font-semibold">
+                            {{ studentData.student.nameStudent }}
+                        </td>
+                        <td class="font-semibold">
+                            {{ studentData.student.form }}
+                        </td>
                         <td class="font-semibold">
                             <p
-                                class="bg-green text-white px-8 py-1 rounded-xl text-xs hover:bg-cyan-700 inline-block"
+                                class="bg-green text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                v-if="
+                                    studentData.statusPayment ===
+                                    'Telah Dibayar'
+                                "
                             >
-                                Sudah Dibayar
+                                Telah Dibayar
                             </p>
-                        </td>
-                        <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">2</td>
-                        <td class="font-semibold">Afizan Rahim</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">
                             <p
-                                class="bg-green text-white px-8 py-1 rounded-xl text-xs hover:bg-cyan-700 inline-block"
-                            >
-                                Sudah Dibayar
-                            </p>
-                        </td>
-                        <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">3</td>
-                        <td class="font-semibold">Muhammad Abdullah</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">
-                            <p
-                                class="bg-darkred text-white px-8 py-1 rounded-xl text-xs hover:bg-cyan-700 inline-block"
+                                class="bg-red text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                v-if="
+                                    studentData.statusPayment ===
+                                    'Belum Dibayar'
+                                "
                             >
                                 Belum Dibayar
+                            </p>
+                            <p
+                                class="bg-yellow-400 text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                v-if="
+                                    studentData.statusPayment ===
+                                    'Menunggu Pengesahan'
+                                "
+                            >
+                                Menunggu Pengesahan
                             </p>
                         </td>
                         <td class="font-semibold">
@@ -173,4 +219,106 @@ document.title = "Yuran | Kerani";
         </div>
     </div>
 </template>
-<style></style>
+
+<script>
+import axios from "axios";
+
+export default {
+    data() {
+        return {
+            receiptsBank: "",
+            month: "",
+            year: "",
+            monthName: "",
+            malayMonths: "",
+            monthOptions: "",
+            tuitionFees: "",
+        };
+    },
+    async mounted() {
+        const response = await axios.get(
+            `http://localhost:3001/api/receiptbank`
+        );
+        this.receiptsBank = response.data;
+        console.log(this.receiptsBank);
+
+        this.malayMonths = [
+            "Januari",
+            "Februari",
+            "Mac",
+            "April",
+            "Mei",
+            "Jun",
+            "Julai",
+            "Ogos",
+            "September",
+            "Oktober",
+            "November",
+            "Disember",
+        ];
+        // this.monthName = malayMonthNames[this.month - 1];
+        console.log(this.monthName);
+
+        const currentMonthIndex = new Date().getMonth();
+        const monthOptions = [];
+
+        for (let i = currentMonthIndex; i >= 0; i--) {
+            const monthValue = i + 1;
+            const monthName = this.malayMonths[i];
+            monthOptions.push({ value: monthValue, text: monthName });
+        }
+
+        // Set the options array in your Vue.js component's data
+        this.monthOptions = monthOptions.reverse();
+
+        // Set the default value of the month select element to the current month
+        this.month = currentMonthIndex + 1;
+
+        const currentYear = new Date().getFullYear();
+        const yearOptions = [];
+
+        for (let i = 0; i < 3; i++) {
+            const yearValue = currentYear - i;
+            yearOptions.push({ value: yearValue, text: yearValue.toString() });
+        }
+        this.yearOptions = yearOptions.reverse();
+        this.year = currentYear;
+
+        try {
+            const response = await axios.get(
+                `http://localhost:3001/api/tuitionfee/monthyear/${this.month}/${this.year}`
+            );
+            this.tuitionFees = response.data;
+            console.log(this.tuitionFees);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    },
+    methods: {
+        formatDate(date) {
+            const dateObj = new Date(date);
+            const day = dateObj.getDate();
+            const month = dateObj.getMonth() + 1;
+            const year = dateObj.getFullYear();
+
+            return `${day < 10 ? "0" + day : day}/${
+                month < 10 ? "0" + month : month
+            }/${year}`;
+        },
+        async submit() {
+            console.log(this.month);
+            console.log(this.year);
+
+            try {
+                const response = await axios.get(
+                    `http://localhost:3001/api/tuitionfee/monthyear/${this.month}/${this.year}`
+                );
+                this.tuitionFees = response.data;
+                console.log(this.tuitionFees);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        },
+    },
+};
+</script>

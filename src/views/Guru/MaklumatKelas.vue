@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import router from "../../router";
 import SidebarGuru from "../../components/SidebarGuru.vue";
 
 document.title = "Kelas | Guru";
@@ -32,28 +32,34 @@ document.title = "Kelas | Guru";
             </p>
 
             <!-- Maklumat Kelas -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
+            <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
                 <div>
-                    <h1 class="text-base font-semibold my-2">Maklumat Kelas</h1>
+                    <h1 class="text-lg font-semibold mt-2 mb-4">
+                        Maklumat Kelas
+                    </h1>
                     <table class="text-sm w-4/5">
                         <tr>
-                            <td class="font-semibold pb-2">Nama Kelas:</td>
-                            <td class="text-fontgrey font-medium">
-                                Bahasa Inggeris
+                            <td class="font-semibold pb-3 w-48">Nama Kelas:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ subjectData.name }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">Hari:</td>
-                            <td class="text-fontgrey font-medium">Isnin</td>
+                            <td class="font-semibold pb-3">Hari:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ subjectData.day }}
+                            </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">Masa:</td>
-                            <td class="text-fontgrey font-medium">20:00</td>
+                            <td class="font-semibold pb-3">Masa:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ subjectData.time }}
+                            </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-2">Nama Guru:</td>
-                            <td class="text-fontgrey font-medium">
-                                Muhammad Hafiz Taufik
+                            <td class="font-semibold pb-3">Nama Guru:</td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ teacher.nameTeacher }}
                             </td>
                         </tr>
                     </table>
@@ -61,20 +67,8 @@ document.title = "Kelas | Guru";
             </div>
 
             <!-- Content -->
-            <div class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login">
-                <h1 class="text-base font-semibold my-2">Senarai Pelajar</h1>
-
-                <!-- Search bar -->
-                <div
-                    class="font-semibold border-2 border-grey text-sm px-8 py-2 mb-6 rounded-xl w-11/12 flex justify-between items-center"
-                >
-                    <input
-                        type="text"
-                        placeholder="Carian Nama Pelajar..."
-                        class="w-full focus:outline-none"
-                    />
-                    <i class="fa-solid fa-magnifying-glass text-grey"></i>
-                </div>
+            <div class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login">
+                <h1 class="text-lg font-semibold mt-2 mb-4">Senarai Pelajar</h1>
 
                 <!-- Jadual Senarai Pelajar -->
                 <table class="w-11/12 text-center">
@@ -83,46 +77,56 @@ document.title = "Kelas | Guru";
                             No
                         </th>
                         <th class="font-semibold">Nama Penuh</th>
-                        <th class="font-semibold">E-Mel</th>
+
                         <th class="font-semibold">Tingkatan</th>
-                        <th class="font-semibold">No Kad Pengenalan</th>
                         <th class="font-semibold rounded-r-2xl">
-                            Tarikh Lahir
+                            No Kad Pengenalan
                         </th>
                     </tr>
+                    <tr
+                        class="text-fontgrey text-sm border-b-2"
+                        v-for="studentData in listStudents"
+                    >
+                        <td class="py-3 text-center">
+                            {{ listStudents.indexOf(studentData) + 1 }}
+                        </td>
+                        <td class="font-semibold">
+                            {{ studentData.student.nameStudent }}
+                        </td>
 
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">1</td>
                         <td class="font-semibold">
-                            Muhammad Azri Ishraf Bin Harun
+                            {{ studentData.student.form }}
                         </td>
-                        <td class="font-semibold">ishrafazri@gmail.com</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">010424101067</td>
-                        <td class="font-semibold">24/04/2001</td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">2</td>
                         <td class="font-semibold">
-                            Muhammad Iqmal bin Abdullah
+                            {{ studentData.student.noICStudent }}
                         </td>
-                        <td class="font-semibold">iqmal@gmail.com</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">010424101067</td>
-                        <td class="font-semibold">24/04/2001</td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">3</td>
-                        <td class="font-semibold">
-                            Nurshahirah binti Shuhaimi
-                        </td>
-                        <td class="font-semibold">shahirah@gmail.com</td>
-                        <td class="font-semibold">5</td>
-                        <td class="font-semibold">010424101067</td>
-                        <td class="font-semibold">24/04/2001</td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+    data() {
+        return {
+            subjectData: {},
+            idSubject: router.currentRoute.value.params.id,
+            teacher: [],
+            listStudents: {},
+        };
+    },
+    async mounted() {
+        const response = await axios.get(
+            `http://localhost:3001/api/subject/${this.idSubject}`
+        );
+        this.subjectData = response.data;
+        this.teacher = this.subjectData.teacher;
+
+        this.listStudents = this.subjectData.student_Subject;
+        console.log(this.listStudents);
+    },
+};
+</script>

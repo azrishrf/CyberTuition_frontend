@@ -112,8 +112,6 @@ export default {
     },
 
     async mounted() {
-        // console.log(this.pengesahan.data.idUser);
-
         // Get Student Data
         axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
@@ -124,8 +122,6 @@ export default {
                     console.log(this.studentData);
                 });
         });
-
-        // console.log(this.studentData);
     },
     methods: {},
 };

@@ -274,8 +274,6 @@ export default {
     data() {
         return {
             email: "",
-            // password: "",
-            // confirmPassword: "",
             nameStudent: "",
             noICStudent: "",
             dateOfBirth: "",

@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import SidebarGuru from "../../components/SidebarGuru.vue";
 import router from "../../router";
 
@@ -37,48 +36,87 @@ async function lihatMaklumatKelas() {
             </p>
 
             <!-- Maklumat Kelas -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
-                <table class="w-3/4 text-center my-7 ml-5">
-                    <tr class="bg-red text-sm text-white">
-                        <th class="font-semibold py-2 px-2 rounded-l-2xl">
-                            No
-                        </th>
-                        <th class="font-semibold">Nama Kelas</th>
-                        <th class="font-semibold">Hari</th>
-                        <th class="font-semibold">Masa</th>
-                        <th class="font-semibold rounded-r-2xl">Tindakan</th>
-                    </tr>
+            <div class="flex flex-wrap gap-8 py-5">
+                <div
+                    class="bg-white shadow-login flex gap-6 py-4 px-5 items-center rounded-2xl w-[22rem] relative"
+                    v-for="subjectData in teacherData.subjects"
+                    :key="subjectData.idSubject"
+                >
+                    <img
+                        v-bind:src="'/subjek/' + subjectData.name + '.png'"
+                        class="w-20"
+                    />
+                    <div class="flex flex-col">
+                        <label class="font-bold gap-9">
+                            {{ subjectData.name }}
+                        </label>
 
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">1</td>
-                        <td class="font-semibold">Bahasa Inggeris</td>
-                        <td class="font-semibold">Selasa</td>
-                        <td class="font-semibold">20:00</td>
-                        <td>
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                                @click="lihatMaklumatKelas()"
+                        <!-- Hari -->
+                        <div class="flex gap-2">
+                            <label class="font-semibold text-black text-sm"
+                                >Hari:</label
                             >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="text-fontgrey text-sm border-b-2">
-                        <td class="py-3 text-center">2</td>
-                        <td class="font-semibold">Matematik</td>
-                        <td class="font-semibold">Selasa</td>
-                        <td class="font-semibold">20:00</td>
-                        <td>
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                                @click="lihatMaklumatKelas()"
+                            <label
+                                class="font-semibold text-fontgrey text-sm"
+                                >{{ subjectData.day }}</label
                             >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
-                </table>
+                        </div>
+                        <!-- Masa -->
+                        <div class="flex gap-2">
+                            <label class="font-semibold text-black text-sm"
+                                >Masa:</label
+                            >
+                            <label class="font-semibold text-fontgrey text-sm">
+                                {{ subjectData.time }}
+                            </label>
+                        </div>
+                    </div>
+                    <router-link
+                        style=" font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 48;"
+                        class="material-symbols-outlined text-xl text-gray-500 cursor-pointer hover:text-red absolute right-4 top-3"
+                        v-bind:to="
+                            `/guru/kelas/maklumatkelas/` +
+                            subjectData.idSubject
+                        "
+                        >quick_reference_all</router-link
+                    >
+                </div>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+const user = JSON.parse(sessionStorage.getItem("idUser"));
+
+export default {
+    data() {
+        return {
+            teacherData: "",
+            userEmail: "",
+            teacherId: "",
+        };
+    },
+
+    async mounted() {
+        // Get Teacher Data
+        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+            this.teacherId = response.data.teacher.idTeacher;
+
+            axios
+                .get(`http://localhost:3001/api/teacher/${this.teacherId}`)
+                .then((response) => {
+                    this.teacherData = response.data;
+                });
+        });
+    },
+
+    methods: {
+        // Kemaskini profil
+        // async kemaskiniProfilDiri() {
+        //     router.push("/guru/profil/kemaskini");
+        // },
+    },
+};
+</script>

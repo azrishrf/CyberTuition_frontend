@@ -106,6 +106,7 @@ document.title = "Laporan | Kerani";
             <div
                 class="shadow-login bg-white py-7 px-20 rounded-2xl my-5"
                 v-if="showReport"
+                id="data-laporan"
             >
                 <div class="text-center">
                     <img
@@ -373,12 +374,15 @@ document.title = "Laporan | Kerani";
                     </div>
                 </div>
             </div>
+            <!-- Generate pdf button -->
+            <button @click="generatePDF">Generate PDF</button>
         </div>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import html2pdf from "html2pdf.js";
 
 export default {
     data() {
@@ -534,6 +538,24 @@ export default {
             } catch (error) {
                 console.error("Error:", error);
             }
+        },
+        // Generate pdf
+        generatePDF() {
+            const element = document.getElementById("data-laporan");
+
+            html2pdf()
+                .set({
+                    html2canvas: {
+                        scale: 2, // Adjust the scale value to make the PDF smaller (e.g., 2 for half the size)
+                    },
+                    pagebreak: { mode: "avoid-all" }, // Optional: Set page break mode to avoid splitting content across pages
+                    filename: "laporan.pdf", // Optional: Set the desired file name
+                    jsPDF: {
+                        orientation: "landscape", // Set the page orientation to landscape
+                    },
+                })
+                .from(element)
+                .save();
         },
     },
 };
