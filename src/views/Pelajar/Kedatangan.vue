@@ -54,7 +54,7 @@ async function imbasKodQR() {
                     </button>
                 </div>
 
-                <img src="../../../assets/scan1.png" class="w-48 h-full" />
+                <img src="/scan1.png" class="w-48 h-full" />
             </div>
 
             <!-- Butiran Kedatangan -->

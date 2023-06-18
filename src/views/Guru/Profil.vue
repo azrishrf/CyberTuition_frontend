@@ -112,7 +112,7 @@ async function ubahKataLaluan() {
                     </button>
                 </div>
                 <div>
-                    <img src="../../../assets/password.png" class="w-48" />
+                    <img src="/password.png" class="w-48" />
                 </div>
             </div>
         </div>

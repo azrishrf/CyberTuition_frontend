@@ -266,11 +266,11 @@ async function ubahKataLaluan() {
                     >
                         <div class="text-center space-x-4">
                             <img
-                                src="../../../assets/fpx.png"
+                                src="/fpx.png"
                                 class="w-24 h-full inline"
                             />
                             <img
-                                src="../../../assets/toyyibpay.png"
+                                src="/toyyibpay.png"
                                 class="w-36 h-full inline"
                             />
                         </div>
@@ -288,7 +288,7 @@ async function ubahKataLaluan() {
                     >
                         <div class="text-center">
                             <img
-                                src="../../../assets/duitnow.png"
+                                src="/duitnow.png"
                                 class="w-16 inline text-center"
                             />
                         </div>

@@ -77,7 +77,7 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                     </div>
 
                     <img
-                        src="../../../assets/duitnowqr.png"
+                        src="/duitnowqr.png"
                         class="w-52 h-auto mx-auto"
                     />
                 </div>
@@ -141,7 +141,7 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                     </h3>
                     <div class="flex justify-center w-full">
                         <img
-                            src="../../../assets/Payment Pending.jpg"
+                            src="/Payment Pending.jpg"
                             alt="Payment Pending"
                             class="w-72 h-full mb-5"
                         />

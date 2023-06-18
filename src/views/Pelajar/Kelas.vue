@@ -49,7 +49,7 @@ document.title = "Kelas | Pelajar";
                 >
                     <img
                         v-bind:src="
-                            '../../../assets/subjek/' +
+                            '/subjek/' +
                             subjectData.subject.name +
                             '.png'
                         "

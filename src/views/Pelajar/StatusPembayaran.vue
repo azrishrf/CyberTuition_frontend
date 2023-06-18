@@ -34,7 +34,7 @@ document.title = "Dashboard | Pelajar";
                         <!-- <p class="text-green-600">Success</p> -->
                         <div class="flex justify-center w-full">
                             <img
-                                src="../../../assets/Payment Successful.jpg"
+                                src="/Payment Successful.jpg"
                                 alt="Payment Successful"
                                 class="w-72 h-full"
                             />
@@ -107,7 +107,7 @@ document.title = "Dashboard | Pelajar";
                         <!-- <p class="text-green-600">Success</p> -->
                         <div class="flex justify-center w-full">
                             <img
-                                src="../../../assets/Payment Pending.jpg"
+                                src="/Payment Pending.jpg"
                                 alt="Payment Pending"
                                 class="w-72 h-full mb-5"
                             />
@@ -144,7 +144,7 @@ document.title = "Dashboard | Pelajar";
                         <!-- <p class="text-green-600">Success</p> -->
                         <div class="flex justify-center w-full">
                             <img
-                                src="../../../assets/Payment Unsuccessful.png"
+                                src="/Payment Unsuccessful.png"
                                 alt="Payment Successful"
                                 class="w-72 h-full mb-5"
                             />

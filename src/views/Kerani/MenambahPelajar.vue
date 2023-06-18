@@ -223,7 +223,7 @@ import SubmitButton from "../../components/SubmitButton.vue";
                         >
                             <img
                                 v-bind:src="
-                                    '../../../assets/subjek/' +
+                                    '/subjek/' +
                                     subjectData.name +
                                     '.png'
                                 "

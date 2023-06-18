@@ -63,7 +63,7 @@ document.title = "Dashboard | Kerani";
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
                     <div>
-                        <img src="../../../assets/student.png" class="w-20" />
+                        <img src="/student.png" class="w-20" />
                     </div>
                     <div class="px-5 flex-col-reverse">
                         <p class="text-sm">Pelajar</p>
@@ -76,7 +76,7 @@ document.title = "Dashboard | Kerani";
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
                     <div>
-                        <img src="../../../assets/teacher.png" class="w-20" />
+                        <img src="/teacher.png" class="w-20" />
                     </div>
                     <div class="px-6 flex-col-reverse">
                         <p class="text-sm">Guru</p>
@@ -89,7 +89,7 @@ document.title = "Dashboard | Kerani";
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
                     <div>
-                        <img src="../../../assets/class.png" class="w-20" />
+                        <img src="/class.png" class="w-20" />
                     </div>
                     <div class="px-6 flex-col-reverse">
                         <p class="text-sm">Kelas</p>
@@ -102,7 +102,7 @@ document.title = "Dashboard | Kerani";
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
                     <div>
-                        <img src="../../../assets/fee.png" class="w-20" />
+                        <img src="/fee.png" class="w-20" />
                     </div>
                     <div class="px-5 flex-col-reverse">
                         <p class="text-sm text-center">Yuran</p>

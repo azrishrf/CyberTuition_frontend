@@ -60,7 +60,7 @@ document.title = "Imbasan Kod QR | Pelajar";
                         </p>
                     </div>
 
-                    <img src="../../../assets/scan2.png" class="w-36 h-full" />
+                    <img src="/scan2.png" class="w-36 h-full" />
                 </div>
             </div>
             <dialog

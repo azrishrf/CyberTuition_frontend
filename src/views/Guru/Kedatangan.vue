@@ -126,10 +126,7 @@ document.title = "Kedatangan | Guru";
                         class="bg-white shadow-login flex py-3 px-3 items-center rounded-2xl"
                     >
                         <div>
-                            <img
-                                src="../../../assets/student.png"
-                                class="w-14 h-full"
-                            />
+                            <img src="/student.png" class="w-14 h-full" />
                         </div>
                         <div class="px-5 flex-col-reverse">
                             <p class="text-sm">Jumlah Pelajar</p>
@@ -144,10 +141,7 @@ document.title = "Kedatangan | Guru";
                         class="bg-white shadow-login flex py-3 px-3 items-center rounded-2xl"
                     >
                         <div>
-                            <img
-                                src="../../../assets/hadir.png"
-                                class="w-14 h-full"
-                            />
+                            <img src="/hadir.png" class="w-14 h-full" />
                         </div>
                         <div class="px-6 flex-col-reverse">
                             <p class="text-sm">Jumlah Hadir</p>
@@ -162,10 +156,7 @@ document.title = "Kedatangan | Guru";
                         class="bg-white shadow-login flex py-3 px-3 items-center rounded-2xl"
                     >
                         <div>
-                            <img
-                                src="../../../assets/tidak hadir.png"
-                                class="w-14 h-full"
-                            />
+                            <img src="/tidak hadir.png" class="w-14 h-full" />
                         </div>
                         <div class="px-6 flex-col-reverse">
                             <p class="text-sm">Jumlah Tidak Hadir</p>

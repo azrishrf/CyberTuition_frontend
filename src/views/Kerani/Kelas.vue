@@ -38,7 +38,7 @@ document.title = "Kelas | Kerani";
                 >
                     <img
                         v-bind:src="
-                            '../../../assets/subjek/' +
+                            '/subjek/' +
                             subjectData.name +
                             '.png'
                         "

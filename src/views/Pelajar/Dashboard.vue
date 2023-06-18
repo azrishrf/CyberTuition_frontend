@@ -31,7 +31,7 @@ document.title = "Dashboard | Pelajar";
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
                     <div>
-                        <img src="../../../assets/class.png" class="w-20" />
+                        <img src="/class.png" class="w-20" />
                     </div>
                     <div class="px-7 flex-col-reverse">
                         <p class="text-sm">Subjek</p>
@@ -45,7 +45,7 @@ document.title = "Dashboard | Pelajar";
                 >
                     <div>
                         <img
-                            src="../../../assets/attendance.png"
+                            src="/attendance.png"
                             class="w-20"
                         />
                     </div>
@@ -61,7 +61,7 @@ document.title = "Dashboard | Pelajar";
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
                     <div>
-                        <img src="../../../assets/fee.png" class="w-20" />
+                        <img src="/fee.png" class="w-20" />
                     </div>
                     <div class="px-5 flex-col-reverse">
                         <p class="text-sm text-center">Yuran</p>

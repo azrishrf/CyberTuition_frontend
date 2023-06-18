@@ -277,7 +277,7 @@ async function redirectlogin() {
                 >
                     <img
                         v-bind:src="
-                            '../../../assets/subjek/' +
+                            '/subjek/' +
                             subjectData.name +
                             '.png'
                         "
