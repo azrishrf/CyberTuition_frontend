@@ -390,6 +390,9 @@ export default {
             this.shouldValidate = true;
             this.shouldValidatePassword = true;
             this.shouldValidateConfirmPassword = true;
+            const passwordValidationResult = this.validateInputPassword(
+                this.password
+            );
             if (
                 !this.nameStudent ||
                 !this.noICStudent ||
@@ -419,6 +422,10 @@ export default {
                         timeout: 3000,
                     }
                 );
+            } else if (passwordValidationResult) {
+                this.toast.error("Kata Laluan Tidak Memenuhi Syarat!", {
+                    timeout: 3000,
+                });
             } else {
                 // Check existing user
                 const checkUser = await axios.post(

@@ -87,6 +87,8 @@ import router from "../../router";
 
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
+
 export default {
     data() {
         return {
@@ -107,7 +109,7 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/student/${this.idStudent}`
+            baseAPI + `/api/student/${this.idStudent}`
         );
         this.studentData = response.data;
         this.userData = this.studentData.user;

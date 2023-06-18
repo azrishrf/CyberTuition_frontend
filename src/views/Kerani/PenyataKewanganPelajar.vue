@@ -239,6 +239,12 @@ document.title = "Pengesahan Resit Bank | Kerani";
                         >
                             {{ uploadReceiptBankData.createdAt }}
                         </td>
+                        <td
+                            class="text-fontgrey font-medium pb-3"
+                            v-if="tuitionFeeData.paymentMethod === 'Tunai'"
+                        >
+                            {{ tuitionFeeData.cashTransactionDate }}
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -289,12 +295,46 @@ document.title = "Pengesahan Resit Bank | Kerani";
 
                 <button
                     class="bg-green hover:bg-cyan-700 text-white py-1 px-4 text-sm rounded-2xl font-semibold flex gap-2 items-center mx-auto"
-                    @click="ubahKataLaluan()"
+                    @click="acceptCashPayment()"
                 >
                     <i class="fa-solid fa-circle-check text-lg"></i>
 
                     Bayaran Diterima
                 </button>
+                <!-- Dialog delete subject -->
+                <div
+                    v-if="showDialog"
+                    class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-10"
+                >
+                    <div class="w-2/6 bg-white px-3 py-4 top-1/3 rounded-xl">
+                        <div>
+                            <i
+                                class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
+                            ></i>
+
+                            <h1 class="font-semibold text-base text-left">
+                                Memadam Data Subjek
+                            </h1>
+                            <p class="font-normal text-xs text-left">
+                                Adakah anda pasti mahu memadamkan subjek bagi
+                                pelajar ini?
+                            </p>
+
+                            <button
+                                @click="acceptCash()"
+                                class="bg-red hover:bg-darkred text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
+                            >
+                                Sahkan
+                            </button>
+                            <button
+                                @click="showDialog = false"
+                                class="text-black hover:bg-slate-300 py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
+                            >
+                                Batalkan
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -302,6 +342,8 @@ document.title = "Pengesahan Resit Bank | Kerani";
 
 <script>
 import axios from "axios";
+import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -314,21 +356,19 @@ export default {
             paymentGatewayData: {},
             uploadReceiptBankData: {},
             subjectsArray: "",
+            showDialog: false,
+            toast: useToast(),
         };
     },
     async mounted() {
         try {
             const response = await axios.get(
-                `http://localhost:3001/api/tuitionfee/${this.idTuitionFee}`
+                baseAPI + `/api/tuitionfee/${this.idTuitionFee}`
             );
             this.tuitionFeeData = response.data;
             this.studentData = this.tuitionFeeData.student;
             this.paymentGatewayData = this.tuitionFeeData.paymentGateway;
             this.uploadReceiptBankData = this.tuitionFeeData.receiptBank;
-
-            console.log(this.tuitionFeeData);
-            console.log(this.paymentGatewayData);
-            console.log(this.uploadReceiptBankData);
 
             this.malayMonths = [
                 "Januari",
@@ -352,7 +392,7 @@ export default {
 
             // Fetch the Subject data from the server using Prisma
             axios
-                .get(`http://localhost:3001/api/subjects`)
+                .get(baseAPI + `/api/subjects`)
                 .then((response) => {
                     const subjects = response.data;
 
@@ -364,9 +404,6 @@ export default {
                         const fee = subject ? parseInt(subject.fee) : 0;
                         return { name: subjectName, fee };
                     });
-
-                    console.log(this.subjectsArray);
-                    // this.totalFee = this.tuitionFee.amount;
                 })
                 .catch((error) => {
                     console.error(error);
@@ -374,6 +411,27 @@ export default {
         } catch (error) {
             console.error("Error:", error);
         }
+    },
+
+    methods: {
+        acceptCashPayment() {
+            this.showDialog = true;
+        },
+
+        acceptCash() {
+            // update tuition fee status
+            // Fetch the Subject data from the server using Prisma
+            axios
+                .put(baseAPI + `/api/tuitionfee/cash/${this.idTuitionFee}`)
+                .then((response) => {
+                    const tuitionFee = response.data;
+
+                    this.toast.success("Resit Bank Telah Disahkan ", {
+                        timeout: 3000,
+                    });
+                    this.showDialog = false;
+                });
+        },
     },
 };
 </script>

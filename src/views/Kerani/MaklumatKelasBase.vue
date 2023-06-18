@@ -40,7 +40,7 @@ import router from "../../router";
                 <tr>
                     <td class="font-semibold pb-3">Nama Guru:</td>
                     <td class="text-fontgrey font-medium pb-3">
-                        {{ teacher.nameTeacher }}
+                        {{ teacher.nameTeacher ? teacher.nameTeacher : "N/A" }}
                     </td>
                 </tr>
             </table>
@@ -50,7 +50,8 @@ import router from "../../router";
 
 <script>
 import axios from "axios";
-import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
+
 export default {
     data() {
         return {
@@ -61,10 +62,14 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/subject/${this.idSubject}`
+            baseAPI + `/api/subject/${this.idSubject}`
         );
         this.subjectData = response.data;
-        this.teacher = this.subjectData.teacher;
+        if (this.subjectData.teacher) {
+            this.teacher = this.subjectData.teacher;
+        } else {
+            this.teacher = { nameTeacher: "N/A" }; // Provide a default value or placeholder object
+        }
     },
 };
 </script>

@@ -52,110 +52,56 @@ async function ubahKataLaluan() {
                     <h1 class="font-semibold mb-5">{{ this.formattedDate }}</h1>
                 </div>
 
-                <div class="flex">
+                <!-- New -->
+                <div class="flex pl-10">
                     <!-- 1 -->
                     <div class="grow">
-                        <!-- Maklumat Diri -->
-                        <div>
-                            <h1 class="font-semibold my-2">
+                        <!-- Pelajar -->
+                        <div class="flex flex-col w-128 mb-5">
+                            <h1
+                                class="font-semibold my-2 bg-gray-600 text-sm text-white py-2 px-2 rounded-2xl text-center w-full"
+                            >
                                 Maklumat Diri Pelajar
                             </h1>
-                            <table class="text-sm w-4/5">
+                            <table class="text-sm bg-slate-100 rounded-2xl">
                                 <tr>
-                                    <td class="font-semibold pb-2 w-3/6">
+                                    <td class="font-semibold py-3 pl-4">
                                         Nama Penuh:
                                     </td>
-                                    <td class="text-fontgrey font-medium">
+                                    <td
+                                        class="font-semibold py-3 px-4 text-center text-fontgrey"
+                                    >
                                         {{ this.studentData.nameStudent }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold pb-2">E-mel:</td>
-                                    <td class="text-fontgrey font-medium">
+                                    <td class="font-semibold pb-3 pl-4">
+                                        E-mel:
+                                    </td>
+                                    <td
+                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    >
                                         {{ this.user.email }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold pb-2">
+                                    <td class="font-semibold pb-3 pl-4">
                                         No Kad Pengenalan:
                                     </td>
-                                    <td class="text-fontgrey font-medium">
+                                    <td
+                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    >
                                         {{ this.studentData.noICStudent }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold pb-2">
+                                    <td class="font-semibold pb-3 pl-4">
                                         Tingkatan:
                                     </td>
-                                    <td class="text-fontgrey font-medium">
+                                    <td
+                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    >
                                         {{ this.studentData.form }}
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <!-- Kedatangan -->
-                        <div class="mt-10">
-                            <h1 class="font-semibold my-2">Kedatangan</h1>
-                            <table class="text-sm w-4/5">
-                                <tr>
-                                    <td class="font-semibold pb-2 w-3/6">
-                                        Jumlah Kelas Yang Diambil:
-                                    </td>
-                                    <td class="text-fontgrey font-medium">
-                                        {{ this.studentSubject.length }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pb-2">
-                                        Kelas Hadir:
-                                    </td>
-                                    <td class="text-fontgrey font-medium">
-                                        {{ this.totalAttend.length }} /
-                                        {{ this.attendanceCurrentMonth.length }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pb-2">
-                                        Peratus Hadir:
-                                    </td>
-                                    <td class="text-fontgrey font-medium">
-                                        {{
-                                            (
-                                                (this.totalAttend.length /
-                                                    this.attendanceCurrentMonth
-                                                        .length) *
-                                                100
-                                            ).toFixed(2)
-                                        }}%
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pb-2">
-                                        Kelas Tidak Hadir:
-                                    </td>
-                                    <td class="text-fontgrey font-medium">
-                                        {{
-                                            this.attendanceCurrentMonth.length -
-                                            this.totalAttend.length
-                                        }}
-                                        /
-                                        {{ this.attendanceCurrentMonth.length }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pb-2">
-                                        Peratus Tidak Hadir:
-                                    </td>
-                                    <td class="text-fontgrey font-medium">
-                                        {{
-                                            100 -
-                                            (
-                                                (this.totalAttend.length /
-                                                    this.attendanceCurrentMonth
-                                                        .length) *
-                                                100
-                                            ).toFixed(2)
-                                        }}%
                                     </td>
                                 </tr>
                             </table>
@@ -163,47 +109,57 @@ async function ubahKataLaluan() {
                     </div>
                     <!-- 2 -->
                     <div class="grow">
-                        <!-- Kelas -->
-                        <h1 class="font-semibold my-2">Kelas</h1>
-                        <div
-                            v-for="subjectData in studentSubject"
-                            :key="subjectData.idStudentSubject"
-                        >
-                            <p class="text-sm font-semibold pb-2">
-                                &bull; {{ subjectData.subject.name }}
-                            </p>
-                        </div>
-
                         <!-- Yuran -->
-                        <div class="mt-12">
-                            <h1 class="font-semibold my-2">Yuran</h1>
-                            <table class="text-sm w-4/5">
+                        <div class="flex flex-col w-96 mb-5">
+                            <h1
+                                class="font-semibold my-2 bg-gray-600 text-sm text-white py-2 px-2 rounded-2xl text-center w-full"
+                            >
+                                Yuran
+                            </h1>
+                            <table class="text-sm bg-slate-100 rounded-2xl">
                                 <tr>
-                                    <td class="font-semibold pb-2 w-3/6">
+                                    <td class="font-semibold py-3 pl-4">
                                         Jumlah Yuran:
                                     </td>
-                                    <td class="text-fontgrey font-medium">
+                                    <td
+                                        class="font-semibold py-3 px-4 text-center text-fontgrey"
+                                    >
                                         RM
-                                        {{
-                                            this.tuitionFeeCurrentMonth.length >
-                                            0
-                                                ? this.tuitionFeeCurrentMonth[0]
-                                                      .amount + ".00"
-                                                : "0.00"
-                                        }}
+                                        {{ tuitionFeeCurrentMonth.amount }}.00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold pb-2">
-                                        Yuran Belum Dibayar:
+                                    <td class="font-semibold pb-3 pl-4">
+                                        Yuran Telah Dibayar:
                                     </td>
-                                    <td class="text-fontgrey font-medium">
+                                    <td
+                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    >
                                         <p
                                             v-if="
-                                                this.tuitionFeeCurrentMonth
-                                                    .length > 0 &&
-                                                this.tuitionFeeCurrentMonth[0]
-                                                    .isPaid === true
+                                                tuitionFeeCurrentMonth.statusPayment ===
+                                                'Telah Dibayar'
+                                            "
+                                        >
+                                            RM
+                                            {{
+                                                tuitionFeeCurrentMonth.amount
+                                            }}.00
+                                        </p>
+                                        <p v-else>RM 0</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold pb-3 pl-4">
+                                        Yuran Belum Dibayar:
+                                    </td>
+                                    <td
+                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    >
+                                        <p
+                                            v-if="
+                                                tuitionFeeCurrentMonth.statusPayment ===
+                                                'Telah Dibayar'
                                             "
                                         >
                                             RM 0
@@ -211,29 +167,82 @@ async function ubahKataLaluan() {
                                         <p v-else>
                                             RM
                                             {{
-                                                this.tuitionFeeCurrentMonth
-                                                    .length > 0
-                                                    ? this
-                                                          .tuitionFeeCurrentMonth[0]
-                                                          .amount + ".00"
-                                                    : "0.00"
-                                            }}
+                                                tuitionFeeCurrentMonth.amount
+                                            }}.00
                                         </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold pb-2">Bulan:</td>
-                                    <td class="text-fontgrey font-medium">
-                                        {{ this.formattedDate }}
                                     </td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 2 -->
+                <div class="flex justify-center gap-10">
+                    <!-- Kedatangan -->
+                    <div
+                        class="flex flex-col w-72 mb-5"
+                        v-for="subjectData in subjectsData"
+                    >
+                        <h1
+                            class="font-semibold my-2 bg-gray-600 text-sm text-white py-2 px-2 rounded-2xl text-center w-full"
+                        >
+                            Subjek {{ subjectData.subjectName }}
+                        </h1>
+                        <table class="text-sm bg-slate-100 rounded-2xl">
+                            <tr>
+                                <td class="font-semibold py-3 pl-4">
+                                    Jumlah Kelas:
+                                </td>
+                                <td
+                                    class="font-semibold py-3 px-4 text-center text-fontgrey"
+                                >
+                                    {{ subjectData.totalClass }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pb-3 pl-4">
+                                    Kelas Hadir:
+                                </td>
+                                <td
+                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                >
+                                    {{ subjectData.attendanceCount }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pb-3 pl-4">
+                                    Peratus Hadir:
+                                </td>
+                                <td
+                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                >
+                                    {{ subjectData.attendancePercentage }}%
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pb-3 pl-4">
+                                    Kelas Tidak Hadir:
+                                </td>
+                                <td
+                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                >
+                                    {{ subjectData.classNotAttended }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold pb-3 pl-4">
+                                    Peratus Tidak Hadir:
+                                </td>
+                                <td
+                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                >
+                                    {{ subjectData.notAttendancePercentage }}%
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -255,6 +264,7 @@ export default {
             totalAttend: [],
             tuitionFee: [],
             tuitionFeeCurrentMonth: [],
+            subjectsData: {},
         };
     },
 
@@ -262,10 +272,9 @@ export default {
         // Get Student Data
         axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
             this.user = response.data;
-            // console.log(response.data.student.idStudent);
+
             this.studentId = response.data.student.idStudent;
 
-            // console.log(this.studentId);
             axios
                 .get(`http://localhost:3001/api/student/${this.studentId}`)
                 .then((response) => {
@@ -273,7 +282,6 @@ export default {
                     this.attendances = this.studentData.student_Attendance;
                     this.studentSubject = this.studentData.student_Subject;
                     this.tuitionFee = this.studentData.tuitionFee;
-                    console.log(this.tuitionFee);
 
                     this.filterAttendanceCurrentMonth();
                     this.filterTotalAttend();
@@ -298,6 +306,25 @@ export default {
             this.month = monthNames[currentDate.getMonth()];
             const currentYear = currentDate.getFullYear();
             this.formattedDate = `${this.month} ${currentYear}`;
+
+            // Get data tuition fee
+            axios
+                .get(
+                    `http://localhost:3001/api/tuitionfeereport/${this.studentId}`
+                )
+                .then((response) => {
+                    this.tuitionFeeCurrentMonth = response.data;
+                    console.log(this.tuitionFeeCurrentMonth);
+                });
+
+            // Get data attendance
+            axios
+                .get(
+                    `http://localhost:3001/api/student/classes/${this.studentId}`
+                )
+                .then((response) => {
+                    this.subjectsData = response.data.subjectData;
+                });
         });
     },
 
@@ -328,16 +355,16 @@ export default {
             return this.totalAttend;
         },
 
-        filterTuitionFee() {
-            const currentDate = new Date();
-            const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
-            console.log(currentMonth);
+        // filterTuitionFee() {
+        //     const currentDate = new Date();
+        //     const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
 
-            this.tuitionFeeCurrentMonth = this.tuitionFee.filter(
-                (tuitionFee) => tuitionFee.month === currentMonth
-            );
-            console.log(this.tuitionFeeCurrentMonth);
-        },
+        //     this.tuitionFeeCurrentMonth = this.tuitionFee.filter(
+        //         (tuitionFee) => tuitionFee.month === currentMonth
+        //     );
+
+        //     console.log(this.tuitionFeeCurrentMonth);
+        // },
     },
 };
 </script>

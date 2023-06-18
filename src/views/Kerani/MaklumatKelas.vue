@@ -197,6 +197,7 @@ document.title = "Maklumat Kelas | Kerani";
 </template>
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -217,7 +218,7 @@ export default {
 
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/subject/${this.idSubject}`
+            baseAPI + `/api/subject/${this.idSubject}`
         );
         this.subjectData = response.data;
         if (this.subjectData && this.subjectData.teacher) {
@@ -227,9 +228,7 @@ export default {
         }
 
         // get all teachers
-        const responseTeacher = await axios.get(
-            `http://localhost:3001/api/teachers`
-        );
+        const responseTeacher = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = responseTeacher.data;
 
         this.malayMonths = [
@@ -246,20 +245,9 @@ export default {
             "November",
             "Disember",
         ];
-        // this.monthName = malayMonthNames[this.month - 1];
-        console.log(this.monthName);
 
         const currentMonthIndex = new Date().getMonth();
         const monthOptions = [];
-
-        // for (let i = currentMonthIndex; i >= 0; i--) {
-        //     const monthValue = i + 1;
-        //     const monthName = this.malayMonthNames[i];
-        //     monthOptions.push({ value: monthValue, text: monthName });
-        // }
-
-        // // Set the options array in your Vue.js component's data
-        // this.monthOptions = monthOptions.reverse();
 
         // Set the default value of the month select element to the current month
         this.month = currentMonthIndex + 1;
@@ -288,11 +276,12 @@ export default {
             (this.showAttendance = true),
                 await axios
                     .get(
-                        `http://localhost:3001/api/attendance?month=${this.month}&year=${this.year}&subjectId=${this.idSubject}`
+                        baseAPI +
+                            `/api/attendance?month=${this.month}&year=${this.year}&subjectId=${this.idSubject}`
                     )
                     .then((response) => {
                         this.attendanceData = response.data;
-                        console.log(this.attendanceData);
+
                         this.attendanceData.forEach((attendance) => {
                             attendance.student_Attendance.forEach(
                                 (studentAttendance) => {

@@ -57,7 +57,7 @@ document.title = "Kelas | Kerani";
                                 {{
                                     subjectData.teacher
                                         ? subjectData.teacher.nameTeacher
-                                        : "null"
+                                        : "N/A"
                                 }}
                             </label>
                         </div>
@@ -95,6 +95,7 @@ document.title = "Kelas | Kerani";
 </template>
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -105,7 +106,7 @@ export default {
         };
     },
     async mounted() {
-        const response = await axios.get(`http://localhost:3001/api/subjects`);
+        const response = await axios.get(baseAPI + `/api/subjects`);
         this.subjects = response.data;
     },
 };

@@ -32,19 +32,6 @@ document.title = "Laporan | Kerani";
                 >
             </p>
 
-            <!-- <h1 class="mt-3 mb-2 font-semibold text-lg">
-                Graf Statistik Bulanan
-            </h1> -->
-
-            <!-- Graf Bilangan pelajar -->
-            <!-- <div
-                class="bg-white rounded-2xl py-5 px-5 shadow-login inline-block"
-            >
-                <h1 class="mb-2 font-semibold text-base">
-                    Laporan Statistik Bilangan Pelajar
-                </h1>
-            </div> -->
-
             <!-- Laporan Bulanan -->
             <!-- <h1 class="mt-3 mb-2 font-semibold text-lg">Laporan Bulanan</h1> -->
             <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
@@ -391,6 +378,7 @@ document.title = "Laporan | Kerani";
 <script>
 import axios from "axios";
 import html2pdf from "html2pdf.js";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -425,8 +413,6 @@ export default {
             "November",
             "Disember",
         ];
-        // this.monthName = malayMonthNames[this.month - 1];
-        console.log(this.monthName);
 
         const currentMonthIndex = new Date().getMonth();
         const monthOptions = [];
@@ -470,7 +456,7 @@ export default {
             // Make the API request
             try {
                 const response = await axios.post(
-                    "http://localhost:3001/api/report/students",
+                    baseAPI + "/api/report/students",
                     {
                         month: this.month,
                         year: this.year,
@@ -485,14 +471,13 @@ export default {
             // Make the API request
             try {
                 const response = await axios.post(
-                    "http://localhost:3001/api/report/teachers",
+                    baseAPI + "/api/report/teachers",
                     {
                         month: this.month,
                         year: this.year,
                     }
                 );
                 this.teachersData = response.data;
-                console.log(this.teachersData);
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -501,7 +486,7 @@ export default {
             // Make the API request
             try {
                 const response = await axios.post(
-                    "http://localhost:3001/api/report/subjects",
+                    baseAPI + "/api/report/subjects",
                     {
                         month: this.month,
                         year: this.year,
@@ -510,8 +495,6 @@ export default {
                 this.subjectsData = response.data;
                 this.subjectStudentCounts =
                     this.subjectsData.subjectStudentCounts;
-                console.log(this.subjectStudentCounts);
-                console.log(this.subjectsData);
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -520,14 +503,13 @@ export default {
             // Make the API request
             try {
                 const response = await axios.post(
-                    "http://localhost:3001/api/report/attendance",
+                    baseAPI + "/api/report/attendance",
                     {
                         month: this.month,
                         year: this.year,
                     }
                 );
                 this.attendanceData = response.data;
-                console.log(this.attendanceData);
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -536,14 +518,13 @@ export default {
             // Make the API request
             try {
                 const response = await axios.post(
-                    "http://localhost:3001/api/report/tuitionfees",
+                    baseAPI + "/api/report/tuitionfees",
                     {
                         month: this.month,
                         year: this.year,
                     }
                 );
                 this.tuitionFeesData = response.data;
-                console.log(this.tuitionFeesData);
             } catch (error) {
                 console.error("Error:", error);
             }

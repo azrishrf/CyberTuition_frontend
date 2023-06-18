@@ -118,6 +118,7 @@ document.title = "Pengesahan | Kerani";
 </template>
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -129,15 +130,13 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/students_notregistered`
+            baseAPI + `/api/students_notregistered`
         );
         this.students = response.data;
     },
     methods: {
         async lihatButiran(id) {
-            const response = await axios.get(
-                `http://localhost:3001/api/student/${id}`
-            );
+            const response = await axios.get(baseAPI + `/api/student/${id}`);
             pengesahan.value = response;
             router.push("/kerani/pelajar/pengesahan/maklumatpengesahan");
         },

@@ -172,6 +172,7 @@ document.title = "Kemaskini Pelajar | Kerani";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import KemaskiniMaklumatPelajar from "./KemaskiniPelajarChild.vue";
+import { baseAPI } from "../../stores";
 
 export default {
     components: {
@@ -207,16 +208,14 @@ export default {
 
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/student/${this.idStudent}`
+            baseAPI + `/api/student/${this.idStudent}`
         );
         this.studentData = response.data;
 
         this.studentSubject = this.studentData.student_Subject;
         this.userData = this.studentData.user;
         // Get all subject
-        const responseSubject = await axios.get(
-            `http://localhost:3001/api/subjects`
-        );
+        const responseSubject = await axios.get(baseAPI + `/api/subjects`);
         this.allSubjects = responseSubject.data;
 
         // Filter out subjects that the student has registered for
@@ -247,7 +246,6 @@ export default {
         // open dialog subjects
         openDialog() {
             this.showDialog = true;
-            console.log(this.selectedSubjects);
         },
         // toggle confirm delete student
         toggleConfirmDelete(idStudentSubject) {
@@ -258,19 +256,17 @@ export default {
         async deleteData() {
             await axios
                 .delete(
-                    `http://localhost:3001/api/student_subject/${this.selectedDeleteSubject}`
+                    baseAPI +
+                        `/api/student_subject/${this.selectedDeleteSubject}`
                 )
 
                 .then((response) => {
-                    console.log(response.data.subject);
-
                     this.studentSubject = this.studentSubject.filter(
                         (subject) =>
                             subject.idStudentSubject !==
                             this.selectedDeleteSubject
                     );
                     this.studentNotSubject.push(response.data.subject);
-                    console.log(this.selectedSubjects);
                 })
                 .catch((error) => console.log(error));
             this.toast.success("Subjek Telah Dipadam", {
@@ -286,8 +282,6 @@ export default {
             } else {
                 this.selectedSubjects.push(subject); // Add the subject to the array
             }
-            console.log(this.selectedSubjects);
-            // this.createTuitionFee();
         },
         // Add subject selected for student
         async addSubject() {
@@ -296,18 +290,13 @@ export default {
                     const subject = this.allSubjects.find(
                         (s) => s.name === subjectName
                     );
-                    console.log(subject.idSubject);
 
                     await axios
-                        .post(
-                            "http://localhost:3001/api/student_subject/addsubject",
-                            {
-                                idSubject: subject.idSubject,
-                                idStudent: this.idStudent,
-                            }
-                        )
+                        .post(baseAPI + "/api/student_subject/addsubject", {
+                            idSubject: subject.idSubject,
+                            idStudent: this.idStudent,
+                        })
                         .then((response) => {
-                            console.log(response.data);
                             const addedSubject = response.data;
                             this.studentSubject.push(addedSubject);
                             this.studentNotSubject =
@@ -317,7 +306,6 @@ export default {
                                         addedSubject.subject.idSubject
                                 );
                         });
-                    // console.log(subject);
                 }
 
                 this.toast.success("Kemaskini Subjek Berjaya", {

@@ -156,6 +156,7 @@ import SubmitButton from "../../components/SubmitButton.vue";
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -172,15 +173,13 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/student/${this.idStudent}`
+            baseAPI + `/api/student/${this.idStudent}`
         );
         this.studentData = response.data;
         this.studentSubject = this.studentData.student_Subject;
 
         // Get all subject
-        const responseSubject = await axios.get(
-            `http://localhost:3001/api/subjects`
-        );
+        const responseSubject = await axios.get(baseAPI + `/api/subjects`);
         this.allSubjects = responseSubject.data;
 
         // Filter out subjects that the student has registered for
@@ -232,7 +231,7 @@ export default {
 
                 await axios
                     .put(
-                        `http://localhost:3001/api/student/${this.studentData.idStudent}`,
+                        baseAPI + `/api/student/${this.studentData.idStudent}`,
                         updatedStudent
                     )
                     .then((response) => {

@@ -205,6 +205,7 @@ import SubmitButton from "../../components/SubmitButton.vue";
 
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -218,7 +219,7 @@ export default {
     },
     async mounted() {
         // Fetch all subjects and store them in the `subjects` array
-        const response = await axios.get("http://localhost:3001/api/subjects");
+        const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
     },
     methods: {
@@ -238,7 +239,7 @@ export default {
             };
 
             axios
-                .post("http://localhost:3001/api/user", user)
+                .post(baseAPI + "/api/user", user)
                 .then((response) => {
                     // Extract the user ID from the response data
                     const userId = response.data.idUser;
@@ -246,28 +247,23 @@ export default {
                     teacher.idUser = userId;
                     // Make the POST request to create the student
                     axios
-                        .post("http://localhost:3001/api/teacher", teacher)
+                        .post(baseAPI + "/api/teacher", teacher)
                         .then((response) => {
-                            console.log("Teacher created:", response.data);
                             const teacherId = response.data.idTeacher;
                             // Associate the teacher with the selected subjects
                             this.selectedSubjects.forEach((subjectName) => {
                                 const subject = this.subjects.find(
                                     (s) => s.name === subjectName
                                 );
-                                // console.log(subject.idSubject);
+
                                 axios
                                     .put(
-                                        `http://localhost:3001/api/subject/${subject.idSubject}`,
+                                        baseAPI +
+                                            `/api/subject/${subject.idSubject}`,
                                         {
                                             idTeacher: teacherId,
                                         }
                                     )
-                                    .then((response) => {
-                                        console.log(
-                                            `Updated subject ${subject.idSubject}`
-                                        );
-                                    })
                                     .catch((error) => {
                                         console.error(
                                             "Error updating subject:",
@@ -275,7 +271,7 @@ export default {
                                         );
                                     });
                             });
-                            console.log("Subjects updated with teacher ID");
+
                             alert("Register success!");
                         })
                         .catch((error) => {

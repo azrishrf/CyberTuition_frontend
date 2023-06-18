@@ -267,7 +267,7 @@ import SubmitButton from "../../components/SubmitButton.vue";
 
 <script>
 import axios from "axios";
-import { baseAPI } from "../../stores/index.js";
+import { baseAPI } from "../../stores";
 import { useToast } from "vue-toastification";
 
 export default {
@@ -294,7 +294,7 @@ export default {
     },
     async mounted() {
         // Fetch all subjects and store them in the `subjects` array
-        const response = await axios.get("http://localhost:3001/api/subjects");
+        const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
     },
     methods: {

@@ -31,16 +31,16 @@ document.title = "Yuran | Kerani";
                 >
             </p>
             <!-- Content -->
-            <div
-                class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login"
-               
-            >
+            <div class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login">
                 <h1 class="mb-4 font-semibold text-lg">
                     Pengesahan Resit Bank
                 </h1>
 
                 <!-- Jadual Senarai Pelajar -->
-                <table class="w-11/12 text-center"  v-if="receiptsBank.length > 0">
+                <table
+                    class="w-11/12 text-center"
+                    v-if="receiptsBank.length > 0"
+                >
                     <tr class="bg-red text-sm text-white">
                         <th class="font-semibold py-2 px-2 rounded-l-2xl">
                             No
@@ -88,7 +88,8 @@ document.title = "Yuran | Kerani";
                 </table>
                 <div v-else>
                     <p class="text-center text-red font-semibold pb-2">
-                        Tiada data resit bank yang memerlukan pengesahan buat masa ini
+                        Tiada data resit bank yang memerlukan pengesahan buat
+                        masa ini
                     </p>
                 </div>
             </div>
@@ -242,6 +243,7 @@ document.title = "Yuran | Kerani";
 
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -256,11 +258,8 @@ export default {
         };
     },
     async mounted() {
-        const response = await axios.get(
-            `http://localhost:3001/api/receiptbank`
-        );
+        const response = await axios.get(baseAPI + `/api/receiptbank`);
         this.receiptsBank = response.data;
-        console.log(this.receiptsBank);
 
         this.malayMonths = [
             "Januari",
@@ -276,20 +275,9 @@ export default {
             "November",
             "Disember",
         ];
-        // this.monthName = malayMonthNames[this.month - 1];
-        console.log(this.monthName);
 
         const currentMonthIndex = new Date().getMonth();
         const monthOptions = [];
-
-        // for (let i = currentMonthIndex; i >= 0; i--) {
-        //     const monthValue = i + 1;
-        //     const monthName = this.malayMonths[i];
-        //     monthOptions.push({ value: monthValue, text: monthName });
-        // }
-
-        // // Set the options array in your Vue.js component's data
-        // this.monthOptions = monthOptions.reverse();
 
         // // Set the default value of the month select element to the current month
         this.month = currentMonthIndex + 1;
@@ -313,16 +301,6 @@ export default {
         this.year = currentYear;
 
         this.submit();
-
-        // try {
-        //     const response = await axios.get(
-        //         `http://localhost:3001/api/tuitionfee/monthyear/${this.month}/${this.year}`
-        //     );
-        //     this.tuitionFees = response.data;
-        //     console.log(this.tuitionFees);
-        // } catch (error) {
-        //     console.error("Error:", error);
-        // }
     },
     methods: {
         formatDate(date) {
@@ -337,15 +315,13 @@ export default {
         },
         async submit() {
             this.isDataAvailable = true;
-            console.log(this.month);
-            console.log(this.year);
 
             try {
                 const response = await axios.get(
-                    `http://localhost:3001/api/tuitionfee/monthyear/${this.month}/${this.year}`
+                    baseAPI +
+                        `/api/tuitionfee/monthyear/${this.month}/${this.year}`
                 );
                 this.tuitionFees = response.data;
-                console.log(this.tuitionFees);
             } catch (error) {
                 console.error("Error:", error);
             }

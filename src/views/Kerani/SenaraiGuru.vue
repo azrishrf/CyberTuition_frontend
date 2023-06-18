@@ -138,6 +138,7 @@ document.title = "Senarai Guru | Kerani";
 </template>
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -148,30 +149,28 @@ export default {
         };
     },
     async mounted() {
-        const response = await axios.get(`http://localhost:3001/api/teachers`);
+        const response = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = response.data;
     },
     methods: {
         toggleConfirmDelete(idTeacher) {
             this.selectedTeacher = idTeacher;
-            console.log(idTeacher);
+ 
             this.isOpen = !this.isOpen;
         },
 
         async deleteData() {
             await axios
-                .delete(
-                    `http://localhost:3001/api/teacher/${this.selectedTeacher}`
-                )
+                .delete(baseAPI + `/api/teacher/${this.selectedTeacher}`)
 
                 .then((response) => {
-                    console.log("Teacher deleted successfully");
+                  
                     this.isOpen = !this.isOpen;
-                    console.log(this.selectedTeacher);
+                   
                     this.teachers = this.teachers.filter(
                         (teacher) => teacher.idTeacher !== this.selectedTeacher
                     );
-                    console.log(this.teachers);
+                
                 })
                 .catch((error) => console.log(error));
         },

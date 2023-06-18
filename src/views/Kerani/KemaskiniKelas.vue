@@ -89,6 +89,8 @@ import SubmitButton from "../../components/SubmitButton.vue";
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
+
 export default {
     data() {
         return {
@@ -101,7 +103,7 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/subject/${this.idSubject}`
+            baseAPI + `/api/subject/${this.idSubject}`
         );
         this.subjectData = response.data;
         if (this.subjectData && this.subjectData.teacher) {
@@ -111,15 +113,13 @@ export default {
         }
 
         // get all teachers
-        const responseTeacher = await axios.get(
-            `http://localhost:3001/api/teachers`
-        );
+        const responseTeacher = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = responseTeacher.data;
     },
     methods: {
         async updateSubject() {
             const response = await axios.get(
-                `http://localhost:3001/api/teacher/id/${this.teacherData.nameTeacher}`
+                baseAPI + `/api/teacher/id/${this.teacherData.nameTeacher}`
             );
             const teacherId = response.data;
 
@@ -127,11 +127,11 @@ export default {
                 name: this.subjectData.name,
                 time: this.subjectData.time,
                 day: this.subjectData.day,
-                idTeacher: teacherId, // Add this line
+                idTeacher: teacherId,
             };
 
             await axios.put(
-                `http://localhost:3001/api/subject/${this.subjectData.idSubject}`,
+                baseAPI + `/api/subject/${this.subjectData.idSubject}`,
                 updatedSubject
             );
 

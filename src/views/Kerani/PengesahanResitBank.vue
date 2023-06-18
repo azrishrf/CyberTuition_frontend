@@ -175,9 +175,11 @@ document.title = "Pengesahan Resit Bank | Kerani";
             <!-- Dialog cancel receipt bank -->
             <div
                 v-if="showDialog"
-                class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-10 "
+                class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-10"
             >
-                <div class="w-2/6 bg-white px-3 py-4 top-1/3 rounded-xl border-2 border-gray-300">
+                <div
+                    class="w-2/6 bg-white px-3 py-4 top-1/3 rounded-xl border-2 border-gray-300"
+                >
                     <div>
                         <i
                             class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
@@ -213,6 +215,7 @@ document.title = "Pengesahan Resit Bank | Kerani";
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -229,7 +232,7 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/receiptbank/id/${this.receiptsBankid}`
+            baseAPI + `/api/receiptbank/id/${this.receiptsBankid}`
         );
         this.receiptBankData = response.data;
         this.tuitionFeeData = this.receiptBankData.tuitionFee;
@@ -256,7 +259,7 @@ export default {
 
         // Fetch the Subject data from the server using Prisma
         axios
-            .get(`http://localhost:3001/api/subjects`)
+            .get(baseAPI + `/api/subjects`)
             .then((response) => {
                 const subjects = response.data;
 
@@ -268,9 +271,6 @@ export default {
                     const fee = subject ? parseInt(subject.fee) : 0;
                     return { name: subjectName, fee };
                 });
-
-                console.log(this.subjectsArray);
-                // this.totalFee = this.tuitionFee.amount;
             })
             .catch((error) => {
                 console.error(error);
@@ -291,11 +291,12 @@ export default {
         confirmReceiptBank() {
             axios
                 .put(
-                    `http://localhost:3001/api/tuitionfee/receiptbank/${this.tuitionFeeData.idTuitionFee}`
+                    baseAPI +
+                        `/api/tuitionfee/receiptbank/${this.tuitionFeeData.idTuitionFee}`
                 )
                 .then((response) => {
                     const confirmed = response.data;
-                    console.log(confirmed);
+
                     this.toast.success(
                         "Resit Bank Yang Dimuat Naik Oleh Pelajar Telah Disahkan",
                         {
@@ -315,11 +316,10 @@ export default {
         cancelReceiptBank() {
             axios
                 .delete(
-                    `http://localhost:3001/api/tuitionfee/receiptbank/${this.receiptsBankid}`
+                    baseAPI +
+                        `/api/tuitionfee/receiptbank/${this.receiptsBankid}`
                 )
                 .then((response) => {
-                    const deleted = response.data;
-                    console.log(deleted);
                     this.toast.warning(
                         "Resit Bank Yang Dimuat Naik Oleh Pelajar Telah Dibatalkan",
                         {

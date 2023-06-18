@@ -151,7 +151,7 @@ document.title = "Senarai Pelajar | Kerani";
 
 <script>
 import axios from "axios";
-// import { kemaskiniPelajar } from "../../stores/index";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -162,11 +162,8 @@ export default {
         };
     },
     async mounted() {
-        const response = await axios.get(
-            `http://localhost:3001/api/students_registered`
-        );
+        const response = await axios.get(baseAPI + `/api/students_registered`);
         this.students = response.data;
-        // Sort students based on registration date, with the latest registered student at the end
     },
     methods: {
         // toggle confirm delete student
@@ -177,12 +174,9 @@ export default {
         // Delete data
         async deleteData() {
             await axios
-                .delete(
-                    `http://localhost:3001/api/student/${this.selectedStudent}`
-                )
+                .delete(baseAPI + `/api/student/${this.selectedStudent}`)
 
                 .then((response) => {
-                    console.log("Student deleted successfully");
                     this.isOpen = !this.isOpen;
                     this.students = this.students.filter(
                         (student) => student.idStudent !== this.selectedStudent

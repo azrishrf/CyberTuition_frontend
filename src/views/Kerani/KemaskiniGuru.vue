@@ -103,91 +103,6 @@ document.title = "Kemaskini Guru | Kerani";
                         class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm h-16"
                     />
 
-                    <!-- Pilihan Subjek -->
-                    <!-- <h4 class="text-lg font-semibold mb-4">Pilihan Subjek</h4>
-
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Bahasa Malaysia"
-                            v-model="subjects"
-                            id="subjects"
-                        />
-                        Bahasa Malaysia
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Bahasa Inggeris"
-                            v-model="subjects"
-                        />
-                        Bahasa Inggeris
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Matematik"
-                            v-model="subjects"
-                        />
-                        Matematik
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Sains"
-                            v-model="subjects"
-                        />
-                        Sains
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Sejarah"
-                            v-model="subjects"
-                        />
-                        Sejarah
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Matematik Tambahan"
-                            v-model="subjects"
-                        />
-                        Matematik Tambahan
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Fizik"
-                            v-model="subjects"
-                        />
-                        Fizik
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Kimia"
-                            v-model="subjects"
-                        />
-                        Kimia
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Biologi"
-                            v-model="subjects"
-                        />
-                        Biologi
-                    </label>
-                    <label class="block mb-2 text-base">
-                        <input
-                            type="checkbox"
-                            value="Prinsip Perakaunan"
-                            v-model="subjects"
-                        />
-                        Prinsip Perakaunan
-                    </label> -->
-
                     <SubmitButton
                         type="submit"
                         txt="Sahkan"
@@ -207,6 +122,7 @@ document.title = "Kemaskini Guru | Kerani";
 </template>
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -219,7 +135,7 @@ export default {
 
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/teacher/${this.idTeacher}`
+            baseAPI + `/api/teacher/${this.idTeacher}`
         );
         this.teacherData = response.data;
         this.userData = this.teacherData.user;
@@ -238,14 +154,13 @@ export default {
             };
 
             await axios.put(
-                `http://localhost:3001/api/user/${this.userData.idUser}`,
+                baseAPI + `/api/user/${this.userData.idUser}`,
                 updatedUser
             );
             await axios.put(
-                `http://localhost:3001/api/teacher/${this.teacherData.idTeacher}`,
+                baseAPI + `/api/teacher/${this.teacherData.idTeacher}`,
                 updatedTeacher
             );
-            alert("Teacher data updated successfully!");
         },
     },
 };

@@ -189,6 +189,7 @@ document.title = "Maklumat Pengesahan | Kerani";
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -202,10 +203,9 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/student/${this.idStudent}`
+            baseAPI + `/api/student/${this.idStudent}`
         );
         this.studentData = response.data;
-        console.log(this.studentData);
         this.studentSubject = this.studentData.student_Subject;
         this.userData = this.studentData.user;
     },
@@ -217,7 +217,7 @@ export default {
                     isRegistered: true,
                 };
                 await axios.put(
-                    `http://localhost:3001/api/student/${idStudent}`,
+                    baseAPI + `/api/student/${idStudent}`,
                     updatedStudent
                 );
                 router.push("/kerani/pelajar/pengesahan");
@@ -231,9 +231,7 @@ export default {
         // Batalkan pendaftaran pelajar
         async batalkanPendaftaran() {
             try {
-                await axios.delete(
-                    `http://localhost:3001/api/student/${this.idStudent}`
-                );
+                await axios.delete(baseAPI + `/api/student/${this.idStudent}`);
                 router.push("/kerani/pelajar/pengesahan");
             } catch (error) {
                 return { error: error.message };
