@@ -1,6 +1,5 @@
 <script setup>
 import SubmitButton from "../components/SubmitButton.vue";
-import { ref } from "vue";
 import router from "../router";
 
 document.title = "Log Masuk";
@@ -20,7 +19,7 @@ document.title = "Log Masuk";
                 >
                     <i class="bi bi-person inline mr-3 text-grey text-lg"></i>
                     <input
-                        class="focus:outline-none w-full input"
+                        class="focus:outline-none w-full"
                         type="email"
                         placeholder="E-Mel"
                         v-model="email"
@@ -63,99 +62,88 @@ import { useToast } from "vue-toastification";
 import { baseAPI } from "../stores";
 
 export default {
-    setup() {
-        const email = ref(""); // Add this line to define the email variable
-        // Other setup logic...
-
+    data() {
         return {
-            email,
-            // Other returned values...
+            email: "",
+            password: "",
+            // shouldValidate: false,
+            toast: useToast(),
         };
     },
+    methods: {
+        // validate input
+        // validateInput(input) {
+        //     if (input === "") {
+        //         return "rgb(190 18 60)"; // Example: Set border color to red for empty input
+        //     }
+        // },
+        // check and send input to database to login
+        async login() {
+            // this.shouldValidate = true;
+            console.log(this.email);
+
+            if (!this.email || !this.password) {
+                this.toast.error("E-mel dan kata laluan diperlukan!", {
+                    timeout: 3000,
+                });
+            } else {
+                axios
+                    .post(baseAPI + "/api/login", {
+                        email: this.email,
+                        password: this.password,
+                    })
+                    .then(async (response) => {
+                        // Handle successful login
+                        sessionStorage.setItem(
+                            "idUser",
+                            JSON.stringify(response.data)
+                        );
+                        const responseUser = await axios.get(
+                            baseAPI + `/api/user/${response.data}`
+                        );
+
+                        if (
+                            responseUser.data.role === "Student" &&
+                            responseUser.data.student.isRegistered === true
+                        ) {
+                            this.toast.success("Log Masuk Berjaya", {
+                                timeout: 3000,
+                            });
+                            router.push("/pelajar/dashboard");
+                        } else if (responseUser.data.role === "Teacher") {
+                            this.toast.success("Log Masuk Berjaya", {
+                                timeout: 3000,
+                            });
+                            router.push("/guru/dashboard");
+                        } else if (responseUser.data.role === "Clerk") {
+                            this.toast.success("Log Masuk Berjaya", {
+                                timeout: 3000,
+                            });
+                            router.push("/kerani/dashboard");
+                        } else if (
+                            responseUser.data.student.isRegistered === false
+                        ) {
+                            this.toast.warning(
+                                "Akaun anda masih belum mendapatkan pengesahan",
+                                { timeout: 3000 }
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        // Handle error
+                        if (error.response && error.response.status === 401) {
+                            const errorMessage = error.response.data.error;
+
+                            this.toast.warning(errorMessage, { timeout: 3000 });
+                        }
+                    });
+            }
+        },
+    },
 };
-// export default {
-//     data() {
-//         return {
-//             email: "",
-//             password: "",
-//             // shouldValidate: false,
-//             toast: useToast(),
-//         };
-//     },
-//     methods: {
-//         // validate input
-//         // validateInput(input) {
-//         //     if (input === "") {
-//         //         return "rgb(190 18 60)"; // Example: Set border color to red for empty input
-//         //     }
-//         // },
-//         // check and send input to database to login
-//         async login() {
-//             // this.shouldValidate = true;
-//             console.log(this.email);
-
-//             if (!this.email || !this.password) {
-//                 this.toast.error("E-mel dan kata laluan diperlukan!", {
-//                     timeout: 3000,
-//                 });
-//             } else {
-//                 axios
-//                     .post(baseAPI + "/api/login", {
-//                         email: this.email,
-//                         password: this.password,
-//                     })
-//                     .then(async (response) => {
-//                         // Handle successful login
-//                         sessionStorage.setItem(
-//                             "idUser",
-//                             JSON.stringify(response.data)
-//                         );
-//                         const responseUser = await axios.get(
-//                             baseAPI + `/api/user/${response.data}`
-//                         );
-
-//                         if (
-//                             responseUser.data.role === "Student" &&
-//                             responseUser.data.student.isRegistered === true
-//                         ) {
-//                             this.toast.success("Log Masuk Berjaya", {
-//                                 timeout: 3000,
-//                             });
-//                             router.push("/pelajar/dashboard");
-//                         } else if (responseUser.data.role === "Teacher") {
-//                             this.toast.success("Log Masuk Berjaya", {
-//                                 timeout: 3000,
-//                             });
-//                             router.push("/guru/dashboard");
-//                         } else if (responseUser.data.role === "Clerk") {
-//                             this.toast.success("Log Masuk Berjaya", {
-//                                 timeout: 3000,
-//                             });
-//                             router.push("/kerani/dashboard");
-//                         } else if (
-//                             responseUser.data.student.isRegistered === false
-//                         ) {
-//                             this.toast.warning(
-//                                 "Akaun anda masih belum mendapatkan pengesahan",
-//                                 { timeout: 3000 }
-//                             );
-//                         }
-//                     })
-//                     .catch((error) => {
-//                         // Handle error
-//                         if (error.response && error.response.status === 401) {
-//                             const errorMessage = error.response.data.error;
-
-//                             this.toast.warning(errorMessage, { timeout: 3000 });
-//                         }
-//                     });
-//             }
-//         },
-//     },
-// };
 </script>
 
-<style>
+<!-- <style>
 .input:-webkit-autofill,
 .input:-webkit-autofill:hover,
 .input:-webkit-autofill:focus,
@@ -163,4 +151,4 @@ export default {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
     -webkit-text-fill-color: black !important;
 }
-</style>
+</style> -->
