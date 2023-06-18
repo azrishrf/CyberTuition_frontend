@@ -13,7 +13,7 @@ async function redirectlogin() {
 <template>
     <!-- Header -->
     <div class="bg-red pt-3 pb-3">
-        <img src="assets/Logo V1.jpg.png" class="w-40 ml-8 inline" />
+        <img src="/LogoCyberTuition.png" class="w-40 ml-8 inline" />
         <button
             class="px-6 py-2 mr-8 float-right bg-amber-500 text-white rounded-2xl text-sm font-bold hover:bg-orange-500"
             @click="redirectlogin()"

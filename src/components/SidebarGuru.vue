@@ -36,7 +36,7 @@ async function logout() {
 <template>
     <div class="bg-white w-80 min-h-full shadow-home px-4">
         <img
-            src="../../../assets/LogoCyberTuition.png"
+            src="/LogoCyberTuition.png"
             class="w-44 m-auto mt-4 mb-5"
         />
         <!-- Nav Dashboard -->
