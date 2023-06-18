@@ -25,6 +25,12 @@ document.title = "Log Masuk";
                         v-model="email"
                     />
                 </div>
+                <input
+                    class="focus:outline-none w-full"
+                    type="email"
+                    v-model="test"
+                    placeholder="E-Mel"
+                />
                 <!-- Password -->
                 <div
                     class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
@@ -67,6 +73,7 @@ export default {
             email: "",
             password: "",
             // shouldValidate: false,
+            test: "",
             toast: useToast(),
         };
     },
