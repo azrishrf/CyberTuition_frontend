@@ -45,7 +45,7 @@ async function ubahKataLaluan() {
             <div class="shadow-login bg-white py-7 px-36 rounded-2xl my-5">
                 <div class="text-center">
                     <img
-                        src="../../../assets/Logo V1.jpg.png"
+                        src="/LogoCyberTuition.png"
                         class="w-60 m-auto"
                     />
                     <h1 class="font-semibold">LAPORAN PELAJAR</h1>

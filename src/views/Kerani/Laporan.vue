@@ -96,10 +96,7 @@ document.title = "Laporan | Kerani";
                 id="data-laporan"
             >
                 <div class="text-center">
-                    <img
-                        src="../../../assets/Logo V1.jpg.png"
-                        class="w-60 m-auto"
-                    />
+                    <img src="/LogoCyberTuition.png" class="w-60 m-auto" />
                     <h1 class="font-semibold">LAPORAN BULANAN</h1>
                     <h1 class="font-semibold mb-5">
                         {{ monthName.toUpperCase() }} {{ year }}
