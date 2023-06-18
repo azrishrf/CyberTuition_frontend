@@ -192,17 +192,29 @@ document.title = "Kedatangan | Guru";
                     </h1>
 
                     <table
-                        class="w-11/12 text-center"
+                        class="text-center"
                         v-if="listStudentsAttendance.length > 0"
                     >
                         <tr class="bg-red text-sm text-white">
-                            <th class="font-semibold py-2 px-2 rounded-l-2xl">
+                            <th
+                                class="font-semibold py-2 px-2 rounded-l-2xl"
+                                style="width: 3rem"
+                            >
                                 No
                             </th>
-                            <th class="font-semibold">Nama Penuh</th>
-                            <th class="font-semibold">Tingkatan</th>
-                            <th class="font-semibold">Status</th>
-                            <th class="font-semibold rounded-r-2xl">
+                            <th class="font-semibold" style="width: 30rem">
+                                Nama Penuh
+                            </th>
+                            <th class="font-semibold" style="width: 8rem">
+                                Tingkatan
+                            </th>
+                            <th class="font-semibold" style="width: 17rem">
+                                Status
+                            </th>
+                            <th
+                                class="font-semibold rounded-r-2xl"
+                                style="width: 17rem"
+                            >
                                 Tindakan
                             </th>
                         </tr>
@@ -396,7 +408,7 @@ export default {
             // Create all attendance for student and set attend to false first
             axios
                 .post(
-                    `http://localhost:3001/api/student_attendance/${subjectId}/${attendanceId}`
+                    `http://localhost:3001/api/student_attendance/${subjectId}/${attendanceId}/${this.date}`
                 )
                 .then((response) => {
                     console.log(response.data);

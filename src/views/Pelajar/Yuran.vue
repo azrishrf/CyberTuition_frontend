@@ -116,7 +116,9 @@ async function ubahKataLaluan() {
                     </h1>
                     <table class="text-sm w-4/5">
                         <tr>
-                            <td class="font-semibold pb-3">Nama Penuh:</td>
+                            <td class="font-semibold pb-3 w-3/6">
+                                Nama Penuh:
+                            </td>
                             <td class="text-fontgrey font-medium pb-3">
                                 {{ studentData.nameStudent }}
                             </td>
@@ -149,6 +151,20 @@ async function ubahKataLaluan() {
                                 RM {{ totalFee.toFixed(2) }}
                             </td>
                         </tr>
+                        <tr
+                            v-if="
+                                tuitionFee.statusPayment === 'Telah Dibayar' ||
+                                tuitionFee.statusPayment ===
+                                    'Menunggu Pengesahan'
+                            "
+                        >
+                            <td class="font-semibold pb-3">
+                                Kaedah Pembayaran:
+                            </td>
+                            <td class="text-fontgrey font-medium pb-3">
+                                {{ tuitionFee.paymentMethod }}
+                            </td>
+                        </tr>
                         <tr>
                             <td class="font-semibold pb-2">
                                 Status Pembayaran:
@@ -178,7 +194,7 @@ async function ubahKataLaluan() {
                                         tuitionFee.statusPayment ===
                                         'Menunggu Pengesahan'
                                     "
-                                    class="bg-yellow-400 text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                    class="bg-yellow-400 text-white px-5 py-1 rounded-xl text-xs inline-block"
                                 >
                                     Menunggu Pengesahan
                                 </p>
@@ -186,29 +202,48 @@ async function ubahKataLaluan() {
                         </tr>
                     </table>
                 </div>
-                <table class="text-center my-3 ml-5 flex-1">
+                <table class="text-center my-auto ml-5 flex-1">
                     <tr class="bg-red text-sm text-white">
-                        <th class="font-semibold py-2 px-2 rounded-l-2xl">
+                        <th
+                            class="font-semibold py-2 px-2 rounded-l-2xl"
+                            style="height: 3rem"
+                        >
                             No
                         </th>
-                        <th class="font-semibold">Nama Kelas</th>
+                        <th class="font-semibold" style="height: 3rem">
+                            Nama Kelas
+                        </th>
 
-                        <th class="font-semibold rounded-r-2xl">Jumlah (RM)</th>
+                        <th
+                            class="font-semibold rounded-r-2xl"
+                            style="height: 3rem"
+                        >
+                            Jumlah (RM)
+                        </th>
                     </tr>
                     <tr
                         class="text-fontgrey text-sm border-b-2"
                         v-for="subjectData in subjectsArray"
                     >
-                        <td class="py-3 text-center">
+                        <td class="py-3 text-center" style="height: 3rem">
                             {{ subjectsArray.indexOf(subjectData) + 1 }}
                         </td>
-                        <td class="font-semibold">{{ subjectData.name }}</td>
-                        <td class="font-semibold">{{ subjectData.fee }}</td>
+                        <td class="font-semibold" style="height: 3rem">
+                            {{ subjectData.name }}
+                        </td>
+                        <td class="font-semibold" style="height: 3rem">
+                            {{ subjectData.fee }}
+                        </td>
                     </tr>
                     <tr class="text-sm bg-slate-200">
                         <td class="rounded-bl-2xl"></td>
-                        <td class="py-3 font-semibold">Jumlah Pembayaran</td>
-                        <td class="font-semibold rounded-br-2xl">
+                        <td class="py-3 font-semibold" style="height: 3rem">
+                            Jumlah Pembayaran
+                        </td>
+                        <td
+                            class="font-semibold rounded-br-2xl"
+                            style="height: 3rem"
+                        >
                             RM {{ totalFee }}
                         </td>
                     </tr>

@@ -31,13 +31,16 @@ document.title = "Yuran | Kerani";
                 >
             </p>
             <!-- Content -->
-            <div class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login">
+            <div
+                class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login"
+               
+            >
                 <h1 class="mb-4 font-semibold text-lg">
                     Pengesahan Resit Bank
                 </h1>
 
                 <!-- Jadual Senarai Pelajar -->
-                <table class="w-11/12 text-center">
+                <table class="w-11/12 text-center"  v-if="receiptsBank.length > 0">
                     <tr class="bg-red text-sm text-white">
                         <th class="font-semibold py-2 px-2 rounded-l-2xl">
                             No
@@ -83,6 +86,11 @@ document.title = "Yuran | Kerani";
                         </td>
                     </tr>
                 </table>
+                <div v-else>
+                    <p class="text-center text-red font-semibold pb-2">
+                        Tiada data resit bank yang memerlukan pengesahan buat masa ini
+                    </p>
+                </div>
             </div>
 
             <div class="bg-white my-6 rounded-2xl py-5 px-11 shadow-login">
@@ -132,89 +140,101 @@ document.title = "Yuran | Kerani";
                         <SubmitButton
                             type="button"
                             txt="Sahkan"
-                            class="px-8"
+                            class="px-8 bg-slate-700 hover:bg-slate-800"
                             @click="submit()"
                         />
                     </div>
                 </div>
+                <div v-if="tuitionFees.length > 0">
+                    <!-- Search bar -->
+                    <div class="relative">
+                        <input
+                            type="text"
+                            placeholder="Carian Nama Pelajar..."
+                            class="font-semibold border-2 border-slate-grey text-sm px-8 py-2 mb-6 rounded-xl w-11/12 flex justify-between items-center"
+                        />
+                        <i
+                            class="fa-solid fa-magnifying-glass text-grey absolute right-40 top-3"
+                        ></i>
+                    </div>
 
-                <!-- Search bar -->
-                <div class="relative">
-                    <input
-                        type="text"
-                        placeholder="Carian Nama Pelajar..."
-                        class="font-semibold border-2 border-slate-grey text-sm px-8 py-2 mb-6 rounded-xl w-11/12 flex justify-between items-center"
-                    />
-                    <i
-                        class="fa-solid fa-magnifying-glass text-grey absolute right-40 top-3"
-                    ></i>
+                    <!-- Jadual Senarai Pelajar -->
+                    <table class="w-11/12 text-center">
+                        <tr class="bg-red text-sm text-white">
+                            <th class="font-semibold py-2 px-2 rounded-l-2xl">
+                                No
+                            </th>
+                            <th class="font-semibold" style="width: 25rem">
+                                Nama Penuh
+                            </th>
+                            <th class="font-semibold">Tingkatan</th>
+                            <th class="font-semibold">Status Pembayaran</th>
+                            <th class="font-semibold rounded-r-2xl">
+                                Tindakan
+                            </th>
+                        </tr>
+
+                        <tr
+                            class="text-fontgrey text-sm border-b-2"
+                            v-for="studentData in tuitionFees"
+                        >
+                            <td class="py-3 text-center">
+                                {{ tuitionFees.indexOf(studentData) + 1 }}
+                            </td>
+                            <td class="font-semibold">
+                                {{ studentData.student.nameStudent }}
+                            </td>
+                            <td class="font-semibold">
+                                {{ studentData.student.form }}
+                            </td>
+                            <td class="font-semibold">
+                                <p
+                                    class="bg-green text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                    v-if="
+                                        studentData.statusPayment ===
+                                        'Telah Dibayar'
+                                    "
+                                >
+                                    Telah Dibayar
+                                </p>
+                                <p
+                                    class="bg-darkred text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                    v-if="
+                                        studentData.statusPayment ===
+                                        'Belum Dibayar'
+                                    "
+                                >
+                                    Belum Dibayar
+                                </p>
+                                <p
+                                    class="bg-yellow-400 text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                    v-if="
+                                        studentData.statusPayment ===
+                                        'Menunggu Pengesahan'
+                                    "
+                                >
+                                    Menunggu Pengesahan
+                                </p>
+                            </td>
+                            <td class="font-semibold">
+                                <router-link
+                                    v-bind:to="
+                                        `/kerani/yuran/penyatakewanganpelajar/` +
+                                        studentData.idTuitionFee
+                                    "
+                                    class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
+                                >
+                                    quick_reference_all
+                                </router-link>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-
-                <!-- Jadual Senarai Pelajar -->
-                <table class="w-11/12 text-center">
-                    <tr class="bg-red text-sm text-white">
-                        <th class="font-semibold py-2 px-2 rounded-l-2xl">
-                            No
-                        </th>
-                        <th class="font-semibold" style="width: 25rem">
-                            Nama Penuh
-                        </th>
-                        <th class="font-semibold">Tingkatan</th>
-                        <th class="font-semibold">Status Pembayaran</th>
-                        <th class="font-semibold rounded-r-2xl">Tindakan</th>
-                    </tr>
-
-                    <tr
-                        class="text-fontgrey text-sm border-b-2"
-                        v-for="studentData in tuitionFees"
-                    >
-                        <td class="py-3 text-center">
-                            {{ tuitionFees.indexOf(studentData) + 1 }}
-                        </td>
-                        <td class="font-semibold">
-                            {{ studentData.student.nameStudent }}
-                        </td>
-                        <td class="font-semibold">
-                            {{ studentData.student.form }}
-                        </td>
-                        <td class="font-semibold">
-                            <p
-                                class="bg-green text-white px-8 py-1 rounded-xl text-xs inline-block"
-                                v-if="
-                                    studentData.statusPayment ===
-                                    'Telah Dibayar'
-                                "
-                            >
-                                Telah Dibayar
-                            </p>
-                            <p
-                                class="bg-red text-white px-8 py-1 rounded-xl text-xs inline-block"
-                                v-if="
-                                    studentData.statusPayment ===
-                                    'Belum Dibayar'
-                                "
-                            >
-                                Belum Dibayar
-                            </p>
-                            <p
-                                class="bg-yellow-400 text-white px-8 py-1 rounded-xl text-xs inline-block"
-                                v-if="
-                                    studentData.statusPayment ===
-                                    'Menunggu Pengesahan'
-                                "
-                            >
-                                Menunggu Pengesahan
-                            </p>
-                        </td>
-                        <td class="font-semibold">
-                            <button
-                                class="material-symbols-outlined text-black mx-1 cursor-pointer hover:text-red"
-                            >
-                                quick_reference_all
-                            </button>
-                        </td>
-                    </tr>
-                </table>
+                <div v-else>
+                    <p class="text-center text-red font-semibold py-10">
+                        Tiada data yuran pelajar pada bulan yang dipilih
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -262,17 +282,25 @@ export default {
         const currentMonthIndex = new Date().getMonth();
         const monthOptions = [];
 
-        for (let i = currentMonthIndex; i >= 0; i--) {
+        // for (let i = currentMonthIndex; i >= 0; i--) {
+        //     const monthValue = i + 1;
+        //     const monthName = this.malayMonths[i];
+        //     monthOptions.push({ value: monthValue, text: monthName });
+        // }
+
+        // // Set the options array in your Vue.js component's data
+        // this.monthOptions = monthOptions.reverse();
+
+        // // Set the default value of the month select element to the current month
+        this.month = currentMonthIndex + 1;
+
+        for (let i = 0; i < 12; i++) {
             const monthValue = i + 1;
             const monthName = this.malayMonths[i];
             monthOptions.push({ value: monthValue, text: monthName });
         }
 
-        // Set the options array in your Vue.js component's data
-        this.monthOptions = monthOptions.reverse();
-
-        // Set the default value of the month select element to the current month
-        this.month = currentMonthIndex + 1;
+        this.monthOptions = monthOptions;
 
         const currentYear = new Date().getFullYear();
         const yearOptions = [];
@@ -284,15 +312,17 @@ export default {
         this.yearOptions = yearOptions.reverse();
         this.year = currentYear;
 
-        try {
-            const response = await axios.get(
-                `http://localhost:3001/api/tuitionfee/monthyear/${this.month}/${this.year}`
-            );
-            this.tuitionFees = response.data;
-            console.log(this.tuitionFees);
-        } catch (error) {
-            console.error("Error:", error);
-        }
+        this.submit();
+
+        // try {
+        //     const response = await axios.get(
+        //         `http://localhost:3001/api/tuitionfee/monthyear/${this.month}/${this.year}`
+        //     );
+        //     this.tuitionFees = response.data;
+        //     console.log(this.tuitionFees);
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
     },
     methods: {
         formatDate(date) {
@@ -306,6 +336,7 @@ export default {
             }/${year}`;
         },
         async submit() {
+            this.isDataAvailable = true;
             console.log(this.month);
             console.log(this.year);
 

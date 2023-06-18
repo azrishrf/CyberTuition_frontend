@@ -217,11 +217,6 @@ const router = createRouter({
             name: "guruKedatanganKodQR",
             component: () => import("../views/Guru/PaparanKodQR.vue"),
         },
-        {
-            path: "/guru/kedatangan/maklumatkedatangan",
-            name: "guruMaklumatKedatangan",
-            component: () => import("../views/Guru/MaklumatKedatangan.vue"),
-        },
     ],
     // linkActiveClass is for router-link classname in that particular router
     linkActiveClass: "routerlink-active-link",

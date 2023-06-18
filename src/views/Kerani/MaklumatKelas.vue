@@ -76,20 +76,28 @@ document.title = "Maklumat Kelas | Kerani";
                             </option>
                         </select>
                     </div>
+                    <div class="my-auto mt-9">
+                        <SubmitButton
+                            type="button"
+                            txt="Sahkan"
+                            class="px-8 bg-slate-700 hover:bg-slate-800"
+                            @click="submit()"
+                        />
+                    </div>
                 </div>
                 <p
                     class="error-message text-xs text-red grow mb-3 font-semibold"
                 >
                     {{ errorMessage }}
                 </p>
-                <div class="flex gap-6">
+                <!-- <div class="flex gap-6">
                     <SubmitButton
                         type="button"
                         txt="Sahkan"
                         class="px-8"
                         @click="submit()"
                     />
-                </div>
+                </div> -->
             </div>
             <!-- Content -->
             <div
@@ -197,7 +205,7 @@ export default {
             idSubject: router.currentRoute.value.params.id,
             teacherData: {},
             teachers: [],
-
+            monthName: "",
             month: "",
             year: "",
             monthOptions: "",
@@ -224,7 +232,7 @@ export default {
         );
         this.teachers = responseTeacher.data;
 
-        this.malayMonthNames = [
+        this.malayMonths = [
             "Januari",
             "Februari",
             "Mac",
@@ -244,17 +252,25 @@ export default {
         const currentMonthIndex = new Date().getMonth();
         const monthOptions = [];
 
-        for (let i = currentMonthIndex; i >= 0; i--) {
-            const monthValue = i + 1;
-            const monthName = this.malayMonthNames[i];
-            monthOptions.push({ value: monthValue, text: monthName });
-        }
+        // for (let i = currentMonthIndex; i >= 0; i--) {
+        //     const monthValue = i + 1;
+        //     const monthName = this.malayMonthNames[i];
+        //     monthOptions.push({ value: monthValue, text: monthName });
+        // }
 
-        // Set the options array in your Vue.js component's data
-        this.monthOptions = monthOptions.reverse();
+        // // Set the options array in your Vue.js component's data
+        // this.monthOptions = monthOptions.reverse();
 
         // Set the default value of the month select element to the current month
         this.month = currentMonthIndex + 1;
+
+        for (let i = 0; i < 12; i++) {
+            const monthValue = i + 1;
+            const monthName = this.malayMonths[i];
+            monthOptions.push({ value: monthValue, text: monthName });
+        }
+
+        this.monthOptions = monthOptions;
 
         const currentYear = new Date().getFullYear();
         const yearOptions = [];
@@ -265,6 +281,7 @@ export default {
         }
         this.yearOptions = yearOptions.reverse();
         this.year = currentYear;
+        this.submit();
     },
     methods: {
         async submit() {

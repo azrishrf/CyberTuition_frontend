@@ -3,6 +3,9 @@ import SidebarGuru from "../../components/SidebarGuru.vue";
 import router from "../../router";
 
 document.title = "Profil Diri | Guru";
+async function ubahKataLaluan() {
+    router.push("/guru/profil/katalaluan");
+}
 </script>
 
 <template>
@@ -39,7 +42,7 @@ document.title = "Profil Diri | Guru";
                     class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold float-right"
                     @click="kemaskiniProfilDiri()"
                 >
-                    <i class="fa-solid fa-pen-to-square text-xs"></i>
+                    <i class="fa-solid fa-pen-to-square text-xs mr-1"></i>
                     Kemaskini
                 </button>
                 <div>
@@ -90,7 +93,7 @@ document.title = "Profil Diri | Guru";
             </div>
 
             <!-- Ubah kata laluan -->
-            <!-- <div
+            <div
                 class="shadow-login bg-white py-4 px-5 rounded-2xl my-6 w-1/2 flex gap-10"
             >
                 <div>
@@ -102,7 +105,7 @@ document.title = "Profil Diri | Guru";
                         kata laluan yang kukuh.
                     </p>
                     <button
-                        class="bg-red text-white py-2 px-5 text-xs rounded-2xl font-semibold"
+                        class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold"
                         @click="ubahKataLaluan()"
                     >
                         Tekan disini
@@ -111,7 +114,7 @@ document.title = "Profil Diri | Guru";
                 <div>
                     <img src="../../../assets/password.png" class="w-48" />
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>

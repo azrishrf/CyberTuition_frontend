@@ -167,10 +167,44 @@ document.title = "Pengesahan Resit Bank | Kerani";
                 <button
                     txt="Batalkan"
                     class="bg-red text-white px-9 py-3 rounded-2xl hover:bg-darkred text-sm font-bold"
-                    @click="cancelReceiptBank()"
+                    @click="showDialogCancel()"
                 >
                     Batalkan
                 </button>
+            </div>
+            <!-- Dialog cancel receipt bank -->
+            <div
+                v-if="showDialog"
+                class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-10 "
+            >
+                <div class="w-2/6 bg-white px-3 py-4 top-1/3 rounded-xl border-2 border-gray-300">
+                    <div>
+                        <i
+                            class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
+                        ></i>
+
+                        <h1 class="font-semibold text-base text-left">
+                            Membatalkan Pengesahan Resit Bank
+                        </h1>
+                        <p class="font-normal text-xs text-left">
+                            Adakah anda pasti membatalkan resit bank yang dimuat
+                            naik oleh pelajar ini?
+                        </p>
+
+                        <button
+                            @click="cancelReceiptBank()"
+                            class="bg-red hover:bg-darkred text-white py-2 px-7 rounded-xl border-2 border-red hover:border-darkred float-right mr-1 ml-3 mt-5 font-semibold text-xs"
+                        >
+                            Ya
+                        </button>
+                        <button
+                            @click="showDialog = false"
+                            class="text-black hover:bg-slate-300 py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
+                        >
+                            Tidak
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -190,6 +224,7 @@ export default {
             malayMonths: "",
             subjectsArray: "",
             toast: useToast(),
+            showDialog: false,
         };
     },
     async mounted() {
@@ -273,7 +308,10 @@ export default {
                     console.error(error);
                 });
         },
-
+        // show dialog delete
+        showDialogCancel() {
+            this.showDialog = true;
+        },
         cancelReceiptBank() {
             axios
                 .delete(

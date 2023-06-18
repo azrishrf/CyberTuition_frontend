@@ -5,14 +5,14 @@ import router from "../../router";
 <template>
     <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
         <RouterLink
-            class="bg-red hover:bg-darkred text-white py-2 px-5 text-sm rounded-2xl font-semibold float-right"
+            class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold float-right"
             v-bind:to="
                 `/kerani/pelajar/senaraipelajar/kemaskinipelajar/` +
                 studentData.idStudent +
                 `/kemaskini`
             "
         >
-            <i class="fa-solid fa-pen-to-square mr-2"></i>
+            <i class="fa-solid fa-pen-to-square mr-1"></i>
             Kemaskini
         </RouterLink>
         <h1 class="text-lg font-semibold mt-2 mb-4">Maklumat Diri Pelajar</h1>
@@ -87,7 +87,6 @@ import router from "../../router";
 
 <script>
 import axios from "axios";
-import { useToast } from "vue-toastification";
 export default {
     data() {
         return {
@@ -104,7 +103,6 @@ export default {
                 noPhoneParent: "",
             },
             idStudent: router.currentRoute.value.params.id,
-            toast: useToast(),
         };
     },
     async mounted() {

@@ -1,27 +1,15 @@
 <script setup>
-// import { ref } from "vue";
 import SidebarGuru from "../../components/SidebarGuru.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 import router from "../../router";
-import KemaskiniPelajar from "../Kerani/KemaskiniPelajar.vue";
 
 document.title = "Profil Diri | Guru";
-
-// Kemaskin profil
-async function kemaskiniProfilDiri() {
-    router.push("/guru/profil/kemaskiniprofildiri");
-}
-// Ubah Kata Laluan
-async function ubahKataLaluan() {
-    router.push("/guru/profil/katalaluan");
-}
 </script>
 
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
         <SidebarGuru linkActive="profil" />
-
         <!-- Page Content -->
         <div class="w-full px-12 py-4">
             <!-- Top Bar -->
@@ -38,32 +26,62 @@ async function ubahKataLaluan() {
             <!-- Breadcrumbs -->
             <h1 class="my-2 font-semibold text-xl">PROFIL DIRI</h1>
             <p class="font-semibold text-xs inline mb-4">
-                Dashboard &nbsp; > &nbsp; Profil Diri &nbsp;
+                Dashboard &nbsp;> &nbsp;Profil Diri &nbsp;
                 <span class="font-semibold text-xs inline text-red"
-                    >> &nbsp; Kata Laluan</span
+                    >> &nbsp; Ubah Kata Laluan</span
                 >
             </p>
 
-            <!-- Ubah kata laluan-->
+            <!-- Ubah Kata Laluan -->
             <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
-                <div>
+                <form v-on:submit.prevent="updatePassword()">
                     <h1 class="text-base font-semibold mt-2 mb-4">
                         Ubah Kata Laluan
                     </h1>
                     <p class="text-sm mb-3">Kata Laluan Semasa</p>
                     <input
-                        type="text"
+                        type="password"
                         class="border-2 border-slate-grey rounded-md w-2/5 py-3 px-4 block mb-5 text-sm"
+                        v-model="currentPassword"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(currentPassword)
+                                : '',
+                        }"
                     />
                     <p class="text-sm mb-3">Kata Laluan Baru</p>
                     <input
-                        type="text"
-                        class="border-2 border-slate-grey rounded-md w-2/5 py-3 px-4 block mb-5 text-sm"
+                        type="password"
+                        class="border-2 rounded-md py-3 px-4 block w-2/5 text-sm focus:border-cyan-500 focus:outline-none"
+                        v-model="newPassword"
+                        @click="shouldValidatePassword = true"
+                        :style="{
+                            borderColor: shouldValidatePassword
+                                ? validateInputPassword(newPassword)
+                                : '',
+                        }"
                     />
-                    <p class="text-sm mb-3">Pengesahan Kata Laluan Baru</p>
+                    <p
+                        v-if="shouldValidatePassword"
+                        class="text-xs mt-2 md:mb-0 inline-block font-semibold text-gray-500"
+                    >
+                        * Kata laluan hendaklah sekurang-kurangnya 8 aksara
+                        panjang dan termasuk huruf besar, huruf kecil, nombor
+                        dan aksara khas.
+                    </p>
+                    <p class="text-sm mb-3 mt-5">Pengesahan Kata Laluan Baru</p>
                     <input
-                        type="text"
-                        class="border-2 border-slate-grey rounded-md w-2/5 py-3 px-4 block mb-5 text-sm"
+                        type="password"
+                        class="border-2 rounded-md w-2/5 py-3 mb-5 px-4 block text-sm focus:border-cyan-500 focus:outline-none"
+                        v-model="confirmNewPassword"
+                        @click="shouldValidateConfirmPassword = true"
+                        :style="{
+                            borderColor: shouldValidateConfirmPassword
+                                ? validateInputConfirmPassword(
+                                      confirmNewPassword
+                                  )
+                                : '',
+                        }"
                     />
                     <SubmitButton
                         type="submit"
@@ -72,13 +90,146 @@ async function ubahKataLaluan() {
                     />
                     <button
                         txt="Batalkan"
+                        type="button"
                         class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
                         @click="redirect()"
                     >
                         Batalkan
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
+
+export default {
+    data() {
+        return {
+            userEmail: "",
+            toast: useToast(),
+            shouldValidate: false,
+            shouldValidatePassword: false,
+            shouldValidateConfirmPassword: false,
+            currentPassword: "",
+            newPassword: "",
+            confirmNewPassword: "",
+        };
+    },
+
+    async mounted() {
+        // Get Student Data
+        axios
+            .get(baseAPI + `/api/user/${user}`)
+            .then((response) => {
+                this.userEmail = response.data.email;
+                console.log(this.userEmail);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    },
+    methods: {
+        validateInput(input) {
+            if (input === "") {
+                return "rgb(200 61 40)";
+            }
+        },
+        validateInputPassword(input) {
+            if (input.length < 8) {
+                return "rgb(200 61 40)"; // Set border color to red for passwords less than 8 characters
+            }
+            if (!/\d/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no number found
+            }
+            if (!/[a-z]/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no lowercase letter found
+            }
+            if (!/[A-Z]/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no uppercase letter found
+            }
+            if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(input)) {
+                return "rgb(200 61 40)"; // Set border color to red if no special character found
+            }
+            // shouldValidatePassword = false;
+            return ""; // No validation errors, no border color applied
+        },
+        validateInputConfirmPassword(input) {
+            if (input.length == 0) {
+                return "rgb(200 61 40)"; // Set border color to red for passwords less than 8 characters
+            }
+            if (input !== this.newPassword) {
+                return "rgb(200 61 40)"; // Set border color to red for passwords less than 8 characters
+            }
+            return ""; // No validation errors, no border color applied
+        },
+        // update profile
+        async updatePassword() {
+            this.shouldValidate = true;
+            if (
+                !this.currentPassword ||
+                !this.newPassword ||
+                !this.confirmNewPassword
+            ) {
+                this.toast.error("Sila isi semua maklumat!", {
+                    timeout: 3000,
+                });
+                window.scrollTo({
+                    top: window.innerHeight / 3,
+                    behavior: "smooth", // Use 'smooth' for smooth scrolling effect
+                });
+            } else if (this.newPassword !== this.confirmNewPassword) {
+                this.toast.error(
+                    "Kata Laluan dan Pengesahan Kata Laluan adalah tidak sama!",
+                    {
+                        timeout: 3000,
+                    }
+                );
+            } else {
+                const passwordValidationResult = this.validateInputPassword(
+                    this.newPassword
+                );
+                if (passwordValidationResult) {
+                    // Error: Password does not meet requirements
+                    this.toast.error("Kata Laluan Tidak Memenuhi Syarat", {
+                        timeout: 3000,
+                    });
+                } else {
+                    axios
+                        .post(baseAPI + "/api/password", {
+                            email: this.userEmail,
+                            currentPassword: this.currentPassword,
+                            newPassword: this.newPassword,
+                        })
+                        .then(async (response) => {
+                            this.toast.success("Ubah Kata Laluan Berjaya", {
+                                timeout: 3000,
+                            });
+                            router.push("/pelajar/profil");
+                        })
+                        .catch((error) => {
+                            // Handle error
+                            if (
+                                error.response &&
+                                error.response.status === 401
+                            ) {
+                                const errorMessage = error.response.data.error;
+                                this.toast.warning(errorMessage, {
+                                    timeout: 3000,
+                                });
+                            }
+                        });
+                }
+            }
+        },
+        redirect() {
+            router.push("/guru/profil");
+        },
+    },
+};
+</script>

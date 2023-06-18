@@ -196,7 +196,7 @@ export default {
     methods: {
         validateInput(input) {
             if (input === "") {
-                return "rgb(200 61 40)"; // Example: Set border color to red for empty input
+                return "rgb(200 61 40)";
             }
         },
         async register() {

@@ -108,7 +108,7 @@ document.title = "Dashboard | Pelajar";
                         <div class="flex justify-center w-full">
                             <img
                                 src="../../../assets/Payment Pending.jpg"
-                                alt="Payment Successful"
+                                alt="Payment Pending"
                                 class="w-72 h-full mb-5"
                             />
                         </div>

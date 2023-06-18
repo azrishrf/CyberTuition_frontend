@@ -28,7 +28,7 @@ document.title = "Laporan | Kerani";
             <p class="font-semibold text-xs inline mb-4">
                 Dashboard &nbsp;
                 <span class="font-semibold text-xs inline text-red">
-                    >> &nbsp; Laporan</span
+                    > &nbsp; Laporan</span
                 >
             </p>
 
@@ -49,7 +49,7 @@ document.title = "Laporan | Kerani";
             <!-- <h1 class="mt-3 mb-2 font-semibold text-lg">Laporan Bulanan</h1> -->
             <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
                 <div class="flex gap-20">
-                    <div class="">
+                    <div>
                         <!-- Bulan-->
                         <p class="text-sm mb-3">Bulan</p>
                         <select
@@ -67,7 +67,7 @@ document.title = "Laporan | Kerani";
                             </option>
                         </select>
                     </div>
-                    <div class="">
+                    <div>
                         <!-- Tahun -->
                         <p class="text-sm mb-3">Tahun</p>
                         <select
@@ -86,20 +86,20 @@ document.title = "Laporan | Kerani";
                             </option>
                         </select>
                     </div>
+                    <div class="my-auto mt-9">
+                        <SubmitButton
+                            type="button"
+                            txt="Sahkan"
+                            class="px-8 bg-slate-700 hover:bg-slate-800"
+                            @click="confirmForm()"
+                        />
+                    </div>
                 </div>
                 <p
                     class="error-message text-xs text-red grow mb-3 font-semibold"
                 >
                     {{ errorMessage }}
                 </p>
-                <div class="flex gap-6">
-                    <SubmitButton
-                        type="button"
-                        txt="Sahkan"
-                        class="px-8"
-                        @click="confirmForm()"
-                    />
-                </div>
             </div>
 
             <!-- Data Laporan -->
@@ -249,7 +249,7 @@ document.title = "Laporan | Kerani";
                                 </tr>
                                 <tr>
                                     <td class="font-semibold pb-3 pl-4">
-                                        Kelas Hadir:
+                                        Pelajar Hadir:
                                     </td>
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
@@ -273,7 +273,7 @@ document.title = "Laporan | Kerani";
                                 </tr>
                                 <tr>
                                     <td class="font-semibold pb-3 pl-4">
-                                        Kelas Tidak Hadir
+                                        Pelajar Tidak Hadir
                                     </td>
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
@@ -375,7 +375,15 @@ document.title = "Laporan | Kerani";
                 </div>
             </div>
             <!-- Generate pdf button -->
-            <button @click="generatePDF">Generate PDF</button>
+            <div class="flex flex-row-reverse">
+                <button
+                    @click="generatePDF"
+                    class="flex flex-col items-center py-4 px-5 bg-gray-500 hover:bg-slate-700 shadow-login rounded-2xl"
+                >
+                    <i class="fa-solid fa-print text-2xl text-white"></i>
+                    <p class="font-semibold text-white text-sm">Cetak</p>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -444,6 +452,7 @@ export default {
         }
         this.yearOptions = yearOptions.reverse();
         this.year = currentYear;
+        this.confirmForm();
     },
     methods: {
         confirmForm() {
@@ -549,11 +558,12 @@ export default {
                         scale: 2, // Adjust the scale value to make the PDF smaller (e.g., 2 for half the size)
                     },
                     pagebreak: { mode: "avoid-all" }, // Optional: Set page break mode to avoid splitting content across pages
-                    filename: "laporan.pdf", // Optional: Set the desired file name
+                    filename: `Laporan Bulanan ${this.monthName} ${this.year}.pdf`, // Optional: Set the desired file name
                     jsPDF: {
                         orientation: "landscape", // Set the page orientation to landscape
                     },
                 })
+
                 .from(element)
                 .save();
         },

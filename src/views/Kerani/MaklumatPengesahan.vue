@@ -36,7 +36,7 @@ document.title = "Maklumat Pengesahan | Kerani";
             </p>
             <!-- Profil Diri -->
             <!-- Maklumat Pelajar -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
+            <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
                 <h1 class="text-lg font-semibold mt-2 mb-4">
                     Maklumat Diri Pelajar
                 </h1>
@@ -110,8 +110,8 @@ document.title = "Maklumat Pengesahan | Kerani";
                 </table>
             </div>
             <!-- Maklumat Kelas -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
-                <h1 class="text-base font-semibold my-3">
+            <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
+                <h1 class="text-lg font-semibold mt-3 mb-2">
                     Subjek Yang Dipilih
                 </h1>
                 <div class="flex flex-wrap gap-8 py-2">
@@ -170,15 +170,15 @@ document.title = "Maklumat Pengesahan | Kerani";
 
                         <button
                             @click="batalkanPendaftaran()"
-                            class="bg-red hover:bg-darkred text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
+                            class="bg-red hover:bg-darkred text-white py-2 px-7 rounded-xl border-2 border-red hover:border-darkred float-right mr-1 ml-3 mt-5 font-semibold text-xs"
                         >
-                            Sahkan
+                            Ya
                         </button>
                         <button
                             @click="showDialog = false"
                             class="text-black hover:bg-slate-300 py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
                         >
-                            Batalkan
+                            Tidak
                         </button>
                     </div>
                 </div>

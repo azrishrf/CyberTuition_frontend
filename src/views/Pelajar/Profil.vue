@@ -44,7 +44,7 @@ async function ubahKataLaluan() {
             <!-- Maklumat Pelajar -->
             <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
                 <button
-                    class="bg-red text-white py-2 px-5 text-xs rounded-2xl font-semibold float-right"
+                    class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold float-right"
                     @click="kemaskiniProfilDiri()"
                 >
                     <i class="fa-solid fa-pen-to-square text-xs"></i>
@@ -144,7 +144,7 @@ async function ubahKataLaluan() {
                         kata laluan yang kukuh.
                     </p>
                     <button
-                        class="bg-red text-white py-2 px-5 text-xs rounded-2xl font-semibold"
+                        class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold"
                         @click="ubahKataLaluan()"
                     >
                         Tekan disini

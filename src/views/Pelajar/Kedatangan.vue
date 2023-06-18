@@ -47,7 +47,7 @@ async function imbasKodQR() {
                         dan mudah dengan menggunakan pengimbas kod QR
                     </p>
                     <button
-                        class="bg-red text-white py-2 px-5 text-xs rounded-2xl font-semibold"
+                        class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold"
                         @click="imbasKodQR()"
                     >
                         Imbas Kod QR
@@ -60,7 +60,10 @@ async function imbasKodQR() {
             <!-- Butiran Kedatangan -->
             <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
                 <h1 class="text-base font-semibold my-2">Butiran Kedatangan</h1>
-                <table class="w-3/4 text-center my-5">
+                <table
+                    class="w-3/4 text-center my-5"
+                    v-if="attendances.length > 0"
+                >
                     <tr class="bg-red text-sm text-white">
                         <th class="font-semibold py-2 px-2 rounded-l-2xl">
                             No
@@ -102,6 +105,11 @@ async function imbasKodQR() {
                         </td>
                     </tr>
                 </table>
+                <div v-else>
+                    <p class="text-center text-red font-semibold py-6">
+                        Tiada data kedatangan yang direkodkan
+                    </p>
+                </div>
             </div>
         </div>
     </div>

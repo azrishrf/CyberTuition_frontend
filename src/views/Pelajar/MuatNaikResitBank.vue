@@ -115,15 +115,60 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                 </div>
             </div>
             <div class="justify-center">
-                <SubmitButton type="submit" txt="Sahkan" class="px-9" />
+                <SubmitButton
+                    type="submit"
+                    txt="Sahkan"
+                    class="px-9"
+                    @click="submit()"
+                />
                 <button
                     txt="Batalkan"
                     type="button"
                     class="bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
-                    @click="redirectlogin()"
+                    @click="cancel()"
                 >
                     Batalkan
                 </button>
+            </div>
+            <!-- Dialog upload success-->
+            <div
+                v-if="showDialog"
+                class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-30"
+            >
+                <div class="bg-white rounded-2xl shadow-lg p-6 w-5/12">
+                    <h3 class="text-lg font-semibold mb-4 text-center">
+                        Pembayaran Yuran Secara Muat Naik Resit Bank
+                    </h3>
+                    <div class="flex justify-center w-full">
+                        <img
+                            src="../../../assets/Payment Pending.jpg"
+                            alt="Payment Pending"
+                            class="w-72 h-full mb-5"
+                        />
+                    </div>
+                    <p
+                        class="text-center font-bold text-xl text-yellow-500 px-7"
+                    >
+                        MENUNGGU PENGESAHAN KERANI
+                    </p>
+                    <p
+                        class="text-center font-bold text-fontgrey text-sm py-4 px-8"
+                    >
+                        Resit pembayaran bank anda yang dimuat naik akan
+                        menjalani pengesahan oleh kerani kami dalam masa 1-2
+                        hari perniagaan. Dalam tempoh ini, kami akan menyemak
+                        dengan teliti maklumat yang diberikan untuk memastikan
+                        ketepatan dan kesahihannya. Setelah proses pengesahan
+                        selesai, anda akan menerima kemas kini mengenai status
+                        pembayaran anda.
+                    </p>
+                    <button
+                        @click="redirectToYuran()"
+                        class="bg-red hover:bg-darkred text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-sm"
+                    >
+                        Sahkan
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -140,6 +185,7 @@ export default {
             idTuitionFee: "",
             receiptBankId: "",
             toast: useToast(),
+            showDialog: false,
         };
     },
     async mounted() {
@@ -191,13 +237,34 @@ export default {
             await axios.delete(
                 `http://localhost:3001/api/receiptbank/${this.receiptBankId}`
             );
-            this.toast.warning("Fail telah dipadam", {
-                timeout: 3000,
-            });
+
             this.fileName = "";
             this.filePath = "";
             window.location.reload();
         },
+
+        // submit file
+        async submit() {
+            if (this.fileName === "" || this.filePath === "") {
+                this.toast.error("Sila Muat Naik Resit Bank Terlebih Dahulu", {
+                    timeout: 3000,
+                });
+            } else {
+                this.showDialog = true;
+                await axios.put(
+                    `http://localhost:3001/api/tuitionfee/uploadreceiptbank/${this.idTuitionFee}`
+                );
+                this.toast.success("Fail Resit Bank Telah Dihantar Ke Kerani", {
+                    timeout: 3000,
+                });
+            }
+        },
+
+        redirectToYuran() {
+            router.push("/pelajar/yuran");
+        },
+        // cancel
+        cancel() {},
     },
 };
 </script>

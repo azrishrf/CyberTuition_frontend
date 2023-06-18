@@ -69,8 +69,8 @@ document.title = "Log Masuk";
 
 <script>
 import axios from "axios";
-const baseurl = "http://localhost:3001";
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../stores";
 
 export default {
     data() {
@@ -98,7 +98,7 @@ export default {
                 });
             } else {
                 axios
-                    .post(baseurl + "/api/login", {
+                    .post(baseAPI + "/api/login", {
                         email: this.email,
                         password: this.password,
                     })
@@ -109,10 +109,8 @@ export default {
                             JSON.stringify(response.data)
                         );
                         const responseUser = await axios.get(
-                            `http://localhost:3001/api/user/${response.data}`
+                            baseAPI + `/api/user/${response.data}`
                         );
-                        console.log(response.data);
-                        console.log(responseUser);
 
                         if (
                             responseUser.data.role === "Student" &&

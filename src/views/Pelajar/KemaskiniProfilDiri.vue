@@ -56,15 +56,11 @@ async function ubahKataLaluan() {
                                 placeholder="Nama Penuh"
                                 name="fullname"
                                 v-model="studentData.nameStudent"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
-                            />
-                            <!-- IC Number-->
-                            <p class="text-sm mb-3">No Kad Pengenalan</p>
-                            <input
-                                type="text"
-                                placeholder="No Kad Pengenalan"
-                                name="noIC"
-                                v-model="studentData.noICStudent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(studentData.nameStudent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- Phone Number -->
@@ -74,19 +70,17 @@ async function ubahKataLaluan() {
                                 placeholder="No Telefon"
                                 name="noPhone"
                                 v-model="studentData.noPhoneStudent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(
+                                              studentData.noPhoneStudent
+                                          )
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                         </div>
                         <div class="grow">
-                            <!-- Email -->
-                            <p class="text-sm mb-3">E-Mel</p>
-                            <input
-                                type="text"
-                                placeholder="E-Mel"
-                                name="email"
-                                v-model="userEmail"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
-                            />
                             <!-- Birth Date -->
                             <p class="text-sm mb-3">Tarikh Lahir</p>
                             <input
@@ -94,6 +88,11 @@ async function ubahKataLaluan() {
                                 placeholder="Tarikh Lahir"
                                 name="birthdate"
                                 v-model="studentData.dateOfBirth"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(studentData.dateOfBirth)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- Form -->
@@ -101,6 +100,11 @@ async function ubahKataLaluan() {
                             <select
                                 name="tingkatan"
                                 v-model="studentData.form"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(studentData.form)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             >
                                 <option value="4">4</option>
@@ -116,6 +120,11 @@ async function ubahKataLaluan() {
                             placeholder="Alamat Rumah"
                             name="address"
                             v-model="studentData.address"
+                            :style="{
+                                borderColor: shouldValidate
+                                    ? validateInput(studentData.address)
+                                    : '',
+                            }"
                             class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm h-16"
                         />
                     </div>
@@ -134,6 +143,11 @@ async function ubahKataLaluan() {
                                 placeholder="Nama Penuh Ibu Bapa"
                                 name="fullnameParents"
                                 v-model="studentData.nameParent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(studentData.nameParent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                             <!-- No KP -->
@@ -143,6 +157,11 @@ async function ubahKataLaluan() {
                                 placeholder="No Kad Pengenalan"
                                 name="noICParents"
                                 v-model="studentData.noICParent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(studentData.noICParent)
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                         </div>
@@ -154,6 +173,13 @@ async function ubahKataLaluan() {
                                 placeholder="No Telefon"
                                 name="noPhoneParents"
                                 v-model="studentData.noPhoneParent"
+                                :style="{
+                                    borderColor: shouldValidate
+                                        ? validateInput(
+                                              studentData.noPhoneParent
+                                          )
+                                        : '',
+                                }"
                                 class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
                             />
                         </div>
@@ -164,13 +190,6 @@ async function ubahKataLaluan() {
                         txt="Sahkan"
                         class="mt-6 px-9"
                     />
-                    <!-- <button
-                        txt="Batalkan"
-                        class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
-                        @click="redirect()"
-                    >
-                        Batalkan
-                    </button> -->
                 </form>
             </div>
         </div>
@@ -179,6 +198,7 @@ async function ubahKataLaluan() {
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { useToast } from "vue-toastification";
 
 export default {
     data() {
@@ -186,6 +206,8 @@ export default {
             studentData: "",
             userEmail: "",
             studentId: "",
+            toast: useToast(),
+            shouldValidate: false,
         };
     },
 
@@ -216,30 +238,57 @@ export default {
             });
     },
     methods: {
+        validateInput(input) {
+            if (input === "") {
+                return "rgb(200 61 40)";
+            }
+        },
+        // update profile
         async updateProfile() {
-            const updatedUser = {
-                email: this.userEmail,
-            };
-            const updatedStudent = {
-                nameStudent: this.studentData.nameStudent,
-                noICStudent: this.studentData.noICStudent,
-                dateOfBirth: this.studentData.dateOfBirth,
-                noPhoneStudent: this.studentData.noPhoneStudent,
-                form: parseInt(this.studentData.form),
-                address: this.studentData.address,
-                nameParent: this.studentData.nameParent,
-                noICParent: this.studentData.noICParent,
-                noPhoneParent: this.studentData.noPhoneParent,
-            };
-            await axios.put(
-                `http://localhost:3001/api/user/${user}`,
-                updatedUser
-            );
-            await axios.put(
-                `http://localhost:3001/api/student/${this.studentId}`,
-                updatedStudent
-            );
-            alert("Profile updated successfully!");
+            this.shouldValidate = true;
+            if (
+                !this.studentData.nameStudent ||
+                !this.studentData.dateOfBirth ||
+                !this.studentData.noPhoneStudent ||
+                !this.studentData.form ||
+                !this.studentData.address ||
+                !this.studentData.nameParent ||
+                !this.studentData.noICParent ||
+                !this.studentData.noPhoneParent
+            ) {
+                this.toast.error("Sila isi semua maklumat!", {
+                    timeout: 3000,
+                });
+                window.scrollTo({
+                    top: window.innerHeight / 3,
+                    behavior: "smooth", // Use 'smooth' for smooth scrolling effect
+                });
+            } else {
+                const updatedStudent = {
+                    nameStudent: this.studentData.nameStudent,
+                    dateOfBirth: this.studentData.dateOfBirth,
+                    noPhoneStudent: this.studentData.noPhoneStudent,
+                    form: parseInt(this.studentData.form),
+                    address: this.studentData.address,
+                    nameParent: this.studentData.nameParent,
+                    noICParent: this.studentData.noICParent,
+                    noPhoneParent: this.studentData.noPhoneParent,
+                };
+
+                await axios
+                    .put(
+                        `http://localhost:3001/api/student/${this.studentData.idStudent}`,
+                        updatedStudent
+                    )
+                    .then((response) => {
+                        this.studentData = response.data;
+                    })
+                    .catch((error) => {});
+                this.toast.success("Kemaskini Profil Diri Berjaya", {
+                    timeout: 3000,
+                });
+                router.push("/pelajar/profil");
+            }
         },
     },
 };
