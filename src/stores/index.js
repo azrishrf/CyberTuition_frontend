@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-export const baseAPI = "http://localhost:3001";
+export const baseAPI = "https://cyber-tuition-backend.onrender.com";
 
 export const pelajar = ref([]);
 
