@@ -81,6 +81,7 @@ export default {
         // check and send input to database to login
         async login() {
             // this.shouldValidate = true;
+            console.log(this.email);
 
             if (!this.email || !this.password) {
                 this.toast.error("E-mel dan kata laluan diperlukan!", {
