@@ -36,7 +36,7 @@ async function logout() {
 <template>
     <div class="bg-white w-80 min-h-full shadow-home px-4">
         <img
-            src="../../../assets/Logo V1.jpg.png"
+            src="../../../assets/LogoCyberTuition.png"
             class="w-44 m-auto mt-4 mb-5"
         />
         <!-- Nav Dashboard -->
@@ -97,7 +97,7 @@ async function logout() {
                 'text-grey2  hover:bg-gray-100': linkActive !== 'kedatangan',
             }"
             ><i class="fa-solid fa-qrcode flex items-center text-lg"></i>
-            Kedatangan
+            <!-- Kedatangan -->
         </router-link>
 
         <!-- log out -->
