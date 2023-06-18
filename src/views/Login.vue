@@ -23,14 +23,13 @@ document.title = "Log Masuk";
                         class="focus:outline-none w-full input"
                         type="email"
                         placeholder="E-Mel"
-                        name="email"
                         v-model="email"
                     />
                 </div>
                 <!-- Password -->
                 <div
                     class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
-                    :style="{
+                    v-bind:style="{
                         borderColor: shouldValidate
                             ? validateInput(password)
                             : '',
@@ -41,7 +40,6 @@ document.title = "Log Masuk";
                         class="focus:outline-none w-full"
                         type="password"
                         placeholder="Kata Laluan"
-                        name="psw"
                         v-model="password"
                     />
                 </div>
