@@ -72,11 +72,13 @@ async function lihatMaklumatKelas() {
                         </div>
                     </div>
                     <router-link
-                        style=" font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 48;"
+                        style="
+                            font-variation-settings: 'FILL' 0, 'wght' 600,
+                                'GRAD' 0, 'opsz' 48;
+                        "
                         class="material-symbols-outlined text-xl text-gray-500 cursor-pointer hover:text-red absolute right-4 top-3"
                         v-bind:to="
-                            `/guru/kelas/maklumatkelas/` +
-                            subjectData.idSubject
+                            `/guru/kelas/maklumatkelas/` + subjectData.idSubject
                         "
                         >quick_reference_all</router-link
                     >
@@ -89,6 +91,7 @@ async function lihatMaklumatKelas() {
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -101,22 +104,15 @@ export default {
 
     async mounted() {
         // Get Teacher Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.teacherId = response.data.teacher.idTeacher;
 
             axios
-                .get(`http://localhost:3001/api/teacher/${this.teacherId}`)
+                .get(baseAPI + `/api/teacher/${this.teacherId}`)
                 .then((response) => {
                     this.teacherData = response.data;
                 });
         });
-    },
-
-    methods: {
-        // Kemaskini profil
-        // async kemaskiniProfilDiri() {
-        //     router.push("/guru/profil/kemaskini");
-        // },
     },
 };
 </script>

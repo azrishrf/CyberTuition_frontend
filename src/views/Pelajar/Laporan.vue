@@ -250,6 +250,7 @@ async function ubahKataLaluan() {
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -270,13 +271,13 @@ export default {
 
     async mounted() {
         // Get Student Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.user = response.data;
 
             this.studentId = response.data.student.idStudent;
 
             axios
-                .get(`http://localhost:3001/api/student/${this.studentId}`)
+                .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
                     this.attendances = this.studentData.student_Attendance;
@@ -309,19 +310,14 @@ export default {
 
             // Get data tuition fee
             axios
-                .get(
-                    `http://localhost:3001/api/tuitionfeereport/${this.studentId}`
-                )
+                .get(baseAPI + `/api/tuitionfeereport/${this.studentId}`)
                 .then((response) => {
                     this.tuitionFeeCurrentMonth = response.data;
-                    console.log(this.tuitionFeeCurrentMonth);
                 });
 
             // Get data attendance
             axios
-                .get(
-                    `http://localhost:3001/api/student/classes/${this.studentId}`
-                )
+                .get(baseAPI + `/api/student/classes/${this.studentId}`)
                 .then((response) => {
                     this.subjectsData = response.data.subjectData;
                 });
@@ -354,17 +350,6 @@ export default {
             );
             return this.totalAttend;
         },
-
-        // filterTuitionFee() {
-        //     const currentDate = new Date();
-        //     const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
-
-        //     this.tuitionFeeCurrentMonth = this.tuitionFee.filter(
-        //         (tuitionFee) => tuitionFee.month === currentMonth
-        //     );
-
-        //     console.log(this.tuitionFeeCurrentMonth);
-        // },
     },
 };
 </script>

@@ -122,6 +122,7 @@ async function ubahKataLaluan() {
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -134,12 +135,12 @@ export default {
 
     async mounted() {
         // Get Teacher Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.teacherId = response.data.teacher.idTeacher;
             this.userEmail = response.data.email;
 
             axios
-                .get(`http://localhost:3001/api/teacher/${this.teacherId}`)
+                .get(baseAPI + `/api/teacher/${this.teacherId}`)
                 .then((response) => {
                     this.teacherData = response.data;
                 });

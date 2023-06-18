@@ -128,7 +128,6 @@ export default {
             .get(baseAPI + `/api/user/${user}`)
             .then((response) => {
                 this.userEmail = response.data.email;
-                console.log(this.userEmail);
             })
             .catch((error) => {
                 console.error(error);
@@ -156,7 +155,6 @@ export default {
             if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(input)) {
                 return "rgb(200 61 40)"; // Set border color to red if no special character found
             }
-            // shouldValidatePassword = false;
             return ""; // No validation errors, no border color applied
         },
         validateInputConfirmPassword(input) {

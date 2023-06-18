@@ -170,6 +170,7 @@ async function ubahKataLaluan() {
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -185,12 +186,12 @@ export default {
     async mounted() {
         // Get Student Data
         axios
-            .get(`http://localhost:3001/api/user/${user}`)
+            .get(baseAPI + `/api/user/${user}`)
             .then((response) => {
                 this.teacherId = response.data.teacher.idTeacher;
                 this.userEmail = response.data.email;
                 axios
-                    .get(`http://localhost:3001/api/teacher/${this.teacherId}`)
+                    .get(baseAPI + `/api/teacher/${this.teacherId}`)
                     .then((response) => {
                         this.teacherData = response.data;
                     });
@@ -234,12 +235,9 @@ export default {
                     noPhoneTeacher: this.teacherData.noPhoneTeacher,
                     addressTeacher: this.teacherData.addressTeacher,
                 };
+                await axios.put(baseAPI + `/api/user/${user}`, updatedUser);
                 await axios.put(
-                    `http://localhost:3001/api/user/${user}`,
-                    updatedUser
-                );
-                await axios.put(
-                    `http://localhost:3001/api/teacher/${this.teacherId}`,
+                    baseAPI + `/api/teacher/${this.teacherId}`,
                     updatedTeacher
                 );
                 this.toast.success("Kemaskini Profil Berjaya", {

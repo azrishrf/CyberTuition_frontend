@@ -273,6 +273,7 @@ const user = JSON.parse(sessionStorage.getItem("idUser"));
 import CanvasQR from "../../components/CanvasQR.vue";
 import dayjs from "dayjs";
 import "dayjs/locale/ms-my";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -297,15 +298,14 @@ export default {
 
     async mounted() {
         // Get Student Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             const teacherId = response.data.teacher.idTeacher;
 
             axios
-                .get(`http://localhost:3001/api/teacher/${teacherId}`)
+                .get(baseAPI + `/api/teacher/${teacherId}`)
                 .then((response) => {
                     const teacherData = response.data;
                     this.subjects = teacherData.subjects;
-                    // console.log(this.subjects);
                 });
         });
     },
@@ -321,7 +321,7 @@ export default {
                 this.date = currentDate;
                 // Get subject data based on subject name and set time to input time
                 axios
-                    .get(`http://localhost:3001/api/subject/data/${newSubject}`)
+                    .get(baseAPI + `/api/subject/data/${newSubject}`)
                     .then((response) => {
                         this.selectedSubject = response.data;
                         this.time = response.data.time;
@@ -353,17 +353,12 @@ export default {
                 };
 
                 axios
-                    .post("http://localhost:3001/api/attendance", attendance)
+                    .post(baseAPI + "/api/attendance", attendance)
                     .then((response) => {
-                        console.log(response.data);
-                        // console.log("Attendance data:", response.data);
                         this.attendanceId = response.data.idAttendance;
-                        console.log(this.attendanceId);
                         this.subjectId = response.data.idSubject;
                         this.subjectName = this.selectedSubject.name;
-
                         this.convertDate(response.data.date);
-                        // this.countStudentAttend();
                         this.startAttendanceUpdateInterval(this.attendanceId);
                         this.createStudentAttendance(
                             this.subjectId,
@@ -371,9 +366,7 @@ export default {
                         );
 
                         axios
-                            .get(
-                                `http://localhost:3001/api/subject/${this.subjectId}`
-                            )
+                            .get(baseAPI + `/api/subject/${this.subjectId}`)
                             .then((response) => {
                                 const subjectInfo = response.data;
                                 this.totalStudents =
@@ -408,11 +401,10 @@ export default {
             // Create all attendance for student and set attend to false first
             axios
                 .post(
-                    `http://localhost:3001/api/student_attendance/${subjectId}/${attendanceId}/${this.date}`
+                    baseAPI +
+                        `/api/student_attendance/${subjectId}/${attendanceId}/${this.date}`
                 )
-                .then((response) => {
-                    console.log(response.data);
-                });
+                .then((response) => {});
         },
 
         // Start updating attendance data periodically
@@ -431,11 +423,8 @@ export default {
         countStudentAttend() {
             // Get total student that attend
             axios
-                .get(
-                    `http://localhost:3001/api/studentattend/${this.attendanceId}`
-                )
+                .get(baseAPI + `/api/studentattend/${this.attendanceId}`)
                 .then((response) => {
-                    // console.log(response.data);
                     this.totalStudentsAttend = response.data;
                     console.log(
                         "Jumlah Pelajar Hadir:" + this.totalStudentsAttend
@@ -443,14 +432,9 @@ export default {
                 });
 
             axios
-                .get(
-                    `http://localhost:3001/api/attendance/students/${this.attendanceId}`
-                )
+                .get(baseAPI + `/api/attendance/students/${this.attendanceId}`)
                 .then((response) => {
-                    // console.log(response.data);
-                    // console.log(response.data);
                     this.listStudentsAttendance = response.data;
-                    // console.log(this.listStudentsAttendance);
                 });
         },
 
@@ -475,7 +459,6 @@ export default {
 
             if (studentIndex !== -1) {
                 this.listStudentsAttendance[studentIndex].isAttend = true;
-                console.log("Student marked as 'Hadir' Front end");
             }
 
             // Update the student's attendance status in database
@@ -485,17 +468,13 @@ export default {
             };
             axios
                 .put(
-                    `http://localhost:3001/api/markAttend/student_attendance`,
+                    baseAPI + `api/markAttend/student_attendance`,
                     updateDataAttend
                 )
-                .then((response) => {
-                    console.log("Student marked as 'Hadir'");
-                })
+                .then((response) => {})
                 .catch((error) => {
                     console.error(error);
                 });
-
-            // this.startAttendanceUpdateInterval();
         },
 
         // Change status to Tidak Hadir
@@ -508,7 +487,6 @@ export default {
             if (studentIndex !== -1) {
                 // Update the student's attendance status locally
                 this.listStudentsAttendance[studentIndex].isAttend = false;
-                console.log("Student marked as 'Tidak Hadir' Front end");
             }
 
             // Update the student's attendance status in database
@@ -518,17 +496,12 @@ export default {
             };
             axios
                 .put(
-                    `http://localhost:3001/api/markNotAttend/student_attendance`,
+                    baseAPI + `/api/markNotAttend/student_attendance`,
                     updateDataNotAttend
                 )
-                .then((response) => {
-                    console.log("Student marked as 'Tidak Hadir'");
-                })
                 .catch((error) => {
                     console.error(error);
                 });
-
-            // this.startAttendanceUpdateInterval();
         },
     },
 };

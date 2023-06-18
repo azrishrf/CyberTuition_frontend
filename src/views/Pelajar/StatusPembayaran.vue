@@ -179,6 +179,7 @@ document.title = "Dashboard | Pelajar";
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -194,7 +195,7 @@ export default {
 
     mounted() {
         // Get data user
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.userData = response.data;
         });
         // Get id Tuition Fee
@@ -203,7 +204,7 @@ export default {
         const paymentGatewayId = JSON.parse(
             sessionStorage.getItem("paymentGatewayId")
         );
-        console.log(paymentGatewayId);
+
         // Get data from param URL
         this.statusId = this.$route.query.status_id;
         this.transactionId = this.$route.query.transaction_id;
@@ -215,13 +216,8 @@ export default {
         };
 
         axios
-            .put(
-                "http://localhost:3001/api/paymentgateway",
-                updatePaymentGatewayData
-            )
-            .then((response) => {
-                console.log(response.data);
-            })
+            .put(baseAPI + "/api/paymentgateway", updatePaymentGatewayData)
+            .then((response) => {})
             .catch((error) => {
                 const errorMessage = error.response.data.error;
                 console.log(errorMessage);
@@ -230,13 +226,10 @@ export default {
         if (this.statusId == 1) {
             this.date();
             axios
-                .put(`http://localhost:3001/api/tuitionfee/${idTuitionFee}`)
+                .put(baseAPI + `/api/tuitionfee/${idTuitionFee}`)
                 .then((response) => {
-                    console.log(response.data);
                     this.tuitionFeeData = response.data;
                 });
-        } else {
-            console.log("fk");
         }
     },
     methods: {

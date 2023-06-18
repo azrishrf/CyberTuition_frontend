@@ -176,6 +176,7 @@ document.title = "Muat Naik Resit Bank | Pelajar";
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -194,10 +195,10 @@ export default {
         this.idTuitionFee = JSON.parse(sessionStorage.getItem("idTuitionFee"));
         try {
             const response = await axios.get(
-                `http://localhost:3001/api/receiptbank/${this.idTuitionFee}`
+                baseAPI + `/api/receiptbank/${this.idTuitionFee}`
             );
             const existingReceiptBankData = response.data;
-            console.log(existingReceiptBankData);
+
             if (existingReceiptBankData) {
                 this.fileName = existingReceiptBankData.fileName;
                 this.filePath = existingReceiptBankData.filePath;
@@ -221,11 +222,11 @@ export default {
                 idTuitionFee: this.idTuitionFee,
             };
             axios
-                .post("http://localhost:3001/api/receiptbank", receiptBankData)
+                .post(baseAPI + "/api/receiptbank", receiptBankData)
                 .then((response) => {
                     const createdReceiptBank = response.data;
                     this.receiptBankId = createdReceiptBank.receiptBankId;
-                    console.log(createdReceiptBank);
+
                     this.toast.success("Fail berjaya dimuat naik", {
                         timeout: 3000,
                     });
@@ -235,7 +236,7 @@ export default {
         // Remove file uploaded
         async removeFile() {
             await axios.delete(
-                `http://localhost:3001/api/receiptbank/${this.receiptBankId}`
+                baseAPI + `/api/receiptbank/${this.receiptBankId}`
             );
 
             this.fileName = "";
@@ -252,7 +253,8 @@ export default {
             } else {
                 this.showDialog = true;
                 await axios.put(
-                    `http://localhost:3001/api/tuitionfee/uploadreceiptbank/${this.idTuitionFee}`
+                    baseAPI +
+                        `/api/tuitionfee/uploadreceiptbank/${this.idTuitionFee}`
                 );
                 this.toast.success("Fail Resit Bank Telah Dihantar Ke Kerani", {
                     timeout: 3000,

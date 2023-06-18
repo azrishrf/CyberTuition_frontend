@@ -109,6 +109,8 @@ document.title = "Kelas | Guru";
 
 <script>
 import axios from "axios";
+import { baseAPI } from "../../stores";
+
 export default {
     data() {
         return {
@@ -120,13 +122,12 @@ export default {
     },
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/subject/${this.idSubject}`
+            baseAPI + `/api/subject/${this.idSubject}`
         );
         this.subjectData = response.data;
         this.teacher = this.subjectData.teacher;
 
         this.listStudents = this.subjectData.student_Subject;
-        console.log(this.listStudents);
     },
 };
 </script>

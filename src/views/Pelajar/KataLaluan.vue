@@ -128,7 +128,6 @@ export default {
             .get(baseAPI + `/api/user/${user}`)
             .then((response) => {
                 this.userEmail = response.data.email;
-                console.log(this.userEmail);
             })
             .catch((error) => {
                 console.error(error);

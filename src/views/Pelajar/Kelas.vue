@@ -101,6 +101,7 @@ document.title = "Kelas | Pelajar";
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -113,10 +114,10 @@ export default {
 
     async mounted() {
         // Get Student Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
             axios
-                .get(`http://localhost:3001/api/student/${this.studentId}`)
+                .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
                     console.log(this.studentData);

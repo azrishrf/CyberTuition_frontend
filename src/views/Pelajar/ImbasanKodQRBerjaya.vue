@@ -104,7 +104,7 @@ document.title = "Imbasan Kod QR | Pelajar";
 </template>
 <script>
 import axios from "axios";
-const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -118,7 +118,7 @@ export default {
 
     async mounted() {
         const response = await axios.get(
-            `http://localhost:3001/api/studentAttendance/${this.studentAttendanceData}`
+            baseAPI + `/api/studentAttendance/${this.studentAttendanceData}`
         );
         this.studentAttendanceData = response.data;
         this.studentData = this.studentAttendanceData.student;

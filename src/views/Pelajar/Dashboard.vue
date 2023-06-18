@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
 
 document.title = "Dashboard | Pelajar";
@@ -75,26 +74,3 @@ document.title = "Dashboard | Pelajar";
         </div>
     </div>
 </template>
-
-<!-- <script>
-import axios from "axios";
-
-export default {
-    data() {
-        return {
-            userData: "",
-        };
-    },
-    async mounted() {
-        // Retrieve the user data from session storage
-        const user = JSON.parse(sessionStorage.getItem("idUser"));
-
-        const userProfile = await axios.get(
-            `http://localhost:3001/api/${user}`
-        );
-
-        this.userData = userProfile.data;
-        console.log(this.userData.name);
-    },
-};
-</script> -->

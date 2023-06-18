@@ -117,6 +117,7 @@ async function imbasKodQR() {
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -130,24 +131,20 @@ export default {
 
     async mounted() {
         // Get Student Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
-            // console.log(response.data.student.idStudent);
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
-            // console.log(this.studentId);
+
             axios
-                .get(`http://localhost:3001/api/student/${this.studentId}`)
+                .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
-                    console.log(this.studentData);
                     this.attendances = this.studentData.student_Attendance;
-                    console.log(this.attendances);
                     this.sortAttendancesByDate(); // Call the sorting method
                 });
         });
 
         const date = new Date();
         const dateString = date.toISOString().substring(0, 10);
-        console.log(dateString);
     },
 
     methods: {

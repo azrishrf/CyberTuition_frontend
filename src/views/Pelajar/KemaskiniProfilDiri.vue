@@ -199,6 +199,7 @@ async function ubahKataLaluan() {
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { useToast } from "vue-toastification";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -214,11 +215,11 @@ export default {
     async mounted() {
         // Get Student Data
         axios
-            .get(`http://localhost:3001/api/user/${user}`)
+            .get(baseAPI + `/api/user/${user}`)
             .then((response) => {
                 this.studentId = response.data.student.idStudent;
                 axios
-                    .get(`http://localhost:3001/api/student/${this.studentId}`)
+                    .get(baseAPI + `/api/student/${this.studentId}`)
                     .then((response) => {
                         this.studentData = response.data;
                     });
@@ -229,7 +230,7 @@ export default {
 
         // Get Student email from user table
         axios
-            .get(`http://localhost:3001/api/user/${user}`)
+            .get(baseAPI + `/api/user/${user}`)
             .then((response) => {
                 this.userEmail = response.data.email;
             })
@@ -277,7 +278,7 @@ export default {
 
                 await axios
                     .put(
-                        `http://localhost:3001/api/student/${this.studentData.idStudent}`,
+                        baseAPI + `/api/student/${this.studentData.idStudent}`,
                         updatedStudent
                     )
                     .then((response) => {

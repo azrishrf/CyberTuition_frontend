@@ -308,6 +308,7 @@ async function ubahKataLaluan() {
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -331,20 +332,19 @@ export default {
     },
     async mounted() {
         // Get Student Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.userData = response.data;
             this.studentId = response.data.student.idStudent;
 
             axios
-                .get(`http://localhost:3001/api/student/${this.studentId}`)
+                .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
-                    console.log(this.studentData);
+
                     this.subjects = response.data.student_Subject.map(
                         (studentSubject) => studentSubject.subject
                     );
                     this.tuitionFees = response.data.tuitionFee;
-                    console.log(this.tuitionFees);
                 });
         });
     },
@@ -383,7 +383,8 @@ export default {
         createBill() {
             axios
                 .get(
-                    `http://localhost:3001/api/tuitionfee/paymentgateway/${this.tuitionFee.idTuitionFee}`
+                    baseAPI +
+                        `/api/tuitionfee/paymentgateway/${this.tuitionFee.idTuitionFee}`
                 )
                 .then((response) => {
                     const existingPaymentGatewayData = response.data;
@@ -401,8 +402,6 @@ export default {
                         const totalFeeCent = this.totalFee * 100;
 
                         // Pass the following parameters to generate Bill Code
-                        console.log(this.studentData.nameStudent);
-                        console.log(this.userData.email);
                         formData.append(
                             "userSecretKey",
                             import.meta.env.VITE_SECRETKEY_TOYYIBPAY
@@ -441,11 +440,6 @@ export default {
                             "Terima Kasih kerana telah membayar yuran pada bulan ini!"
                         );
 
-                        // Display the key/value pairs
-                        for (var pair of formData.entries()) {
-                            console.log(pair[0] + ", " + pair[1]);
-                        }
-
                         fetch(
                             "https://toyyibpay.com/index.php/api/createBill",
                             {
@@ -470,7 +464,7 @@ export default {
                                     .then((response) => {
                                         const createdPaymentGateway =
                                             response.data;
-                                        console.log(createdPaymentGateway);
+
                                         // Insert paymentGatewayId into session
                                         sessionStorage.setItem(
                                             "paymentGatewayId",
@@ -490,11 +484,6 @@ export default {
                             })
                             .catch((error) => console.error("Error:", error));
                     }
-                })
-                .catch((error) => {
-                    // console.error("Error:", error.response.data);
-                    console.log(error);
-                    // Handle the error
                 });
         },
         // Confirm month and year
@@ -505,23 +494,18 @@ export default {
                 this.isConfirm = true;
                 this.errorMessage = "";
                 this.monthYear = this.month + " / " + this.year;
-                console.log(this.monthYear);
 
                 const tuitionFeeData = {
                     month: this.month,
                     year: this.year,
                     idStudent: this.studentId,
                 };
-                console.log(tuitionFeeData);
+
                 // Get Tuition Fee data
                 axios
-                    .post(
-                        `http://localhost:3001/api/checktuitionfee`,
-                        tuitionFeeData
-                    )
+                    .post(baseAPI + `/api/checktuitionfee`, tuitionFeeData)
                     .then((response) => {
                         this.tuitionFee = response.data;
-                        console.log(this.tuitionFee);
 
                         // Divide subjectList into separate subjects
                         const subjectNames = this.tuitionFee.subjectsList
@@ -531,7 +515,7 @@ export default {
 
                         // Fetch the Subject data from the server using Prisma
                         axios
-                            .get(`http://localhost:3001/api/subjects`)
+                            .get(baseAPI + `/api/subjects`)
                             .then((response) => {
                                 const subjects = response.data;
 
@@ -548,7 +532,6 @@ export default {
                                     }
                                 );
 
-                                console.log(this.subjectsArray);
                                 this.totalFee = this.tuitionFee.amount;
                             })
                             .catch((error) => {
@@ -562,7 +545,6 @@ export default {
         resetForm() {
             this.month = "";
             this.year = "";
-            // Reset the isConfirm flag to false
             this.isConfirm = false;
         },
 

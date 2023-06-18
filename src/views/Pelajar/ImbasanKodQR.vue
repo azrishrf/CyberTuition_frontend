@@ -98,6 +98,7 @@ document.title = "Imbasan Kod QR | Pelajar";
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import QRcodeScanner from "../../components/QRcodeScanner.vue";
+import { baseAPI } from "../../stores";
 
 export default {
     data() {
@@ -114,11 +115,11 @@ export default {
 
     async mounted() {
         // Get Student Data
-        axios.get(`http://localhost:3001/api/user/${user}`).then((response) => {
+        axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
 
             axios
-                .get(`http://localhost:3001/api/student/${this.studentId}`)
+                .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
                     return this.studentData;
@@ -127,10 +128,7 @@ export default {
     },
     methods: {
         scanQRCode(decodedText) {
-            console.log(decodedText);
             this.scanResult = decodedText;
-            // console.log(this.scanResult);
-
             const student_subject = {
                 idStudent: this.studentId,
                 idAttendance: this.scanResult,
@@ -139,28 +137,28 @@ export default {
             // Check either subject is correct that student takes
             axios
                 .post(
-                    "http://localhost:3001/api/student_subject/check-subject-match",
+                    baseAPI + "/api/student_subject/check-subject-match",
                     student_subject
                 )
                 .then((response) => {
-                    // console.log(response.data);
                     if (response.data === true) {
                         // Check if the student attendance already recorded
                         axios
                             .get(
-                                `http://localhost:3001/api/student_attendance/${this.scanResult}/${this.studentId}`
+                                baseAPI +
+                                    `/api/student_attendance/${this.scanResult}/${this.studentId}`
                             )
                             .then((response) => {
-                                // console.log(response.data);
                                 const alreadyAttend = response.data.isAttend;
-                                // console.log(alreadyAttend);
+
                                 if (alreadyAttend === true) {
                                     this.toggleAlreadyAttend(1);
                                 } else {
                                     // Create the student attendance record
                                     axios
                                         .put(
-                                            `http://localhost:3001/api/student_attendance/${response.data.idStudentAttendance}`,
+                                            baseAPI +
+                                                `/api/student_attendance/${response.data.idStudentAttendance}`,
                                             {
                                                 isAttend: true,
                                             }
@@ -187,7 +185,6 @@ export default {
                                 );
                             });
                     } else {
-                        // alert("bukan subjek pelajar");
                         this.toggleAlreadyAttend(2);
                     }
                 })
@@ -197,7 +194,6 @@ export default {
         },
 
         toggleAlreadyAttend(errorMessage) {
-            // console.log(this.dialogAttend);
             if (errorMessage === 1) {
                 this.errorMessage =
                     "Kedatangan anda sudah diambil bagi subjek ini";

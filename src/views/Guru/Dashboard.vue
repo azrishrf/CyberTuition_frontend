@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import SidebarGuru from "../../components/SidebarGuru.vue";
 
 document.title = "Dashboard | Guru";
