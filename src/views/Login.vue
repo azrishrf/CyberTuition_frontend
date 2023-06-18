@@ -12,45 +12,38 @@ document.title = "Log Masuk";
             <!-- Logo Cyber Tuition -->
             <img src="/LogoCyberTuition.png" class="w-64 m-auto mb-5" />
             <!-- Login Form -->
-            <!-- <form @submit.prevent="login"> -->
-            <!-- Email -->
-            <div
-                class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
-            >
-                <i class="bi bi-person inline mr-3 text-grey text-lg"></i>
-                <input
-                    class="focus:outline-none w-full"
-                    type="email"
-                    placeholder="E-Mel"
-                    v-model="email"
+            <form @submit.prevent="login">
+                <!-- Email -->
+                <div
+                    class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                >
+                    <i class="bi bi-person inline mr-3 text-grey text-lg"></i>
+                    <input
+                        class="focus:outline-none w-full"
+                        type="email"
+                        placeholder="E-Mel"
+                        v-model="email"
+                    />
+                </div>
+                <!-- Password -->
+                <div
+                    class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                >
+                    <i class="bi bi-lock inline mr-3 text-grey text-base"></i>
+                    <input
+                        class="focus:outline-none w-full"
+                        type="password"
+                        placeholder="Kata Laluan"
+                        v-model="password"
+                    />
+                </div>
+                <!-- Login Button -->
+                <SubmitButton
+                    type="submit"
+                    txt="Log Masuk"
+                    class="mt-16 mb-5 flex m-auto"
                 />
-            </div>
-            <input
-                class="focus:outline-none w-full"
-                type="email"
-                v-model="test"
-                placeholder="E-Mel"
-            />
-            <!-- Password -->
-            <div
-                class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
-            >
-                <i class="bi bi-lock inline mr-3 text-grey text-base"></i>
-                <input
-                    class="focus:outline-none w-full"
-                    type="password"
-                    placeholder="Kata Laluan"
-                    v-model="password"
-                />
-            </div>
-            <!-- Login Button -->
-            <SubmitButton
-                @click="login"
-                type="submit"
-                txt="Log Masuk"
-                class="mt-16 mb-5 flex m-auto"
-            />
-            <!-- </form> -->
+            </form>
             <!-- Redirect to Sign Up Page -->
             <p class="text-xs text-center">
                 <i class="bi bi-question-circle-fill text-slate-600"></i>
@@ -73,18 +66,10 @@ export default {
         return {
             email: "",
             password: "",
-            // shouldValidate: false,
-            test: "",
             toast: useToast(),
         };
     },
     methods: {
-        // validate input
-        // validateInput(input) {
-        //     if (input === "") {
-        //         return "rgb(190 18 60)"; // Example: Set border color to red for empty input
-        //     }
-        // },
         // check and send input to database to login
         async login() {
             // this.shouldValidate = true;
