@@ -17,9 +17,6 @@ document.title = "Log Masuk";
                 <!-- Email -->
                 <div
                     class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
-                    :style="{
-                        borderColor: shouldValidate ? validateInput(email) : '',
-                    }"
                 >
                     <i class="bi bi-person inline mr-3 text-grey text-lg"></i>
                     <input
