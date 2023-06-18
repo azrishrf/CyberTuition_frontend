@@ -156,7 +156,7 @@ document.title = "Kedatangan | Guru";
                         class="bg-white shadow-login flex py-3 px-3 items-center rounded-2xl"
                     >
                         <div>
-                            <img src="/tidak hadir.png" class="w-14 h-full" />
+                            <img src="/tidakhadir.png" class="w-14 h-full" />
                         </div>
                         <div class="px-6 flex-col-reverse">
                             <p class="text-sm">Jumlah Tidak Hadir</p>

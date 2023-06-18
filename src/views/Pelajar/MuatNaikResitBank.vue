@@ -76,10 +76,7 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                         </table>
                     </div>
 
-                    <img
-                        src="/duitnowqr.png"
-                        class="w-52 h-auto mx-auto"
-                    />
+                    <img src="/duitnowqr.png" class="w-52 h-auto mx-auto" />
                 </div>
             </div>
             <!-- Upload receipt bank -->
@@ -141,7 +138,7 @@ document.title = "Muat Naik Resit Bank | Pelajar";
                     </h3>
                     <div class="flex justify-center w-full">
                         <img
-                            src="/Payment_Pending.jpg"
+                            src="/PaymentPending.jpg"
                             alt="Payment Pending"
                             class="w-72 h-full mb-5"
                         />
