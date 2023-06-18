@@ -29,11 +29,6 @@ document.title = "Log Masuk";
                 <!-- Password -->
                 <div
                     class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
-                    v-bind:style="{
-                        borderColor: shouldValidate
-                            ? validateInput(password)
-                            : '',
-                    }"
                 >
                     <i class="bi bi-lock inline mr-3 text-grey text-base"></i>
                     <input
@@ -72,17 +67,17 @@ export default {
         return {
             email: "",
             password: "",
-            shouldValidate: false,
+            // shouldValidate: false,
             toast: useToast(),
         };
     },
     methods: {
         // validate input
-        validateInput(input) {
-            if (input === "") {
-                return "rgb(190 18 60)"; // Example: Set border color to red for empty input
-            }
-        },
+        // validateInput(input) {
+        //     if (input === "") {
+        //         return "rgb(190 18 60)"; // Example: Set border color to red for empty input
+        //     }
+        // },
         // check and send input to database to login
         async login() {
             // this.shouldValidate = true;
