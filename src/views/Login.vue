@@ -11,7 +11,7 @@ document.title = "Log Masuk";
         <!-- Center div -->
         <div class="m-auto bg-white rounded-2xl p-16 shadow-login">
             <!-- Logo Cyber Tuition -->
-            <img src="assets/Logo V1.jpg.png" class="w-64 m-auto mb-5" />
+            <img src="assets/Logo V1.png" class="w-64 m-auto mb-5" />
             <!-- Login Form -->
             <form v-on:submit.prevent="login()">
                 <!-- Email -->
