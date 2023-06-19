@@ -1,7 +1,7 @@
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
-        <SideBarPelajar linkActive="profil" />
+        <SideBarPelajar linkActive="yuran" />
         <!-- Page Content -->
         <div class="w-full px-6 py-4 lg:px-4">
             <!-- Top Bar -->
