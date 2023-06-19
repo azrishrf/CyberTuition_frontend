@@ -379,7 +379,7 @@ export default {
                     const existingPaymentGatewayData = response.data;
                     if (existingPaymentGatewayData) {
                         this.billcode = existingPaymentGatewayData.billCode;
-                        window.location.href = `https://toyyibpay.com/${this.billcode}`;
+                        window.location.href = `https://dev.toyyibpay.com/${this.billcode}`;
                     } else {
                         sessionStorage.setItem(
                             "idTuitionFee",
@@ -395,7 +395,7 @@ export default {
                             "userSecretKey",
                             import.meta.env.VITE_SECRETKEY_TOYYIBPAY
                         );
-                        formData.append("categoryCode", "3wk83ymw");
+                        formData.append("categoryCode", "33qq2cj6");
                         formData.append(
                             "billName",
                             "Yuran Bulanan Cyber Tuition"
@@ -410,12 +410,15 @@ export default {
                         );
                         formData.append("billPriceSetting", "1");
                         formData.append("billPayorInfo", "1");
-                        formData.append("billAmount", "100");
+                        formData.append("billAmount", totalFeeCent);
                         formData.append(
                             "billReturnUrl",
-                            "http://localhost:5173/pelajar/statuspembayaran"
+                            baseAPI + "/pelajar/statuspembayaran"
                         );
-                        formData.append("billCallbackUrl", "");
+                        formData.append(
+                            "billCallbackUrl",
+                            baseAPI + "/api/callback"
+                        );
                         formData.append("billExternalReferenceNo", "");
                         formData.append("billTo", this.studentData.nameStudent);
                         formData.append("billEmail", this.userData.email);
@@ -447,7 +450,7 @@ export default {
 
                                 axios
                                     .post(
-                                        "http://localhost:3001/api/paymentgateway",
+                                        baseAPI + "/api/paymentgateway",
                                         paymentGatewayData
                                     )
                                     .then((response) => {
@@ -469,7 +472,7 @@ export default {
                                     });
 
                                 // Redirect the user to the URL
-                                window.location.href = `https://toyyibpay.com/${result[0].BillCode}`;
+                                window.location.href = `https://dev.toyyibpay.com/${result[0].BillCode}`;
                             })
                             .catch((error) => console.error("Error:", error));
                     }
