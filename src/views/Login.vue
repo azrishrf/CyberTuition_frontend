@@ -16,6 +16,11 @@
                         type="email"
                         placeholder="E-Mel"
                         v-model="email"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(email)
+                                : '',
+                        }"
                     />
                 </div>
                 <!-- Password -->
@@ -28,6 +33,11 @@
                         type="password"
                         placeholder="Kata Laluan"
                         v-model="password"
+                        :style="{
+                            borderColor: shouldValidate
+                                ? validateInput(password)
+                                : '',
+                        }"
                     />
                 </div>
                 <!-- Login Button -->
@@ -62,6 +72,7 @@ export default {
             email: "",
             password: "",
             toast: useToast(),
+            shouldValidate: false,
         };
     },
     mounted() {
@@ -71,6 +82,11 @@ export default {
         SubmitButton,
     },
     methods: {
+        validateInput(input) {
+            if (input === "") {
+                return "rgb(200 61 40)"; // Example: Set border color to red for empty input
+            }
+        },
         // check and send input to database to login
         async login() {
             // this.shouldValidate = true;
