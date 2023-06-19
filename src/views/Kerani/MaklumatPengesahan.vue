@@ -1,11 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-import router from "../../router";
-
-document.title = "Maklumat Pengesahan | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -190,6 +182,9 @@ document.title = "Maklumat Pengesahan | Kerani";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
+import router from "../../router";
 
 export default {
     data() {
@@ -202,6 +197,8 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Maklumat Pengesahan | Kerani";
+
         const response = await axios.get(
             baseAPI + `/api/student/${this.idStudent}`
         );

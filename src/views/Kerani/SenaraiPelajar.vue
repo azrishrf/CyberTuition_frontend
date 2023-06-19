@@ -1,8 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-document.title = "Senarai Pelajar | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -152,6 +147,7 @@ document.title = "Senarai Pelajar | Kerani";
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
 
 export default {
     data() {
@@ -168,6 +164,7 @@ export default {
     methods: {
         // toggle confirm delete student
         toggleConfirmDelete(idStudent) {
+            document.title = "Senarai Pelajar | Kerani";
             this.selectedStudent = idStudent;
             this.isOpen = !this.isOpen;
         },

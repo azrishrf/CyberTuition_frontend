@@ -1,8 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -223,9 +218,7 @@ import SubmitButton from "../../components/SubmitButton.vue";
                         >
                             <img
                                 v-bind:src="
-                                    '/subjek/' +
-                                    subjectData.name +
-                                    '.png'
+                                    '/subjek/' + subjectData.name + '.png'
                                 "
                                 class="w-20"
                             />
@@ -269,6 +262,8 @@ import SubmitButton from "../../components/SubmitButton.vue";
 import axios from "axios";
 import { baseAPI } from "../../stores";
 import { useToast } from "vue-toastification";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -296,6 +291,9 @@ export default {
         // Fetch all subjects and store them in the `subjects` array
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         validateInput(input) {

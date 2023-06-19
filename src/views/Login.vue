@@ -2,13 +2,15 @@
     <div class="bg-slate-50 w-screen min-h-screen grid place-items-center">
         <!-- Center div -->
         <div class="m-auto bg-white rounded-2xl p-16 shadow-login">
-            <!-- Logo Cyber Tuition -->
             <img src="/LogoCyberTuition.png" class="w-64 m-auto mb-5" />
             <!-- Login Form -->
-            <form @submit.prevent="login">
+            <form @submit.prevent="login()">
                 <!-- Email -->
                 <div
                     class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    :style="{
+                        borderColor: shouldValidate ? validateInput(email) : '',
+                    }"
                 >
                     <i class="bi bi-person inline mr-3 text-grey text-lg"></i>
                     <input
@@ -16,16 +18,16 @@
                         type="email"
                         placeholder="E-Mel"
                         v-model="email"
-                        :style="{
-                            borderColor: shouldValidate
-                                ? validateInput(email)
-                                : '',
-                        }"
                     />
                 </div>
                 <!-- Password -->
                 <div
                     class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    :style="{
+                        borderColor: shouldValidate
+                            ? validateInput(password)
+                            : '',
+                    }"
                 >
                     <i class="bi bi-lock inline mr-3 text-grey text-base"></i>
                     <input
@@ -33,11 +35,6 @@
                         type="password"
                         placeholder="Kata Laluan"
                         v-model="password"
-                        :style="{
-                            borderColor: shouldValidate
-                                ? validateInput(password)
-                                : '',
-                        }"
                     />
                 </div>
                 <!-- Login Button -->
@@ -89,9 +86,7 @@ export default {
         },
         // check and send input to database to login
         async login() {
-            // this.shouldValidate = true;
-            console.log(this.email);
-
+            this.shouldValidate = true;
             if (!this.email || !this.password) {
                 this.toast.error("E-mel dan kata laluan diperlukan!", {
                     timeout: 3000,

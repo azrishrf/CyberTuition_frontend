@@ -1,13 +1,3 @@
-<script setup>
-import { ref } from "vue";
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import { onMounted } from "vue";
-import router from "../../router";
-import { pengesahan } from "../../stores/index";
-
-document.title = "Pengesahan | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -116,9 +106,13 @@ document.title = "Pengesahan | Kerani";
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import router from "../../router";
+import { pengesahan } from "../../stores/index";
 
 export default {
     data() {
@@ -129,6 +123,8 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Pengesahan | Kerani";
+
         const response = await axios.get(
             baseAPI + `/api/students_notregistered`
         );

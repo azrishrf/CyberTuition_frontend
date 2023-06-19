@@ -1,8 +1,3 @@
-<script setup>
-import router from "../../router";
-import SubmitButton from "../../components/SubmitButton.vue";
-</script>
-
 <template>
     <div class="bg-white my-5 rounded-2xl py-5 px-11 shadow-login">
         <form class="bg-white m-auto" v-on:submit.prevent="updateSubject()">
@@ -90,6 +85,8 @@ import SubmitButton from "../../components/SubmitButton.vue";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import router from "../../router";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -115,6 +112,9 @@ export default {
         // get all teachers
         const responseTeacher = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = responseTeacher.data;
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         async updateSubject() {

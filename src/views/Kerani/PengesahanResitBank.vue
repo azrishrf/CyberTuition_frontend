@@ -1,11 +1,3 @@
-<script setup>
-import router from "../../router";
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-// import { kemaskini } from "../../stores/index";
-
-document.title = "Pengesahan Resit Bank | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -211,11 +203,12 @@ document.title = "Pengesahan Resit Bank | Kerani";
         </div>
     </div>
 </template>
-
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import router from "../../router";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
 
 export default {
     data() {
@@ -231,6 +224,8 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Pengesahan Resit Bank | Kerani";
+
         const response = await axios.get(
             baseAPI + `/api/receiptbank/id/${this.receiptsBankid}`
         );

@@ -1,10 +1,3 @@
-<script setup>
-import router from "../../router";
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-document.title = "Maklumat Kelas | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -90,14 +83,6 @@ document.title = "Maklumat Kelas | Kerani";
                 >
                     {{ errorMessage }}
                 </p>
-                <!-- <div class="flex gap-6">
-                    <SubmitButton
-                        type="button"
-                        txt="Sahkan"
-                        class="px-8"
-                        @click="submit()"
-                    />
-                </div> -->
             </div>
             <!-- Content -->
             <div
@@ -195,9 +180,13 @@ document.title = "Maklumat Kelas | Kerani";
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import router from "../../router";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -217,6 +206,8 @@ export default {
     },
 
     async mounted() {
+        document.title = "Maklumat Kelas | Kerani";
+
         const response = await axios.get(
             baseAPI + `/api/subject/${this.idSubject}`
         );
@@ -270,6 +261,9 @@ export default {
         this.yearOptions = yearOptions.reverse();
         this.year = currentYear;
         this.submit();
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         async submit() {

@@ -1,8 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-document.title = "Kelas | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -37,11 +32,7 @@ document.title = "Kelas | Kerani";
                     :key="subjectData.idSubject"
                 >
                     <img
-                        v-bind:src="
-                            '/subjek/' +
-                            subjectData.name +
-                            '.png'
-                        "
+                        v-bind:src="'/subjek/' + subjectData.name + '.png'"
                         class="w-20"
                     />
                     <div class="flex flex-col">
@@ -93,9 +84,11 @@ document.title = "Kelas | Kerani";
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
 
 export default {
     data() {
@@ -106,6 +99,8 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Kelas | Kerani";
+
         const response = await axios.get(baseAPI + `/api/subjects`);
         this.subjects = response.data;
     },

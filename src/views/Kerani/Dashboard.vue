@@ -1,38 +1,4 @@
 <script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-
-// import { guru, pelajar, kelas } from "../../stores/index";
-
-// const pb = new PocketBase("http://127.0.0.1:8090");
-
-// onMounted(async function () {
-//     const records = await pb
-//         .collection("pelajar")
-//         .getFullList(200 /* batch size */, {
-//             sort: "created",
-//         });
-//     pelajar.value = records;
-// });
-
-// onMounted(async function () {
-//     const records = await pb
-//         .collection("guru")
-//         .getFullList(200 /* batch size */, {
-//             sort: "created",
-//         });
-
-//     guru.value = records;
-// });
-
-// onMounted(async function () {
-//     const records = await pb
-//         .collection("kelas")
-//         .getFullList(200 /* batch size */, {
-//             sort: "created",
-//         });
-
-//     kelas.value = records;
-// });
 document.title = "Dashboard | Kerani";
 </script>
 
@@ -115,4 +81,23 @@ document.title = "Dashboard | Kerani";
         </div>
     </div>
 </template>
-<style></style>
+
+<script>
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+export default {
+    data() {
+        return {
+            email: "",
+            password: "",
+            toast: useToast(),
+            shouldValidate: false,
+        };
+    },
+    mounted() {
+        document.title = "Log Masuk";
+    },
+    components: {
+        SubmitButton,
+    },
+};
+</script>

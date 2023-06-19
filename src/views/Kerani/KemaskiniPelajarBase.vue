@@ -1,7 +1,3 @@
-<script setup>
-import router from "../../router";
-</script>
-
 <template>
     <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
         <RouterLink
@@ -88,6 +84,7 @@ import router from "../../router";
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import router from "../../router";
 
 export default {
     data() {

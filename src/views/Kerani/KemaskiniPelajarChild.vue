@@ -1,7 +1,3 @@
-<script setup>
-import router from "../../router";
-import SubmitButton from "../../components/SubmitButton.vue";
-</script>
 <template>
     <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
         <form class="bg-white m-auto" @submit.prevent="register()">
@@ -157,6 +153,8 @@ import SubmitButton from "../../components/SubmitButton.vue";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import router from "../../router";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -191,6 +189,9 @@ export default {
         this.studentNotSubject = this.allSubjects.filter(
             (subject) => !registeredSubjects.includes(subject.name)
         );
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         validateInput(input) {

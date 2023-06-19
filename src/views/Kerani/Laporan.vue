@@ -1,11 +1,3 @@
-<script setup>
-import { LogRequest } from "pocketbase";
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-
-document.title = "Laporan | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -376,6 +368,8 @@ document.title = "Laporan | Kerani";
 import axios from "axios";
 import html2pdf from "html2pdf.js";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -395,6 +389,8 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Laporan | Kerani";
+
         // Create an array of month names in Malay
         this.malayMonthNames = [
             "Januari",
@@ -436,6 +432,9 @@ export default {
         this.yearOptions = yearOptions.reverse();
         this.year = currentYear;
         this.confirmForm();
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         confirmForm() {

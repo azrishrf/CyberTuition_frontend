@@ -1,8 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -202,10 +197,11 @@ import SubmitButton from "../../components/SubmitButton.vue";
         </div>
     </div>
 </template>
-
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -221,6 +217,9 @@ export default {
         // Fetch all subjects and store them in the `subjects` array
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         async register() {

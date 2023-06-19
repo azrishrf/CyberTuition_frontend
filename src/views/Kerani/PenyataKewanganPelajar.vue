@@ -1,10 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import router from "../../router";
-
-document.title = "Pengesahan Resit Bank | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -344,6 +337,8 @@ document.title = "Pengesahan Resit Bank | Kerani";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import router from "../../router";
 
 export default {
     data() {
@@ -361,6 +356,8 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Pengesahan Resit Bank | Kerani";
+
         try {
             const response = await axios.get(
                 baseAPI + `/api/tuitionfee/${this.idTuitionFee}`

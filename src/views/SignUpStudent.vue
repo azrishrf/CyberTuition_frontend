@@ -1,14 +1,3 @@
-<script setup>
-import router from "../router";
-import SubmitButton from "../components/SubmitButton.vue";
-
-document.title = "Pendaftaran";
-
-async function redirectlogin() {
-    router.push("/");
-}
-</script>
-
 <template>
     <!-- Header -->
     <div class="bg-red pt-3 pb-3">
@@ -275,11 +264,7 @@ async function redirectlogin() {
                     :key="subjectData.idSubject"
                 >
                     <img
-                        v-bind:src="
-                            '/subjek/' +
-                            subjectData.name +
-                            '.png'
-                        "
+                        v-bind:src="'/subjek/' + subjectData.name + '.png'"
                         class="w-20"
                     />
                     <label class="font-semibold gap-9 text-sm pt-2">
@@ -314,6 +299,8 @@ async function redirectlogin() {
 import axios from "axios";
 import { baseAPI } from "../stores/index.js";
 import { useToast } from "vue-toastification";
+import router from "../router";
+import SubmitButton from "../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -343,7 +330,11 @@ export default {
             showConfirmPassword: false,
         };
     },
+    components: {
+        SubmitButton,
+    },
     async mounted() {
+        document.title = "Log Masuk";
         // Fetch all subjects and store them in the `subjects` array
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
@@ -560,6 +551,10 @@ export default {
                 .then((response) => {
                     const tuitionFee = response.data;
                 });
+        },
+
+        redirectlogin() {
+            router.push("/");
         },
     },
 };

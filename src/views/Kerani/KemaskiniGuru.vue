@@ -1,10 +1,3 @@
-<script setup>
-import router from "../../router";
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-document.title = "Kemaskini Guru | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -120,9 +113,13 @@ document.title = "Kemaskini Guru | Kerani";
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import router from "../../router";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -132,13 +129,17 @@ export default {
             idTeacher: router.currentRoute.value.params.id,
         };
     },
-
     async mounted() {
+        document.title = "Kemaskini Guru | Kerani";
+
         const response = await axios.get(
             baseAPI + `/api/teacher/${this.idTeacher}`
         );
         this.teacherData = response.data;
         this.userData = this.teacherData.user;
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         async updateTeacher() {

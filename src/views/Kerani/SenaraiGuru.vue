@@ -1,9 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-
-document.title = "Senarai Guru | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -136,9 +130,11 @@ document.title = "Senarai Guru | Kerani";
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
 
 export default {
     data() {
@@ -149,13 +145,15 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Senarai Guru | Kerani";
+
         const response = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = response.data;
     },
     methods: {
         toggleConfirmDelete(idTeacher) {
             this.selectedTeacher = idTeacher;
- 
+
             this.isOpen = !this.isOpen;
         },
 
@@ -164,13 +162,11 @@ export default {
                 .delete(baseAPI + `/api/teacher/${this.selectedTeacher}`)
 
                 .then((response) => {
-                  
                     this.isOpen = !this.isOpen;
-                   
+
                     this.teachers = this.teachers.filter(
                         (teacher) => teacher.idTeacher !== this.selectedTeacher
                     );
-                
                 })
                 .catch((error) => console.log(error));
         },

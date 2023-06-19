@@ -1,10 +1,3 @@
-<script setup>
-import SidebarDashboard from "../../components/SidebarDashboard.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-
-document.title = "Yuran | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -244,6 +237,8 @@ document.title = "Yuran | Kerani";
 <script>
 import axios from "axios";
 import { baseAPI } from "../../stores";
+import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
     data() {
@@ -257,7 +252,12 @@ export default {
             tuitionFees: "",
         };
     },
+    components: {
+        SubmitButton,
+    },
     async mounted() {
+        document.title = "Yuran | Kerani";
+
         const response = await axios.get(baseAPI + `/api/receiptbank`);
         this.receiptsBank = response.data;
 
