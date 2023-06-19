@@ -96,8 +96,5 @@ export default {
     mounted() {
         document.title = "Log Masuk";
     },
-    components: {
-        SubmitButton,
-    },
 };
 </script>
