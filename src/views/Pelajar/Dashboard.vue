@@ -1,9 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-
-document.title = "Dashboard | Pelajar";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -44,10 +38,7 @@ document.title = "Dashboard | Pelajar";
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
                     <div>
-                        <img
-                            src="/attendance.png"
-                            class="w-20"
-                        />
+                        <img src="/attendance.png" class="w-20" />
                     </div>
                     <div class="px-6 flex-col-reverse">
                         <p class="text-sm">Kedatangan</p>
@@ -74,3 +65,19 @@ document.title = "Dashboard | Pelajar";
         </div>
     </div>
 </template>
+
+<script>
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+
+export default {
+    data() {
+        return {};
+    },
+    mounted() {
+        document.title = "Dashboard | Pelajar";
+    },
+    components: {
+        SideBarPelajar,
+    },
+};
+</script>

@@ -1,20 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import router from "../../router";
-import SubmitButton from "../../components/SubmitButton.vue";
-
-document.title = "Dashboard | Pelajar";
-
-// Kemaskin profil
-async function kemaskiniProfilDiri() {
-    router.push("/pelajar/profil/kemaskiniprofildiri");
-}
-// Ubah Kata Laluan
-async function ubahKataLaluan() {
-    router.push("/pelajar/profil/katalaluan");
-}
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -265,10 +248,7 @@ async function ubahKataLaluan() {
                         @click="createBill()"
                     >
                         <div class="text-center space-x-4">
-                            <img
-                                src="/fpx.png"
-                                class="w-24 h-full inline"
-                            />
+                            <img src="/fpx.png" class="w-24 h-full inline" />
                             <img
                                 src="/toyyibpay.png"
                                 class="w-36 h-full inline"
@@ -309,8 +289,15 @@ async function ubahKataLaluan() {
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import router from "../../router";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SideBarPelajar,
+        SubmitButton,
+    },
     data() {
         return {
             isTuitionFeePaid: false,
@@ -331,6 +318,8 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Dashboard | Pelajar";
+
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.userData = response.data;
@@ -556,6 +545,14 @@ export default {
                 JSON.stringify(this.tuitionFee.idTuitionFee)
             );
             router.push("/pelajar/yuran/muatnaikresitbank");
+        },
+
+        kemaskiniProfilDiri() {
+            router.push("/pelajar/profil/kemaskiniprofildiri");
+        },
+        // Ubah Kata Laluan
+        ubahKataLaluan() {
+            router.push("/pelajar/profil/katalaluan");
         },
     },
 };

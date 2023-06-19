@@ -210,8 +210,14 @@ export default {
     },
     data() {
         return {
-            user: [],
-            teacher: [],
+            email: "",
+            nameTeacher: "",
+            noICTeacher: "",
+            noPhoneTeacher: "",
+            ageTeacher: "",
+            addressTeacher: "",
+            // user: [],
+            // teacher: [],
             subjects: [],
             selectedSubjects: [],
             teacherId: null,
@@ -238,6 +244,8 @@ export default {
                 ageTeacher: parseInt(this.ageTeacher),
                 addressTeacher: this.addressTeacher,
             };
+            console.log(user);
+            console.log(teacher);
 
             axios
                 .post(baseAPI + "/api/user", user)

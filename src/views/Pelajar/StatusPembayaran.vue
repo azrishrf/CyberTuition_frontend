@@ -1,16 +1,7 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-import router from "../../router";
-import KemaskiniPelajar from "../Kerani/KemaskiniPelajar.vue";
-
-document.title = "Dashboard | Pelajar";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
-        <!-- <SideBarPelajar linkActive="profil" /> -->
+        <SideBarPelajar linkActive="profil" />
         <!-- Page Content -->
         <div class="w-full px-6 py-4 lg:px-4">
             <!-- Top Bar -->
@@ -176,12 +167,21 @@ document.title = "Dashboard | Pelajar";
     </div>
 </template>
 
+<script setup></script>
+
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
+import router from "../../router";
 
 export default {
+    components: {
+        SideBarPelajar,
+        SubmitButton,
+    },
     data() {
         return {
             statusId: "",
@@ -194,6 +194,8 @@ export default {
     },
 
     mounted() {
+        document.title = "Dashboard | Pelajar";
+
         // Get data user
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.userData = response.data;

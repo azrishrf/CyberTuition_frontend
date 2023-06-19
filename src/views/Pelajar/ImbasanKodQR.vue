@@ -1,9 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import router from "../../router";
-document.title = "Imbasan Kod QR | Pelajar";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -99,8 +93,13 @@ import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import QRcodeScanner from "../../components/QRcodeScanner.vue";
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import router from "../../router";
 
 export default {
+    components: {
+        SideBarPelajar,
+    },
     data() {
         return {
             studentData: "",
@@ -112,8 +111,8 @@ export default {
             errorMessage: "",
         };
     },
-
     async mounted() {
+        document.title = "Imbasan Kod QR | Pelajar";
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
