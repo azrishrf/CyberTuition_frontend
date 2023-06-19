@@ -98,7 +98,8 @@ import router from "../../router";
 
 export default {
     components: {
-        SideBarPelajar,
+        // SideBarPelajar,
+        QRcodeScanner,
     },
     data() {
         return {
