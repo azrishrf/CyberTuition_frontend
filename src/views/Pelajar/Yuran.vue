@@ -433,7 +433,7 @@ export default {
                         );
 
                         fetch(
-                            "https://toyyibpay.com/index.php/api/createBill",
+                            "https://dev.toyyibpay.com/index.php/api/createBill",
                             {
                                 method: "POST",
                                 body: formData,
