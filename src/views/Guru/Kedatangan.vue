@@ -1,9 +1,3 @@
-<script setup>
-import SidebarGuru from "../../components/SidebarGuru.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-document.title = "Kedatangan | Guru";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -258,6 +252,7 @@ document.title = "Kedatangan | Guru";
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
@@ -265,8 +260,15 @@ import CanvasQR from "../../components/CanvasQR.vue";
 import dayjs from "dayjs";
 import "dayjs/locale/ms-my";
 import { baseAPI } from "../../stores";
+import SidebarGuru from "../../components/SidebarGuru.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SubmitButton,
+        SidebarGuru,
+        CanvasQR,
+    },
     data() {
         return {
             subjects: "",
@@ -288,6 +290,8 @@ export default {
     },
 
     async mounted() {
+        document.title = "Kedatangan | Guru";
+
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             const teacherId = response.data.teacher.idTeacher;
