@@ -1,10 +1,3 @@
-<script setup>
-import SubmitButton from "../components/SubmitButton.vue";
-import router from "../router";
-
-document.title = "Log Masuk";
-</script>
-
 <template>
     <div class="bg-slate-50 w-screen min-h-screen grid place-items-center">
         <!-- Center div -->
@@ -60,6 +53,8 @@ document.title = "Log Masuk";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../stores";
+import SubmitButton from "../components/SubmitButton.vue";
+import router from "../router";
 
 export default {
     data() {
@@ -68,6 +63,12 @@ export default {
             password: "",
             toast: useToast(),
         };
+    },
+    mounted() {
+        document.title = "Log Masuk";
+    },
+    components: {
+        SubmitButton,
     },
     methods: {
         // check and send input to database to login
