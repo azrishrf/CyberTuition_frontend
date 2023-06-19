@@ -241,6 +241,10 @@ import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SubmitButton,
+        SidebarDashboard,
+    },
     data() {
         return {
             receiptsBank: "",
@@ -252,9 +256,7 @@ export default {
             tuitionFees: "",
         };
     },
-    components: {
-        SubmitButton,
-    },
+
     async mounted() {
         document.title = "Yuran | Kerani";
 

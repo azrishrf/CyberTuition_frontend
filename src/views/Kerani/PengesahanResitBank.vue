@@ -211,6 +211,9 @@ import router from "../../router";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 
 export default {
+    components: {
+        SidebarDashboard,
+    },
     data() {
         return {
             receiptsBankid: router.currentRoute.value.params.id,

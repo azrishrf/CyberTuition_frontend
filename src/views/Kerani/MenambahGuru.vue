@@ -204,6 +204,10 @@ import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SubmitButton,
+        SidebarDashboard,
+    },
     data() {
         return {
             user: [],
@@ -218,9 +222,7 @@ export default {
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
     },
-    components: {
-        SubmitButton,
-    },
+
     methods: {
         async register() {
             const user = {

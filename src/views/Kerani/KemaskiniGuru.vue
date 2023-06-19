@@ -122,6 +122,10 @@ import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SubmitButton,
+        SidebarDashboard,
+    },
     data() {
         return {
             userData: "",
@@ -137,9 +141,6 @@ export default {
         );
         this.teacherData = response.data;
         this.userData = this.teacherData.user;
-    },
-    components: {
-        SubmitButton,
     },
     methods: {
         async updateTeacher() {

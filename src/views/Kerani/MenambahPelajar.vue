@@ -266,6 +266,10 @@ import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SidebarDashboard,
+        SubmitButton,
+    },
     data() {
         return {
             email: "",
@@ -292,9 +296,7 @@ export default {
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
     },
-    components: {
-        SubmitButton,
-    },
+
     methods: {
         validateInput(input) {
             if (input === "") {

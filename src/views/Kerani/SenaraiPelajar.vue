@@ -150,6 +150,9 @@ import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 
 export default {
+    components: {
+        SidebarDashboard,
+    },
     data() {
         return {
             students: [],

@@ -172,6 +172,7 @@ import SidebarDashboard from "../../components/SidebarDashboard.vue";
 export default {
     components: {
         KemaskiniMaklumatPelajar,
+        SidebarDashboard,
     },
     data() {
         return {
@@ -196,7 +197,6 @@ export default {
             toast: useToast(),
             showDialogDeleteSubject: false,
             selectedDeleteSubject: "",
-
             updatedStudentData: "",
         };
     },

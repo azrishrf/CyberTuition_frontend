@@ -115,6 +115,9 @@ import router from "../../router";
 import { pengesahan } from "../../stores/index";
 
 export default {
+    components: {
+        SidebarDashboard,
+    },
     data() {
         return {
             students: [],

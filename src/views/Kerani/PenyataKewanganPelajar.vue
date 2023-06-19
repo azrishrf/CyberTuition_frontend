@@ -341,6 +341,9 @@ import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import router from "../../router";
 
 export default {
+    components: {
+        SidebarDashboard,
+    },
     data() {
         return {
             receiptsBank: "",

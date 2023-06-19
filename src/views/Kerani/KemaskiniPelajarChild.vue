@@ -157,6 +157,9 @@ import router from "../../router";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SubmitButton,
+    },
     data() {
         return {
             studentData: "",
@@ -165,7 +168,6 @@ export default {
             shouldValidate: false,
             allSubjects: "",
             studentSubject: "",
-
             studentNotSubject: "",
         };
     },
@@ -189,9 +191,6 @@ export default {
         this.studentNotSubject = this.allSubjects.filter(
             (subject) => !registeredSubjects.includes(subject.name)
         );
-    },
-    components: {
-        SubmitButton,
     },
     methods: {
         validateInput(input) {

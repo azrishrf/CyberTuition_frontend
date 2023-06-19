@@ -89,6 +89,9 @@ import router from "../../router";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SubmitButton,
+    },
     data() {
         return {
             toast: useToast(),
@@ -113,9 +116,7 @@ export default {
         const responseTeacher = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = responseTeacher.data;
     },
-    components: {
-        SubmitButton,
-    },
+
     methods: {
         async updateSubject() {
             const response = await axios.get(

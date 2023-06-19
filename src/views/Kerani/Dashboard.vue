@@ -1,7 +1,3 @@
-<script setup>
-document.title = "Dashboard | Kerani";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -84,17 +80,16 @@ document.title = "Dashboard | Kerani";
 
 <script>
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
+
 export default {
     data() {
-        return {
-            email: "",
-            password: "",
-            toast: useToast(),
-            shouldValidate: false,
-        };
+        return {};
     },
     mounted() {
-        document.title = "Log Masuk";
+        document.title = "Dashboard | Kerani";
+    },
+    components: {
+        SidebarDashboard,
     },
 };
 </script>

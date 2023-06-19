@@ -189,6 +189,10 @@ import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
+    components: {
+        SubmitButton,
+        SidebarDashboard,
+    },
     data() {
         return {
             subjectData: {},
@@ -262,9 +266,7 @@ export default {
         this.year = currentYear;
         this.submit();
     },
-    components: {
-        SubmitButton,
-    },
+
     methods: {
         async submit() {
             (this.showAttendance = true),

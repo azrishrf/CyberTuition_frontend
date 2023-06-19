@@ -187,6 +187,10 @@ import SubmitButton from "../../components/SubmitButton.vue";
 import router from "../../router";
 
 export default {
+    components: {
+        SubmitButton,
+        SidebarDashboard,
+    },
     data() {
         return {
             studentData: "",
@@ -242,6 +246,5 @@ export default {
             this.showDialog = true;
         },
     },
-    components: { SubmitButton },
 };
 </script>
