@@ -219,7 +219,7 @@ export default {
 
         axios
             .put(baseAPI + "/api/paymentgateway", updatePaymentGatewayData)
-            .then((response) => {})
+            // .then((response) => {})
             .catch((error) => {
                 const errorMessage = error.response.data.error;
                 console.log(errorMessage);
