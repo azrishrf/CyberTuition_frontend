@@ -2,13 +2,6 @@
 import { ref } from "vue";
 import router from "../router";
 
-function toggleSidebar(route) {
-    showSidebar.value = !showSidebar.value;
-    setTimeout(() => {
-        router.push(route);
-    }, 300);
-}
-
 // dropdown for navigation pelajar
 const pelajarDropdown = ref(false);
 
@@ -40,14 +33,21 @@ async function logout() {
 }
 
 const showSidebar = ref(false);
+
+function toggleSidebar(route) {
+    showSidebar.value = !showSidebar.value;
+
+    setTimeout(() => {
+        router.push(route);
+    }, 300);
+}
 </script>
 
 <template>
     <div class="flex h-screen">
         <!-- Sidebar -->
-
         <div
-            class="bg-white w-72 flex-none shadow-home px-4 absolute inset-y-0 left-0 lg:relative lg:translate-x-0 transform -translate-x-full transition duration-300 ease-in-out"
+            class="bg-white w-72 flex-none z-10 shadow-home px-4 fixed inset-y-0 left-0 lg:relative lg:translate-x-0 transform -translate-x-full transition duration-300 ease-in-out"
             :class="{ ' translate-x-0': showSidebar }"
         >
             <img src="/LogoCyberTuition.png" class="w-44 m-auto mt-4 mb-5" />
@@ -94,58 +94,58 @@ const showSidebar = ref(false);
             </button>
 
             <!-- Nav Kelas -->
-            <router-link
-                to="/pelajar/kelas"
-                @click="toggleSidebar"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2"
+            <button
+                @click="toggleSidebar('/pelajar/kelas')"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'kelas',
                     'text-grey2 hover:bg-gray-100': linkActive !== 'kelas',
                 }"
-                ><i class="fa-solid fa-book flex items-center text-base"></i>
+            >
+                <i class="fa-solid fa-book flex items-center text-base"></i>
                 Kelas
-            </router-link>
+            </button>
             <!-- Nav Kedatangan -->
-            <router-link
-                to="/pelajar/kedatangan"
-                @click="toggleSidebar"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2"
+            <button
+                @click="toggleSidebar('/pelajar/kedatangan')"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'kedatangan',
                     'text-grey2  hover:bg-gray-100':
                         linkActive !== 'kedatangan',
                 }"
-                ><i class="fa-solid fa-qrcode flex items-center text-lg"></i>
+            >
+                <i class="fa-solid fa-qrcode flex items-center text-lg"></i>
                 Kedatangan
-            </router-link>
+            </button>
             <!-- Nav Yuran -->
-            <router-link
-                to="/pelajar/yuran"
-                @click="toggleSidebar"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2"
+            <button
+                @click="toggleSidebar('/pelajar/yuran')"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'yuran',
                     'text-grey2 hover:bg-gray-100': linkActive !== 'yuran',
                 }"
-                ><i
+            >
+                <i
                     class="fa-sharp fa-solid fa-credit-card flex items-center text-base"
                 ></i>
                 Yuran
-            </router-link>
+            </button>
             <!-- Nav Laporan -->
-            <router-link
-                to="/pelajar/laporan"
-                @click="toggleSidebar"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2"
+            <button
+                @click="toggleSidebar('/pelajar/laporan')"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'laporan',
                     'text-grey2 hover:bg-gray-100': linkActive !== 'laporan',
                 }"
-                ><i
+            >
+                <i
                     class="fa-solid fa-chart-simple flex items-center text-base"
                 ></i>
                 Laporan
-            </router-link>
+            </button>
             <!-- log out -->
             <button
                 class="text-white bg-slate-700 font-bold text-xs py-3 px-5 rounded-2xl flex items-center justify-center gap-5 mt-10 hover:bg-slate-600 mx-9"
@@ -193,6 +193,7 @@ const showSidebar = ref(false);
             <!-- Header -->
             <div
                 class="flex justify-between bg-white shadow-login rounded-full md:rounded-2xl px-5 py-1"
+                :class="{ sticky: !showSidebar }"
             >
                 <button
                     @click="showSidebar = !showSidebar"
@@ -212,21 +213,11 @@ const showSidebar = ref(false);
             </div>
 
             <!-- Main content -->
-            <div class="">
+            <div class="px-4">
                 <slot name="content"></slot>
             </div>
         </div>
     </div>
 </template>
 
-<style scoped>
-.sidebar-slide-enter-active,
-.sidebar-slide-leave-active {
-    transition: transform 0.5s ease-in-out;
-}
-
-.sidebar-slide-enter,
-.sidebar-slide-leave-to {
-    transform: translateX(-100%);
-}
-</style>
+<style scoped></style>

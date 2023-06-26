@@ -1,58 +1,49 @@
 <template>
     <SideBarPelajar linkActive="dashboard">
         <template v-slot:content>
-            <!-- Your data content here -->
-
-            <!-- Page Content -->
-
-            <!-- Top Bar -->
-            <!-- <div
-                class="flex justify-end bg-white shadow-login rounded-full md:rounded-2xl px-6 py-2"
-            >
-                <div
-                    class="flex items-center justify-between bg-red w-28 text-white text-xs px-4 rounded-3xl py-2 font-semibold"
-                >
-                    <i class="fa-solid fa-user text-xs"></i>Pelajar
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-            </div> -->
-            <!-- Top Bar Baru -->
-
             <!-- Welcome Text -->
-            <h1 class="mt-5 mb-1 font-semibold text-xl">Hi, Selamat Datang</h1>
-            <p class="mb-5 font-semibold text-sm text-grey2">Dashboard</p>
-
+            <h1 class="mt-5 font-semibold text-base md:text-xl">
+                Hi, Selamat Datang
+            </h1>
+            <p class="mb-5 font-semibold text-xs md:text-sm text-grey2">
+                Dashboard
+            </p>
             <!-- Total -->
-            <!-- <div class="flex justify-center gap-5">
-                <div
-                    class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                >
-                    <div>
-                        <img src="/class.png" class="w-20" />
+            <div class="flex flex-col md:flex-row justify-center gap-5">
+                <div class="flex justify-center gap-4">
+                    <div
+                        class="bg-white shadow-login flex flex-col md:flex-row py-4 px-5 items-center rounded-2xl"
+                    >
+                        <div>
+                            <img src="/class.png" class="w-20" />
+                        </div>
+                        <div class="px-7 flex-col-reverse">
+                            <p class="text-sm">Subjek</p>
+                            <p
+                                class="text-xl text-black font-medium text-center"
+                            >
+                                3
+                            </p>
+                        </div>
                     </div>
-                    <div class="px-7 flex-col-reverse">
-                        <p class="text-sm">Subjek</p>
-                        <p class="text-xl text-black font-medium text-center">
-                            3
-                        </p>
+                    <div
+                        class="bg-white shadow-login flex flex-col md:flex-row py-4 px-2 items-center rounded-2xl"
+                    >
+                        <div>
+                            <img src="/attendance.png" class="w-20" />
+                        </div>
+                        <div class="px-6 flex-col-reverse">
+                            <p class="text-sm">Kedatangan</p>
+                            <p
+                                class="text-xl text-black font-medium text-center"
+                            >
+                                92%
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div
-                    class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                >
-                    <div>
-                        <img src="/attendance.png" class="w-20" />
-                    </div>
-                    <div class="px-6 flex-col-reverse">
-                        <p class="text-sm">Kedatangan</p>
-                        <p class="text-xl text-black font-medium text-center">
-                            92%
-                        </p>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
+                    class="bg-white shadow-login flex py-4 px-5 items-center justify-center rounded-2xl w-10/12 mx-auto md:w-64 md:mx-0"
                 >
                     <div>
                         <img src="/fee.png" class="w-20" />
@@ -64,7 +55,7 @@
                         </p>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </template>
     </SideBarPelajar>
 </template>
