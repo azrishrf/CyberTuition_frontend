@@ -4,7 +4,7 @@
         <div class="m-auto bg-white rounded-2xl p-16 shadow-login">
             <img src="/LogoCyberTuition.png" class="w-64 m-auto mb-5" />
             <!-- Login Form -->
-            <form @submit.prevent="login()">
+            <form v-on:submit.prevent="login()">
                 <!-- Email -->
                 <div
                     class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
@@ -14,9 +14,10 @@
                 >
                     <i class="bi bi-person inline mr-3 text-grey text-lg"></i>
                     <input
-                        class="focus:outline-none w-full"
+                        class="focus:outline-none w-full input"
                         type="email"
                         placeholder="E-Mel"
+                        name="email"
                         v-model="email"
                     />
                 </div>
@@ -31,9 +32,10 @@
                 >
                     <i class="bi bi-lock inline mr-3 text-grey text-base"></i>
                     <input
-                        class="focus:outline-none w-full"
+                        class="focus:outline-none w-full input"
                         type="password"
                         placeholder="Kata Laluan"
+                        name="password"
                         v-model="password"
                     />
                 </div>
@@ -138,7 +140,6 @@ export default {
                         // Handle error
                         if (error.response && error.response.status === 401) {
                             const errorMessage = error.response.data.error;
-
                             this.toast.warning(errorMessage, { timeout: 3000 });
                         }
                     });
@@ -148,7 +149,7 @@ export default {
 };
 </script>
 
-<!-- <style>
+<style>
 .input:-webkit-autofill,
 .input:-webkit-autofill:hover,
 .input:-webkit-autofill:focus,
@@ -156,4 +157,4 @@ export default {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
     -webkit-text-fill-color: black !important;
 }
-</style> -->
+</style>

@@ -243,14 +243,6 @@
                             txt="Sahkan"
                             class="mt-6 px-9"
                         />
-                        <button
-                            txt="Batalkan"
-                            type="button"
-                            class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
-                            @click="redirectlogin()"
-                        >
-                            Batalkan
-                        </button>
                     </div>
                 </form>
             </div>
@@ -264,6 +256,7 @@ import { baseAPI } from "../../stores";
 import { useToast } from "vue-toastification";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
+import router from "../../router";
 
 export default {
     components: {
@@ -325,13 +318,6 @@ export default {
                     top: window.innerHeight / 3,
                     behavior: "smooth", // Use 'smooth' for smooth scrolling effect
                 });
-            } else if (this.password !== this.confirmPassword) {
-                this.toast.error(
-                    "Kata Laluan dan Pengesahan Kata Laluan adalah tidak sama!",
-                    {
-                        timeout: 3000,
-                    }
-                );
             } else {
                 // Check existing user
                 const checkUser = await axios.post(
@@ -385,16 +371,30 @@ export default {
                                     this.studentId = response.data.idStudent;
                                     this.createStudentSubjects();
                                     this.createTuitionFee();
+                                    this.toast.success(
+                                        "Pendaftaran Pelajar Berjaya",
+                                        {
+                                            timeout: 3000,
+                                        }
+                                    );
+                                    router.push("/kerani/guru/senaraipelajar");
                                 })
                                 .catch((error) => {
-                                    console.error(
-                                        "Error creating student:",
-                                        error
+                                    this.toast.error(
+                                        "Gagal Mendaftar Pelajar. Sila Semak Input Anda!",
+                                        {
+                                            timeout: 3000,
+                                        }
                                     );
                                 });
                         })
                         .catch((error) => {
-                            console.error("Error creating user:", error);
+                            this.toast.error(
+                                "Gagal Mendaftar Pelajar. Sila Semak Input Anda!",
+                                {
+                                    timeout: 3000,
+                                }
+                            );
                         });
                 }
             }
@@ -420,9 +420,6 @@ export default {
                     idSubject: subject.idSubject,
                     idStudent: this.studentId,
                 });
-            });
-            this.toast.success("Pendaftaran Berjaya", {
-                timeout: 3000,
             });
         },
 

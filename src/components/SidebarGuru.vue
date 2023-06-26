@@ -96,7 +96,7 @@ async function logout() {
                 'bg-red text-white': linkActive === 'kedatangan',
                 'text-grey2  hover:bg-gray-100': linkActive !== 'kedatangan',
             }"
-            ><i class="fa-solid fa-qrcode flex items-center text-lg"></i>
+            ><i class="fa-solid fa-qrcode flex items-center text-lg"></i>Kedatangan
             <!-- Kedatangan -->
         </router-link>
 

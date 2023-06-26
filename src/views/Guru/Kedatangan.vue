@@ -463,7 +463,7 @@ export default {
             };
             axios
                 .put(
-                    baseAPI + `api/markAttend/student_attendance`,
+                    baseAPI + `/api/markAttend/student_attendance`,
                     updateDataAttend
                 )
                 .then((response) => {})
