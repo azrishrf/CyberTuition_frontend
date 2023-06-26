@@ -192,7 +192,7 @@ function toggleSidebar(route) {
         <div class="flex-grow w-full px-4 md:px-12 py-2">
             <!-- Header -->
             <div
-                class="flex justify-between bg-white shadow-login rounded-full md:rounded-2xl px-5 py-1"
+                class="flex justify-between sticky bg-white shadow-login rounded-full md:rounded-2xl px-5 py-1"
                 :class="{ sticky: !showSidebar }"
             >
                 <button
@@ -220,4 +220,9 @@ function toggleSidebar(route) {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.sticky {
+    position: sticky;
+    top: 8px;
+}
+</style>
