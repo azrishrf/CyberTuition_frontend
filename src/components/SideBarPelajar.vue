@@ -189,7 +189,7 @@ const showSidebar = ref(false);
             ></div>
         </div>
 
-        <div class="flex-grow w-full px-4 md:px-12 py-4">
+        <div class="flex-grow w-full px-4 md:px-12 py-2">
             <!-- Header -->
             <div
                 class="flex justify-between bg-white shadow-login rounded-full md:rounded-2xl px-5 py-1"
@@ -198,15 +198,15 @@ const showSidebar = ref(false);
                     @click="showSidebar = !showSidebar"
                     class="flex items-center justify-center my-auto w-8 rounded-full h-8 hover:bg-slate-100"
                 >
-                    <i class="fa-solid fa-bars my-auto text-lg"></i>
+                    <i class="fa-solid fa-bars my-auto text-base"></i>
                     <!-- <i class="fa-solid fa-angle-down"></i> -->
                 </button>
 
-                <img src="/LogoCyberTuition.png" class="w-36" />
+                <img src="/LogoCyberTuition.png" class="w-32" />
                 <div
-                    class="flex items-center justify-center my-auto bg-red text-white w-8 rounded-full h-8"
+                    class="flex items-center justify-center my-auto bg-red text-white w-7 rounded-full h-7"
                 >
-                    <i class="fa-solid fa-user text-sm"></i>
+                    <i class="fa-solid fa-user text-xs"></i>
                     <!-- <i class="fa-solid fa-angle-down"></i> -->
                 </div>
             </div>
