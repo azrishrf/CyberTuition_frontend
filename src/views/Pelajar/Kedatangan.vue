@@ -1,15 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import router from "../../router";
-document.title = "Kedatangan | Pelajar";
-// import SubmitButton from "../../components/SubmitButton.vue";
-
-// imbas Kod QR
-async function imbasKodQR() {
-    router.push("/pelajar/kedatangan/imbasankodqr");
-}
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -114,12 +102,18 @@ async function imbasKodQR() {
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import router from "../../router";
 
 export default {
+    components: {
+        SideBarPelajar,
+    },
     data() {
         return {
             studentData: "",
@@ -130,6 +124,8 @@ export default {
     },
 
     async mounted() {
+        document.title = "Kedatangan | Pelajar";
+
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
@@ -170,6 +166,10 @@ export default {
             };
             const date = new Date(dateString);
             return date.toLocaleDateString("ms-MY", options);
+        },
+        // imbas Kod QR
+        imbasKodQR() {
+            router.push("/pelajar/kedatangan/imbasankodqr");
         },
     },
 };

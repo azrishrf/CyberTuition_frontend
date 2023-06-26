@@ -1,10 +1,9 @@
 <template>
-    <SideBarPelajar linkActive="dashboard">
-        <template v-slot:content>
-            <!-- Your data content here -->
-
-            <!-- Page Content -->
-
+    <div class="bg-slate-50 w-full min-h-screen flex">
+        <!-- Side Bar -->
+        <SideBarPelajar linkActive="dashboard" />
+        <!-- Page Content -->
+        <div class="w-full px-4 md:px-12 py-4">
             <!-- Top Bar -->
             <!-- <div
                 class="flex justify-end bg-white shadow-login rounded-full md:rounded-2xl px-6 py-2"
@@ -17,13 +16,29 @@
                 </div>
             </div> -->
             <!-- Top Bar Baru -->
+            <!-- <div
+                class="flex justify-between bg-white shadow-login rounded-full md:rounded-2xl px-5 py-1"
+            >
+                <div
+                    class="flex items-center justify-center my-auto w-8 rounded-full h-8"
+                >
+                    <i class="fa-solid fa-bars my-auto text-lg"></i>
+         
+                </div>
 
+                <img src="/LogoCyberTuition.png" class="w-36" />
+                <div
+                    class="flex items-center justify-center my-auto bg-red text-white w-8 rounded-full h-8"
+                >
+                    <i class="fa-solid fa-user text-sm"></i>
+                </div>
+            </div> -->
             <!-- Welcome Text -->
             <h1 class="mt-5 mb-1 font-semibold text-xl">Hi, Selamat Datang</h1>
             <p class="mb-5 font-semibold text-sm text-grey2">Dashboard</p>
 
             <!-- Total -->
-            <!-- <div class="flex justify-center gap-5">
+            <div class="flex justify-center gap-5">
                 <div
                     class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                 >
@@ -64,9 +79,9 @@
                         </p>
                     </div>
                 </div>
-            </div> -->
-        </template>
-    </SideBarPelajar>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>

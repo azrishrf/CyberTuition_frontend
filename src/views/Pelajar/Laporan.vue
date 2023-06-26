@@ -1,19 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import router from "../../router";
-
-document.title = "Dashboard | Pelajar";
-
-// Kemaskin profil
-async function kemaskiniProfilDiri() {
-    router.push("/pelajar/profil/kemaskiniprofildiri");
-}
-// Ubah Kata Laluan
-async function ubahKataLaluan() {
-    router.push("/pelajar/profil/katalaluan");
-}
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -42,17 +26,17 @@ async function ubahKataLaluan() {
 
             <!-- Profil Diri -->
             <!-- Maklumat Pelajar -->
-            <div class="shadow-login bg-white py-7 px-36 rounded-2xl my-5">
+            <div
+                class="shadow-login bg-white py-7 px-36 rounded-2xl my-5"
+                id="data-laporan"
+            >
                 <div class="text-center">
-                    <img
-                        src="/LogoCyberTuition.png"
-                        class="w-60 m-auto"
-                    />
+                    <img src="/LogoCyberTuition.png" class="w-60 m-auto" />
                     <h1 class="font-semibold">LAPORAN PELAJAR</h1>
                     <h1 class="font-semibold mb-5">{{ this.formattedDate }}</h1>
                 </div>
 
-                <!-- New -->
+                <!-- Laporan -->
                 <div class="flex pl-10">
                     <!-- 1 -->
                     <div class="grow">
@@ -81,7 +65,7 @@ async function ubahKataLaluan() {
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
                                     >
-                                        {{ this.user.email }}
+                                        {{ this.userEmail }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -243,6 +227,16 @@ async function ubahKataLaluan() {
                     </div>
                 </div>
             </div>
+            <!-- Generate pdf button  -->
+            <div class="flex flex-row-reverse">
+                <button
+                    @click="generatePDF"
+                    class="flex flex-col items-center py-4 px-5 bg-gray-500 hover:bg-slate-700 shadow-login rounded-2xl"
+                >
+                    <i class="fa-solid fa-print text-2xl text-white"></i>
+                    <p class="font-semibold text-white text-sm">Cetak</p>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -251,13 +245,18 @@ async function ubahKataLaluan() {
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import html2pdf from "html2pdf.js";
 
 export default {
+    components: {
+        SideBarPelajar,
+    },
     data() {
         return {
             studentData: "",
-            userEmail: "",
             studentId: "",
+            userEmail: "",
             formattedDate: "",
             attendances: [],
             studentSubject: [],
@@ -270,10 +269,10 @@ export default {
     },
 
     async mounted() {
+        document.title = "Dashboard | Pelajar";
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
-            this.user = response.data;
-
+            this.userEmail = response.data.email;
             this.studentId = response.data.student.idStudent;
 
             axios
@@ -286,7 +285,6 @@ export default {
 
                     this.filterAttendanceCurrentMonth();
                     this.filterTotalAttend();
-                    this.filterTuitionFee();
                 });
 
             const currentDate = new Date();
@@ -349,6 +347,25 @@ export default {
                 (attendance) => attendance.isAttend === true
             );
             return this.totalAttend;
+        },
+        // Generate pdf
+        generatePDF() {
+            const element = document.getElementById("data-laporan");
+
+            html2pdf()
+                .set({
+                    html2canvas: {
+                        scale: 2, // Adjust the scale value to make the PDF smaller (e.g., 2 for half the size)
+                    },
+                    pagebreak: { mode: "avoid-all" }, // Optional: Set page break mode to avoid splitting content across pages
+                    filename: `Laporan Bulanan Pelajar.pdf`, // Optional: Set the desired file name
+                    jsPDF: {
+                        orientation: "landscape", // Set the page orientation to landscape
+                    },
+                })
+
+                .from(element)
+                .save();
         },
     },
 };

@@ -223,7 +223,7 @@ export default {
                 !this.addressTeacher ||
                 this.selectedSubjects.length === 0
             ) {
-                this.toast.error("Sila isi semua maklumat!", {
+                this.toast.error("Sila Isi Semua Maklumat!", {
                     timeout: 3000,
                 });
                 window.scrollTo({
@@ -236,23 +236,30 @@ export default {
                     baseAPI + `/api/existinguser/${this.email}`
                 );
                 const existingUser = checkUser.data;
-                // Check existing student
-                // const checkTeacher = await axios.post(
-                //     baseAPI + `/api/existingteacher/${this.noICTeacher}`
-                // );
-                // const existingTeacher = checkTeacher.data;
 
                 if (existingUser) {
-                    this.toast.error("Email sudah digunakan!", {
+                    this.toast.error("Email Sudah Digunakan!", {
                         timeout: 3000,
                     });
-                }
-                // else if (existingTeacher) {
-                //     this.toast.error("Nombor Kad Pengenalan sudah digunakan!", {
-                //         timeout: 3000,
-                //     });
-                // }
-                else {
+                } else if (this.noPhoneTeacher.length > 11) {
+                    this.toast.error("Nombor Telefon Melebihi 11 Digit", {
+                        timeout: 3000,
+                    });
+                } else if (!/^\d+$/.test(this.noPhoneTeacher)) {
+                    this.toast.error(
+                        "Nombor Telefon Hanya Digit Yang Dibenarkan",
+                        {
+                            timeout: 3000,
+                        }
+                    );
+                } else if (!/^\d+$/.test(this.noICTeacher)) {
+                    this.toast.error(
+                        "Nombor Kad Pengenalan Hanya Digit Yang Dibenarkan",
+                        {
+                            timeout: 3000,
+                        }
+                    );
+                } else {
                     const user = {
                         email: this.email,
                         password: this.noICTeacher,

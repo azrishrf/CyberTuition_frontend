@@ -201,7 +201,7 @@
                                     Belum Dibayar
                                 </p>
                                 <p
-                                    class="bg-yellow-400 text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                    class="bg-yellow-400 text-white px-3 py-1 rounded-xl text-xs inline-block"
                                     v-if="
                                         studentData.statusPayment ===
                                         'Menunggu Pengesahan'

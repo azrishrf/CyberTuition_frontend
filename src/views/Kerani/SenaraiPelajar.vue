@@ -50,7 +50,6 @@
                         <th class="font-semibold">E-Mel</th>
                         <th class="font-semibold">Tingkatan</th>
                         <th class="font-semibold">No Kad Pengenalan</th>
-                        <!-- <th class="font-semibold">Tarikh Lahir</th> -->
                         <th class="font-semibold rounded-r-2xl">Tindakan</th>
                     </tr>
 
@@ -73,9 +72,7 @@
                         <td class="font-semibold">
                             {{ studentData.noICStudent }}
                         </td>
-                        <!-- <td class="font-semibold">
-                            {{ formatDate(studentData.dateOfBirth) }}
-                        </td> -->
+
                         <td class="font-semibold">
                             <router-link
                                 v-bind:to="
@@ -93,7 +90,7 @@
                                 "
                             ></button>
                         </td>
-                        <dialog
+                        <!-- <dialog
                             class="z-50 w-2/6 bg-white px-3 pt-4 top-1/3 rounded-xl"
                             v-bind:open="isOpen"
                         >
@@ -127,7 +124,47 @@
                         <div
                             class="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"
                             v-bind:class="{ hidden: !isOpen }"
-                        ></div>
+                        ></div> -->
+                        <!-- Dialog delete student -->
+                        <div
+                            v-if="isOpen"
+                            class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-10"
+                        >
+                            <div
+                                class="w-2/6 bg-white px-3 py-4 top-1/3 rounded-xl"
+                            >
+                                <div>
+                                    <i
+                                        class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
+                                    ></i>
+
+                                    <h1
+                                        class="font-semibold text-base text-left"
+                                    >
+                                        Memadam Data Pelajar
+                                    </h1>
+                                    <p class="font-normal text-xs text-left">
+                                        Adakah anda pasti mahu memadamkan data
+                                        pelajar ini?
+                                    </p>
+
+                                    <button
+                                        @click="
+                                            deleteData(studentData.idStudent)
+                                        "
+                                        class="bg-red hover:bg-darkred text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
+                                    >
+                                        Sahkan
+                                    </button>
+                                    <button
+                                        @click="isOpen = false"
+                                        class="text-black hover:bg-slate-300 py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
+                                    >
+                                        Batalkan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                 </table>
             </div>
@@ -169,7 +206,7 @@ export default {
         toggleConfirmDelete(idStudent) {
             document.title = "Senarai Pelajar | Kerani";
             this.selectedStudent = idStudent;
-            this.isOpen = !this.isOpen;
+            this.isOpen = true;
         },
         // Delete data
         async deleteData() {
@@ -183,15 +220,6 @@ export default {
                     );
                 })
                 .catch((error) => console.log(error));
-        },
-        // format date
-        formatDate(dateString) {
-            const parts = dateString.split("-"); // Split the date string by "-"
-            const day = parts[2];
-            const month = parts[1];
-            const year = parts[0];
-
-            return `${day}/${month}/${year}`;
         },
     },
 };

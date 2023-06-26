@@ -1,7 +1,7 @@
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
-        <!-- <SideBarPelajar linkActive="kedatangan" /> -->
+        <SideBarPelajar linkActive="kedatangan" />
         <!-- Page Content -->
         <div class="w-full px-8 lg:px-12 py-4">
             <!-- Top Bar -->
@@ -98,7 +98,7 @@ import router from "../../router";
 
 export default {
     components: {
-        // SideBarPelajar,
+        SideBarPelajar,
         QRcodeScanner,
     },
     data() {

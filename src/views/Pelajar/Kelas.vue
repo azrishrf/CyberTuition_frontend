@@ -1,19 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import router from "../../router";
-
-document.title = "Kelas | Pelajar";
-
-// // Kemaskin profil
-// async function kemaskiniProfilDiri() {
-//     router.push("/pelajar/profil/kemaskiniprofildiri");
-// }
-// // Ubah Kata Laluan
-// async function ubahKataLaluan() {
-//     router.push("/pelajar/profil/katalaluan");
-// }
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -49,9 +33,7 @@ document.title = "Kelas | Pelajar";
                 >
                     <img
                         v-bind:src="
-                            '/subjek/' +
-                            subjectData.subject.name +
-                            '.png'
+                            '/subjek/' + subjectData.subject.name + '.png'
                         "
                         class="w-20"
                     />
@@ -98,12 +80,17 @@ document.title = "Kelas | Pelajar";
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
 
 export default {
+    components: {
+        SideBarPelajar,
+    },
     data() {
         return {
             studentData: "",
@@ -113,6 +100,7 @@ export default {
     },
 
     async mounted() {
+        document.title = "Kelas | Pelajar";
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
@@ -120,7 +108,6 @@ export default {
                 .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
-                    console.log(this.studentData);
                 });
         });
     },

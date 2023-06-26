@@ -1,13 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import router from "../../router";
-import SubmitButton from "../../components/SubmitButton.vue";
-import FileUploader from "../../components/FileUploader.vue";
-// import axios from "axios";
-
-document.title = "Muat Naik Resit Bank | Pelajar";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -170,12 +160,25 @@ document.title = "Muat Naik Resit Bank | Pelajar";
         </div>
     </div>
 </template>
+
+<script setup>
+// import axios from "axios";
+</script>
 <script>
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import router from "../../router";
+import SubmitButton from "../../components/SubmitButton.vue";
+import FileUploader from "../../components/FileUploader.vue";
 
 export default {
+    components: {
+        SideBarPelajar,
+        SubmitButton,
+        FileUploader,
+    },
     data() {
         return {
             fileName: "",
@@ -187,6 +190,7 @@ export default {
         };
     },
     async mounted() {
+        document.title = "Muat Naik Resit Bank | Pelajar";
         window.addEventListener("LR_UPLOAD_FINISH", this.handleUploadFinish);
         // Get existing receipt bank
         this.idTuitionFee = JSON.parse(sessionStorage.getItem("idTuitionFee"));

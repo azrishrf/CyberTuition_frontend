@@ -89,41 +89,46 @@
                                 "
                             ></button>
                         </td>
-                        <dialog
-                            class="z-50 w-2/6 bg-white px-3 pt-4 top-1/3 rounded-xl"
-                            v-bind:open="isOpen"
-                        >
-                            <div>
-                                <i
-                                    class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
-                                ></i>
-
-                                <h1 class="font-semibold text-base text-left">
-                                    Padam Guru
-                                </h1>
-                                <p class="font-normal text-xs text-left">
-                                    Adakah anda pasti mahu memadamkan data guru
-                                    ini?
-                                </p>
-
-                                <button
-                                    @click="deleteData(teacherData.idTeacher)"
-                                    class="bg-red text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
-                                >
-                                    Sahkan
-                                </button>
-                                <button
-                                    @click="toggleConfirmDelete()"
-                                    class="text-black py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
-                                >
-                                    Batalkan
-                                </button>
-                            </div>
-                        </dialog>
+                        <!-- Dialog delete student -->
                         <div
-                            class="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-20"
-                            v-bind:class="{ hidden: !isOpen }"
-                        ></div>
+                            v-if="isOpen"
+                            class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-10"
+                        >
+                            <div
+                                class="w-2/6 bg-white px-3 py-4 top-1/3 rounded-xl"
+                            >
+                                <div>
+                                    <i
+                                        class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
+                                    ></i>
+
+                                    <h1
+                                        class="font-semibold text-base text-left"
+                                    >
+                                        Memadam Data Guru
+                                    </h1>
+                                    <p class="font-normal text-xs text-left">
+                                        Adakah anda pasti mahu memadamkan data
+                                        guru ini?
+                                    </p>
+
+                                    <button
+                                        @click="
+                                            deleteData(teacherData.idTeacher)
+                                        "
+                                        class="bg-red hover:bg-darkred text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
+                                    >
+                                        Sahkan
+                                    </button>
+                                    <button
+                                        @click="isOpen = false"
+                                        class="text-black hover:bg-slate-300 py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
+                                    >
+                                        Batalkan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                 </table>
             </div>

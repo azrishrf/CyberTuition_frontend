@@ -1,17 +1,3 @@
-<script setup>
-// import { ref } from "vue";
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-import router from "../../router";
-
-document.title = "Dashboard | Pelajar";
-
-// Ubah Kata Laluan
-async function ubahKataLaluan() {
-    router.push("/pelajar/profil/katalaluan");
-}
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -195,13 +181,21 @@ async function ubahKataLaluan() {
         </div>
     </div>
 </template>
+
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
+import router from "../../router";
 
 export default {
+    components: {
+        SideBarPelajar,
+        SubmitButton,
+    },
     data() {
         return {
             studentData: "",
@@ -213,6 +207,7 @@ export default {
     },
 
     async mounted() {
+        document.title = "Kemaskini Profil | Pelajar";
         // Get Student Data
         axios
             .get(baseAPI + `/api/user/${user}`)

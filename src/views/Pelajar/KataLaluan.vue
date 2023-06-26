@@ -1,11 +1,3 @@
-<script setup>
-import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
-import router from "../../router";
-
-document.title = "Dashboard | Pelajar";
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -101,14 +93,21 @@ document.title = "Dashboard | Pelajar";
         </div>
     </div>
 </template>
-
+<script setup></script>
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
+import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
+import router from "../../router";
 
 export default {
+    components: {
+        SideBarPelajar,
+        SubmitButton,
+    },
     data() {
         return {
             userEmail: "",
@@ -123,6 +122,8 @@ export default {
     },
 
     async mounted() {
+        document.title = "Kata Laluan | Pelajar";
+
         // Get Student Data
         axios
             .get(baseAPI + `/api/user/${user}`)

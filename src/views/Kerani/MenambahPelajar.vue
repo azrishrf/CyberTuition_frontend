@@ -311,13 +311,37 @@ export default {
                 !this.email ||
                 this.selectedSubjects.length === 0
             ) {
-                this.toast.error("Sila isi semua maklumat!", {
+                this.toast.error("Sila Isi Semua Maklumat!", {
                     timeout: 3000,
                 });
                 window.scrollTo({
                     top: window.innerHeight / 3,
                     behavior: "smooth", // Use 'smooth' for smooth scrolling effect
                 });
+            } else if (
+                this.noPhoneStudent.length > 11 ||
+                this.noPhoneParent.length > 11
+            ) {
+                this.toast.error("Nombor Telefon Melebihi 11 Digit", {
+                    timeout: 3000,
+                });
+            } else if (
+                !/^\d+$/.test(this.noPhoneParent) ||
+                !/^\d+$/.test(this.noPhoneStudent)
+            ) {
+                this.toast.error("Nombor Telefon Hanya Digit Yang Dibenarkan", {
+                    timeout: 3000,
+                });
+            } else if (
+                !/^\d+$/.test(this.noICStudent) ||
+                !/^\d+$/.test(this.noICParent)
+            ) {
+                this.toast.error(
+                    "Nombor Kad Pengenalan Hanya Digit Yang Dibenarkan",
+                    {
+                        timeout: 3000,
+                    }
+                );
             } else {
                 // Check existing user
                 const checkUser = await axios.post(
@@ -331,11 +355,11 @@ export default {
                 const existingStudent = checkStudent.data;
 
                 if (existingUser) {
-                    this.toast.error("Email sudah digunakan!", {
+                    this.toast.error("Email Sudah Digunakan!", {
                         timeout: 3000,
                     });
                 } else if (existingStudent) {
-                    this.toast.error("Nombor Kad Pengenalan sudah digunakan!", {
+                    this.toast.error("Nombor Kad Pengenalan Sudah Digunakan!", {
                         timeout: 3000,
                     });
                 } else {
@@ -377,7 +401,9 @@ export default {
                                             timeout: 3000,
                                         }
                                     );
-                                    router.push("/kerani/guru/senaraipelajar");
+                                    router.push(
+                                        "/kerani/pelajar/senaraipelajar"
+                                    );
                                 })
                                 .catch((error) => {
                                     this.toast.error(

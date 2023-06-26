@@ -416,6 +416,30 @@ export default {
                 this.toast.error("Kata Laluan Tidak Memenuhi Syarat!", {
                     timeout: 3000,
                 });
+            } else if (
+                this.noPhoneStudent.length > 11 ||
+                this.noPhoneParent.length > 11
+            ) {
+                this.toast.error("Nombor Telefon Melebihi 11 Digit", {
+                    timeout: 3000,
+                });
+            } else if (
+                !/^\d+$/.test(this.noPhoneParent) ||
+                !/^\d+$/.test(this.noPhoneStudent)
+            ) {
+                this.toast.error("Nombor Telefon Hanya Digit Yang Dibenarkan", {
+                    timeout: 3000,
+                });
+            } else if (
+                !/^\d+$/.test(this.noICStudent) ||
+                !/^\d+$/.test(this.noICParent)
+            ) {
+                this.toast.error(
+                    "Nombor Kad Pengenalan Hanya Digit Yang Dibenarkan",
+                    {
+                        timeout: 3000,
+                    }
+                );
             } else {
                 // Check existing user
                 const checkUser = await axios.post(
