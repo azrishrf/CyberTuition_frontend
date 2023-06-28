@@ -156,7 +156,7 @@ export default {
             this.studentId = response.data.student.idStudent;
 
             axios
-                .get(`http://localhost:3001/api/student/${this.studentId}`)
+                .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
                 });
