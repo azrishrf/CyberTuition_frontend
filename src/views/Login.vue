@@ -1,5 +1,7 @@
 <template>
-    <div class="bg-slate-50 flex justify-center items-center h-screen">
+    <div
+        class="bg-slate-50 flex justify-center items-center h-screen overflow-hidden"
+    >
         <!-- Center div -->
         <div
             class="m-auto bg-white rounded-2xl pt-6 pb-12 w-11/12 md:w-7/12 md:p-16 lg:w-4/12 shadow-login"

@@ -1,9 +1,9 @@
 <template>
     <!-- Header -->
-    <div class="bg-red pt-3 pb-3">
-        <img src="/LogoCyberTuition.png" class="w-40 ml-8 inline" />
+    <div class="bg-red py-2 px-3 md:px-8 flex justify-between">
+        <img src="/LogoCyberTuition.png" class="w-40" />
         <button
-            class="px-6 py-2 mr-8 float-right bg-amber-500 text-white rounded-2xl text-sm font-bold hover:bg-orange-500"
+            class="px-4 md:px-6 py-2 bg-amber-500 text-white rounded-2xl text-sm font-bold hover:bg-orange-500 my-auto"
             @click="redirectlogin()"
         >
             LOG MASUK
@@ -12,15 +12,15 @@
 
     <!-- Body -->
     <div class="bg-slate-50 w-full min-h-screen pb-16">
-        <h1 class="text-center text-2xl font-semibold my-4 lg:my-7">
+        <h1 class="text-center text-2xl font-semibold py-4 lg:my-7">
             PENDAFTARAN PELAJAR
         </h1>
         <form
-            class="bg-white m-auto w-11/12 md:w-5/6 pt-4 pb-8 md:py-6 px-6 md:px-10"
+            class="bg-white m-auto w-11/12 md:w-5/6 pt-4 pb-8 md:py-6 px-6 md:px-10 rounded-2xl"
             @submit.prevent="register()"
         >
             <!-- Maklumat Diri Pelajar -->
-            <h4 class="text-base md:text-lg font-semibold mb-4">
+            <h4 class="text-base md:text-lg font-semibold mt-2 mb-4">
                 Maklumat Diri Pelajar
             </h4>
 
@@ -257,7 +257,7 @@
             <div class="flex flex-wrap gap-4 lg:gap-8 pb-5">
                 <button
                     type="button"
-                    class="relative bg-white shadow-login pt-4 pb-3 px-2 items-center rounded-2xl w-[138px] lg:w-36 transition duration-300 ease-in-out hover:scale-110 flex flex-col removeblue"
+                    class="relative bg-white shadow-login h-[155px] py-4 px-2 items-center rounded-2xl w-[138px] lg:w-36 transition duration-300 ease-in-out hover:scale-110 flex flex-col removeblue"
                     v-bind:class="{
                         'bg-red text-white ': selectedSubjects.includes(
                             subjectData.name
