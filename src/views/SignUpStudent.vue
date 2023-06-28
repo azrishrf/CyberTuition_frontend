@@ -11,21 +11,23 @@
     </div>
 
     <!-- Body -->
-    <div class="bg-slate-50 w-full min-h-screen">
-        <h1 class="text-center text-3xl font-semibold my-7">
+    <div class="bg-slate-50 w-full min-h-screen pb-16">
+        <h1 class="text-center text-2xl font-semibold my-4 lg:my-7">
             PENDAFTARAN PELAJAR
         </h1>
         <form
-            class="bg-white m-auto w-5/6 py-10 px-10"
+            class="bg-white m-auto w-11/12 md:w-5/6 pt-4 pb-8 md:py-6 px-6 md:px-10"
             @submit.prevent="register()"
         >
             <!-- Maklumat Diri Pelajar -->
-            <h4 class="text-lg font-semibold mb-4">Maklumat Diri Pelajar</h4>
+            <h4 class="text-base md:text-lg font-semibold mb-4">
+                Maklumat Diri Pelajar
+            </h4>
 
             <div class="flex max-md:flex-col">
                 <div class="grow">
                     <!-- Full Name -->
-                    <p class="text-sm mb-3">Nama Penuh</p>
+                    <p class="text-sm mb-2">Nama Penuh</p>
                     <input
                         type="text"
                         placeholder="Nama Penuh"
@@ -36,11 +38,11 @@
                                 ? validateInput(nameStudent)
                                 : '',
                         }"
-                        class="border-2 rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 rounded-md w-11/12 py-3 px-4 block mb-3 lg:mb-5 text-sm"
                     />
 
                     <!-- IC Number-->
-                    <p class="text-sm mb-3">No Kad Pengenalan</p>
+                    <p class="text-sm mb-2">No Kad Pengenalan</p>
                     <input
                         type="text"
                         placeholder="No Kad Pengenalan"
@@ -51,10 +53,10 @@
                                 ? validateInput(noICStudent)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 lg:mb-5 text-sm"
                     />
                     <!-- Phone Number -->
-                    <p class="text-sm mb-3">No Telefon</p>
+                    <p class="text-sm mb-2">No Telefon</p>
                     <input
                         type="text"
                         placeholder="No Telefon"
@@ -65,12 +67,12 @@
                                 ? validateInput(noPhoneStudent)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 lg:mb-5 text-sm"
                     />
                 </div>
                 <div class="grow">
                     <!-- Email -->
-                    <p class="text-sm mb-3">E-Mel</p>
+                    <p class="text-sm mb-2">E-Mel</p>
                     <input
                         type="email"
                         placeholder="E-Mel"
@@ -81,10 +83,10 @@
                                 ? validateInput(email)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 lg:mb-5 text-sm"
                     />
                     <!-- Birth Date -->
-                    <p class="text-sm mb-3">Tarikh Lahir</p>
+                    <p class="text-sm mb-2">Tarikh Lahir</p>
                     <input
                         type="date"
                         placeholder="Tarikh Lahir"
@@ -95,10 +97,10 @@
                                 ? validateInput(dateOfBirth)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 lg:mb-5 text-sm"
                     />
                     <!-- Form -->
-                    <p class="text-sm mb-3">Tingkatan</p>
+                    <p class="text-sm mb-2">Tingkatan</p>
                     <select
                         name="tingkatan"
                         v-model="form"
@@ -107,7 +109,7 @@
                                 ? validateInput(form)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-3 lg:mb-5 text-sm"
                     >
                         <option disabled value="" selected>
                             -- Pilih Tingkatan --
@@ -118,7 +120,7 @@
                 </div>
             </div>
             <!-- Address -->
-            <p class="text-sm mb-3">Alamat Rumah</p>
+            <p class="text-sm mb-2">Alamat Rumah</p>
             <input
                 type="text"
                 placeholder="Alamat Rumah"
@@ -131,12 +133,14 @@
             />
 
             <!-- Maklumat Ibu Bapa -->
-            <h4 class="text-lg font-semibold mb-4">Maklumat Ibu Bapa</h4>
+            <h4 class="text-base md:text-lg font-semibold mb-4">
+                Maklumat Ibu Bapa
+            </h4>
 
-            <div class="flex max-md:flex-col mb-10">
+            <div class="flex max-md:flex-col mb-5">
                 <div class="grow">
                     <!-- FullName IbuBapa -->
-                    <p class="text-sm mb-3">Nama Penuh Ibu Bapa</p>
+                    <p class="text-sm mb-2">Nama Penuh Ibu Bapa</p>
                     <input
                         type="text"
                         placeholder="Nama Penuh Ibu Bapa"
@@ -147,10 +151,10 @@
                                 ? validateInput(nameParent)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 lg:mb-5 text-sm"
                     />
                     <!-- No KP IbuBapa-->
-                    <p class="text-sm mb-3">No Kad Pengenalan</p>
+                    <p class="text-sm mb-2">No Kad Pengenalan</p>
                     <input
                         type="text"
                         placeholder="No Kad Pengenalan"
@@ -161,12 +165,12 @@
                                 ? validateInput(noICParent)
                                 : '',
                         }"
-                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm"
+                        class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block text-sm mb-3 md:mb-0"
                     />
                 </div>
                 <div class="grow">
                     <!-- No Telefon IbuBapa -->
-                    <p class="text-sm mb-3">No Telefon</p>
+                    <p class="text-sm mb-2">No Telefon</p>
                     <input
                         type="text"
                         placeholder="No Telefon"
@@ -183,7 +187,7 @@
             </div>
             <!-- Kata Laluan -->
             <h4 class="text-lg font-semibold mb-4">Kata Laluan Akaun</h4>
-            <div class="flex max-md:flex-col mb-10">
+            <div class="flex max-md:flex-col mb-5">
                 <div class="flex-1 relative">
                     <!-- Kata Laluan -->
                     <p class="text-sm mb-3">Kata Laluan</p>
@@ -198,7 +202,7 @@
                                 ? validateInputPassword(password)
                                 : '',
                         }"
-                        class="border-2 rounded-md w-11/12 py-3 px-4 block text-sm focus:border-cyan-500 focus:outline-none"
+                        class="border-2 rounded-md w-11/12 py-3 px-4 block text-sm focus:border-cyan-500 focus:outline-none mb-3 md:mb-0"
                     />
                     <i
                         class="absolute top-12 right-11 sm:right-20 cursor-pointer transition duration-300 ease-in-out"
@@ -211,7 +215,7 @@
                     ></i>
                     <p
                         v-if="shouldValidatePassword"
-                        class="text-xs mt-2 mb-4 md:mb-0 inline-block font-bold text-red w-11/12"
+                        class="text-xs md:mt-2 mb-4 md:mb-0 inline-block font-medium text-black w-11/12"
                     >
                         * Kata laluan hendaklah sekurang-kurangnya 8 aksara
                         panjang dan termasuk huruf besar, huruf kecil, nombor
@@ -232,7 +236,7 @@
                                 ? validateInputConfirmPassword(confirmPassword)
                                 : '',
                         }"
-                        class="border-2 rounded-md w-11/12 py-3 mb-5 px-4 block text-sm focus:border-cyan-500 focus:outline-none"
+                        class="border-2 rounded-md w-11/12 py-3 px-4 block text-sm focus:border-cyan-500 focus:outline-none"
                     />
                     <i
                         class="absolute top-12 right-11 sm:right-20 cursor-pointer transition duration-300 ease-in-out"
@@ -250,10 +254,10 @@
             <!-- Pilihan Subjek -->
             <h4 class="text-lg font-semibold mb-4">Pilihan Subjek</h4>
 
-            <div class="flex flex-wrap gap-8 py-5">
+            <div class="flex flex-wrap gap-4 lg:gap-8 pb-5">
                 <button
                     type="button"
-                    class="relative bg-white shadow-login py-4 px-2 items-center rounded-2xl w-36 transition duration-300 ease-in-out hover:scale-110 flex flex-col"
+                    class="relative bg-white shadow-login pt-4 pb-3 px-2 items-center rounded-2xl w-[138px] lg:w-36 transition duration-300 ease-in-out hover:scale-110 flex flex-col removeblue"
                     v-bind:class="{
                         'bg-red text-white ': selectedSubjects.includes(
                             subjectData.name
@@ -280,17 +284,21 @@
                 </button>
             </div>
 
-            <div class="flex">
-                <SubmitButton type="submit" txt="Sahkan" class="mt-6 px-9" />
-                <button
+            <!-- <div class="flex flex-row-reverse"> -->
+            <SubmitButton
+                type="submit"
+                txt="Sahkan"
+                class="mt-6 px-7 md:px-9 ml-2"
+            />
+            <!-- <button
                     txt="Batalkan"
                     type="button"
-                    class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
+                    class="mt-3 bg-gray-200 text-black ml-4 md:ml-8 px-5 md:px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
                     @click="redirectlogin()"
                 >
                     Batalkan
-                </button>
-            </div>
+                </button> -->
+            <!-- </div> -->
         </form>
     </div>
 </template>
@@ -583,3 +591,9 @@ export default {
     },
 };
 </script>
+
+<style>
+.removeblue {
+    -webkit-tap-highlight-color: transparent;
+}
+</style>

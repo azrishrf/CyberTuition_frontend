@@ -1,13 +1,18 @@
 <template>
     <div class="bg-slate-50 w-screen min-h-screen grid place-items-center">
         <!-- Center div -->
-        <div class="m-auto bg-white rounded-2xl p-16 shadow-login">
-            <img src="/LogoCyberTuition.png" class="w-64 m-auto mb-5" />
+        <div
+            class="m-auto bg-white rounded-2xl py-12 w-11/12 md:w-7/12 md:p-16 lg:w-4/12 shadow-login"
+        >
+            <img src="/LogoCyberTuition.png" class="w-60 m-auto mb-5" />
             <!-- Login Form -->
-            <form v-on:submit.prevent="login()">
+            <form
+                v-on:submit.prevent="login()"
+                class="flex flex-col items-center"
+            >
                 <!-- Email -->
                 <div
-                    class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    class="border-2 shadow-login rounded-2xl w-72 md:w-96 py-3 mb-5 text-sm md:text-base pl-4 flex"
                     :style="{
                         borderColor: shouldValidate ? validateInput(email) : '',
                     }"
@@ -23,7 +28,7 @@
                 </div>
                 <!-- Password -->
                 <div
-                    class="border-2 shadow-login rounded-2xl w-96 py-3 mb-5 text-base pl-4 flex"
+                    class="border-2 shadow-login rounded-2xl w-72 md:w-96 py-3 text-sm md:text-base pl-4 flex"
                     :style="{
                         borderColor: shouldValidate
                             ? validateInput(password)
@@ -43,15 +48,17 @@
                 <SubmitButton
                     type="submit"
                     txt="Log Masuk"
-                    class="mt-16 mb-5 flex m-auto"
+                    class="mt-8 md:mt-16 mb-5 flex m-auto"
                 />
             </form>
             <!-- Redirect to Sign Up Page -->
-            <p class="text-xs text-center">
-                <i class="bi bi-question-circle-fill text-slate-600"></i>
+            <p class="text-xs text-center font-semibold text-grey2">
+                <i class="bi bi-question-circle-fill text-slate-600 mr-1"></i>
                 Belum mendaftar lagi?
-                <router-link to="/signup" class="hover:font-bold"
-                    >Tekan disini</router-link
+                <router-link
+                    to="/signup"
+                    class="py-2 px-3 rounded-full ml-1 hover:bg-slate-700 hover:text-white text-black font-semibold transition underline hover:no-underline"
+                    >Daftar Sekarang</router-link
                 >
             </p>
         </div>
