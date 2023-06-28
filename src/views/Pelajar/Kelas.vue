@@ -2,8 +2,8 @@
     <SideBarPelajar linkActive="kelas">
         <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="my-2 font-semibold text-xl">KELAS</h1>
-            <p class="font-semibold text-xs inline mb-4">
+            <h1 class="mt-5 font-semibold text-base md:text-xl">KELAS</h1>
+            <p class="font-semibold text-xs md:text-xs text-black">
                 Dashboard &nbsp;
                 <span class="font-semibold text-xs inline text-red"
                     >> &nbsp; Kelas</span
