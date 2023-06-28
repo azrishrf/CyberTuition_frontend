@@ -11,9 +11,9 @@
             </p>
 
             <!-- Maklumat Kelas -->
-            <div class="flex flex-wrap gap-8 py-5">
+            <div class="flex flex-wrap gap-4 md:gap-8 py-5">
                 <div
-                    class="bg-white shadow-login flex gap-6 py-4 px-5 items-center rounded-2xl w-[22rem]"
+                    class="bg-white shadow-login flex gap-4 py-4 px-4 md:px-5 items-center rounded-2xl w-[22rem]"
                     v-for="subjectData in studentData.student_Subject"
                     :key="subjectData.idStudentSubject"
                 >
@@ -21,22 +21,24 @@
                         v-bind:src="
                             '/subjek/' + subjectData.subject.name + '.png'
                         "
-                        class="w-20"
+                        class="w-16 md:w-20"
                     />
                     <div class="flex flex-col">
                         <label class="font-bold gap-9">
                             {{ subjectData.subject.name }}
                         </label>
                         <!-- Nama Guru -->
-                        <div class="flex gap-2">
+                        <div class="flex gap-1">
                             <label class="font-semibold text-black text-sm"
                                 >Nama Guru:</label
                             >
                             <label class="font-semibold text-fontgrey text-sm">
                                 {{
                                     subjectData.subject.teacher
-                                        ? subjectData.subject.teacher
-                                              .nameTeacher
+                                        ? formatTeacherName(
+                                              subjectData.subject.teacher
+                                                  .nameTeacher
+                                          )
                                         : "null"
                                 }}
                             </label>
@@ -97,6 +99,17 @@ export default {
                 });
         });
     },
-    methods: {},
+    methods: {
+        formatTeacherName(name) {
+            const words = name.split(" ");
+            if (words.length === 1) {
+                return words[0];
+            } else if (words.length === 2) {
+                return `${words[0]} ${words[1]}`;
+            } else if (words.length >= 3) {
+                return `${words[1]} ${words[2]}`;
+            }
+        },
+    },
 };
 </script>

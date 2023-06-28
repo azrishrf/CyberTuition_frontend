@@ -47,14 +47,14 @@ function toggleSidebar(route) {
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div
-            class="bg-white w-72 flex-none z-10 shadow-home px-4 fixed inset-y-0 left-0 lg:relative lg:translate-x-0 transform -translate-x-full transition duration-300 ease-in-out"
+            class="bg-white w-72 flex-none z-10 shadow-home px-4 fixed inset-y-0 left-0 lg:relative lg:translate-x-0 transform -translate-x-full transition duration-300 ease-in-out min-h-full"
             :class="{ ' translate-x-0': showSidebar }"
         >
             <img src="/LogoCyberTuition.png" class="w-44 m-auto mt-4 mb-5" />
             <!-- Nav Dashboard -->
             <button
                 @click="toggleSidebar('/pelajar/dashboard')"
-                class="font-bold text-xs py-2 px-4 rounded-2xl flex items-center gap-4 mb-2 w-full"
+                class="font-bold text-xs py-2 px-4 rounded-2xl flex items-center gap-4 mb-2 w-full removeblue"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'dashboard',
                     'text-grey2 hover:bg-gray-100': linkActive !== 'dashboard',
@@ -63,8 +63,7 @@ function toggleSidebar(route) {
                 <div
                     class="flex items-center"
                     style="
-                        font-variation-settings: 'FILL' 1, 'wght' 300,
-                            'GRAD' 200, 'opsz' 20;
+                        font-variation-settings: 'FILL' 1, 'wght' 300,'GRAD' 200, 'opsz' 20;
                     "
                 >
                     <span
@@ -82,7 +81,7 @@ function toggleSidebar(route) {
             <!-- Profil Diri -->
             <button
                 @click="toggleSidebar('/pelajar/profil')"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full removeblue"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'profil',
                     'text-grey2  hover:bg-gray-100': linkActive !== 'profil',
@@ -96,7 +95,7 @@ function toggleSidebar(route) {
             <!-- Nav Kelas -->
             <button
                 @click="toggleSidebar('/pelajar/kelas')"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full removeblue"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'kelas',
                     'text-grey2 hover:bg-gray-100': linkActive !== 'kelas',
@@ -108,7 +107,7 @@ function toggleSidebar(route) {
             <!-- Nav Kedatangan -->
             <button
                 @click="toggleSidebar('/pelajar/kedatangan')"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full removeblue"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'kedatangan',
                     'text-grey2  hover:bg-gray-100':
@@ -121,7 +120,7 @@ function toggleSidebar(route) {
             <!-- Nav Yuran -->
             <button
                 @click="toggleSidebar('/pelajar/yuran')"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full removeblue"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'yuran',
                     'text-grey2 hover:bg-gray-100': linkActive !== 'yuran',
@@ -135,7 +134,7 @@ function toggleSidebar(route) {
             <!-- Nav Laporan -->
             <button
                 @click="toggleSidebar('/pelajar/laporan')"
-                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full"
+                class="font-bold text-xs py-2 px-5 rounded-2xl flex items-center gap-5 mb-2 w-full removeblue"
                 v-bind:class="{
                     'bg-red text-white': linkActive === 'laporan',
                     'text-grey2 hover:bg-gray-100': linkActive !== 'laporan',
@@ -197,7 +196,7 @@ function toggleSidebar(route) {
             >
                 <button
                     @click="showSidebar = !showSidebar"
-                    class="flex items-center justify-center my-auto w-8 rounded-full h-8 hover:bg-slate-100"
+                    class="flex items-center justify-center my-auto w-8 rounded-full h-8 hover:bg-slate-100 removeblue"
                 >
                     <i class="fa-solid fa-bars my-auto text-base"></i>
                     <!-- <i class="fa-solid fa-angle-down"></i> -->
@@ -213,7 +212,7 @@ function toggleSidebar(route) {
             </div>
 
             <!-- Main content -->
-            <div class="px-4">
+            <div class="px-4 pb-10">
                 <slot name="content"></slot>
             </div>
         </div>
@@ -224,5 +223,8 @@ function toggleSidebar(route) {
 .sticky {
     position: sticky;
     top: 8px;
+}
+.removeblue {
+    -webkit-tap-highlight-color: transparent;
 }
 </style>

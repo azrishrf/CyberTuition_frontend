@@ -1,39 +1,25 @@
 <template>
-    <div class="bg-slate-50 w-full min-h-screen flex">
-        <!-- Side Bar -->
-        <SideBarPelajar linkActive="profil" />
-        <!-- Page Content -->
-        <div class="w-full px-12 py-4">
-            <!-- Top Bar -->
-            <div
-                class="flex justify-end bg-white shadow-login rounded-2xl px-6 py-2"
-            >
-                <div
-                    class="flex items-center justify-between bg-red w-28 text-white text-xs px-4 rounded-3xl py-2 font-semibold"
-                >
-                    <i class="fa-solid fa-user text-xs"></i>Pelajar
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-            </div>
+    <SideBarPelajar linkActive="profil">
+        <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="my-2 font-semibold text-xl">PROFIL DIRI</h1>
-            <p class="font-semibold text-xs inline mb-4">
-                Dashboard &nbsp;> &nbsp;Profil Diri &nbsp;
+            <h1 class="mt-5 font-semibold text-base md:text-xl">KATA LALUAN</h1>
+            <p class="mb-5 font-semibold text-xs md:text-xs text-black">
+                Dashboard &nbsp; > &nbsp; Profil Diri &nbsp;
                 <span class="font-semibold text-xs inline text-red"
                     >> &nbsp; Ubah Kata Laluan</span
                 >
             </p>
 
             <!-- Ubah Kata Laluan -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
+            <div class="shadow-login bg-white py-2 px-5 rounded-2xl mt-5 pb-4">
                 <form v-on:submit.prevent="updatePassword()">
-                    <h1 class="text-base font-semibold mt-2 mb-4">
+                    <h4 class="text-base md:text-lg font-semibold mt-2 mb-4">
                         Ubah Kata Laluan
-                    </h1>
+                    </h4>
                     <p class="text-sm mb-3">Kata Laluan Semasa</p>
                     <input
                         type="password"
-                        class="border-2 border-slate-grey rounded-md w-2/5 py-3 px-4 block mb-5 text-sm"
+                        class="border-2 border-slate-grey rounded-md lg:w-2/5 py-2 px-4 block mb-5 text-sm w-full"
                         v-model="currentPassword"
                         :style="{
                             borderColor: shouldValidate
@@ -44,7 +30,7 @@
                     <p class="text-sm mb-3">Kata Laluan Baru</p>
                     <input
                         type="password"
-                        class="border-2 rounded-md py-3 px-4 block w-2/5 text-sm focus:border-cyan-500 focus:outline-none"
+                        class="border-2 rounded-md py-2 px-4 block lg:w-2/5 text-sm focus:border-cyan-500 focus:outline-none w-full"
                         v-model="newPassword"
                         @click="shouldValidatePassword = true"
                         :style="{
@@ -64,7 +50,7 @@
                     <p class="text-sm mb-3 mt-5">Pengesahan Kata Laluan Baru</p>
                     <input
                         type="password"
-                        class="border-2 rounded-md w-2/5 py-3 mb-5 px-4 block text-sm focus:border-cyan-500 focus:outline-none"
+                        class="border-2 rounded-md lg:w-2/5 py-2 mb-5 px-4 block text-sm focus:border-cyan-500 focus:outline-none w-full"
                         v-model="confirmNewPassword"
                         @click="shouldValidateConfirmPassword = true"
                         :style="{
@@ -75,23 +61,21 @@
                                 : '',
                         }"
                     />
-                    <SubmitButton
-                        type="submit"
-                        txt="Sahkan"
-                        class="mt-6 px-9"
-                    />
-                    <button
-                        txt="Batalkan"
-                        type="button"
-                        class="mt-6 bg-gray-200 text-black ml-8 px-9 py-3 rounded-2xl hover:bg-slate-300 text-sm font-bold"
-                        @click="redirect()"
-                    >
-                        Batalkan
-                    </button>
+                    <div class="flex gap-4">
+                        <SubmitButton type="submit" txt="Sahkan" class="py-2"/>
+                        <button
+                            txt="Batalkan"
+                            type="button"
+                            class="bg-gray-200 text-black px-6 rounded-2xl hover:bg-slate-300 text-sm font-bold"
+                            @click="redirect()"
+                        >
+                            Batalkan
+                        </button>
+                    </div>
                 </form>
             </div>
-        </div>
-    </div>
+        </template>
+    </SideBarPelajar>
 </template>
 <script setup></script>
 <script>

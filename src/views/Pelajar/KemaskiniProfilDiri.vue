@@ -1,42 +1,31 @@
 <template>
-    <div class="bg-slate-50 w-full min-h-screen flex">
-        <!-- Side Bar -->
-        <SideBarPelajar linkActive="profil" />
-        <!-- Page Content -->
-        <div class="w-full px-12 py-4">
-            <!-- Top Bar -->
-            <div
-                class="flex justify-end bg-white shadow-login rounded-2xl px-6 py-2"
-            >
-                <div
-                    class="flex items-center justify-between bg-red w-28 text-white text-xs px-4 rounded-3xl py-2 font-semibold"
-                >
-                    <i class="fa-solid fa-user text-xs"></i>Pelajar
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-            </div>
+    <SideBarPelajar linkActive="profil">
+        <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="my-2 font-semibold text-xl">PROFIL DIRI</h1>
-            <p class="font-semibold text-xs inline mb-4">
+            <h1 class="mt-5 font-semibold text-base md:text-xl">
+                KEMASKINI PROFIL DIRI
+            </h1>
+
+            <p class="mb-5 font-semibold text-xs md:text-xs text-black">
                 Dashboard &nbsp; > &nbsp; Profil Diri &nbsp;
                 <span class="font-semibold text-xs inline text-red"
                     >> &nbsp; Kemaskini Profil Diri</span
                 >
             </p>
-            <div class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login">
+            <div class="bg-white my-6 rounded-2xl py-2 shadow-login">
                 <form
-                    class="bg-white m-auto py-1 px-6"
+                    class="bg-white m-auto pt-1 pb-6 px-5"
                     v-on:submit.prevent="updateProfile()"
                 >
                     <!-- Maklumat Diri Pelajar -->
-                    <h4 class="text-lg font-semibold mb-4">
+                    <h4 class="text-base md:text-lg font-semibold mt-2 mb-4">
                         Maklumat Diri Pelajar
                     </h4>
 
-                    <div class="flex gap-9 max-md:flex-col">
+                    <div class="flex max-md:flex-col">
                         <div class="grow">
                             <!-- Full Name -->
-                            <p class="text-sm mb-3">Nama Penuh</p>
+                            <p class="text-sm mb-2">Nama Penuh</p>
                             <input
                                 type="text"
                                 placeholder="Nama Penuh"
@@ -47,10 +36,10 @@
                                         ? validateInput(studentData.nameStudent)
                                         : '',
                                 }"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm"
                             />
                             <!-- Phone Number -->
-                            <p class="text-sm mb-3">No Telefon</p>
+                            <p class="text-sm mb-2">No Telefon</p>
                             <input
                                 type="text"
                                 placeholder="No Telefon"
@@ -63,12 +52,12 @@
                                           )
                                         : '',
                                 }"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm"
                             />
                         </div>
                         <div class="grow">
                             <!-- Birth Date -->
-                            <p class="text-sm mb-3">Tarikh Lahir</p>
+                            <p class="text-sm mb-2">Tarikh Lahir</p>
                             <input
                                 type="date"
                                 placeholder="Tarikh Lahir"
@@ -79,7 +68,7 @@
                                         ? validateInput(studentData.dateOfBirth)
                                         : '',
                                 }"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm"
                             />
                             <!-- Form -->
                             <p class="text-sm mb-3">Tingkatan</p>
@@ -91,7 +80,7 @@
                                         ? validateInput(studentData.form)
                                         : '',
                                 }"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm"
                             >
                                 <option value="4">4</option>
                                 <option value="5">5</option>
@@ -111,16 +100,17 @@
                                     ? validateInput(studentData.address)
                                     : '',
                             }"
-                            class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm h-16"
+                            class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm h-16"
                         />
                     </div>
 
                     <!-- Maklumat Ibu Bapa -->
-                    <h4 class="text-lg font-semibold mb-4">
+                    
+                    <h4 class="text-base md:text-lg font-semibold mt-6 mb-4">
                         Maklumat Ibu Bapa
                     </h4>
 
-                    <div class="flex gap-9 max-md:flex-col">
+                    <div class="flex max-md:flex-col">
                         <div class="grow">
                             <!-- FullName -->
                             <p class="text-sm mb-3">Nama Penuh Ibu Bapa</p>
@@ -134,7 +124,7 @@
                                         ? validateInput(studentData.nameParent)
                                         : '',
                                 }"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm"
                             />
                             <!-- No KP -->
                             <p class="text-sm mb-3">No Kad Pengenalan</p>
@@ -148,7 +138,7 @@
                                         ? validateInput(studentData.noICParent)
                                         : '',
                                 }"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm"
                             />
                         </div>
                         <div class="grow">
@@ -166,7 +156,7 @@
                                           )
                                         : '',
                                 }"
-                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-5 text-sm"
+                                class="border-2 border-slate-grey rounded-md w-11/12 py-3 px-4 block mb-3 md:mb-5 text-sm"
                             />
                         </div>
                     </div>
@@ -174,12 +164,12 @@
                     <SubmitButton
                         type="submit"
                         txt="Sahkan"
-                        class="mt-6 px-9"
+                        class="mt-6 "
                     />
                 </form>
             </div>
-        </div>
-    </div>
+        </template>
+    </SideBarPelajar>
 </template>
 
 <script>
