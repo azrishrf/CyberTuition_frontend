@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-slate-50 w-screen min-h-screen grid place-items-center">
+    <div class="bg-slate-50 flex justify-center items-center h-screen">
         <!-- Center div -->
         <div
-            class="m-auto bg-white rounded-2xl py-12 w-11/12 md:w-7/12 md:p-16 lg:w-4/12 shadow-login"
+            class="m-auto bg-white rounded-2xl pt-6 pb-12 w-11/12 md:w-7/12 md:p-16 lg:w-4/12 shadow-login"
         >
-            <img src="/LogoCyberTuition.png" class="w-60 m-auto mb-5" />
+            <img src="/LogoCyberTuition.png" class="w-52 md:w-60 m-auto mb-8" />
             <!-- Login Form -->
             <form
                 v-on:submit.prevent="login()"
@@ -12,7 +12,7 @@
             >
                 <!-- Email -->
                 <div
-                    class="border-2 shadow-login rounded-2xl w-72 md:w-96 py-3 mb-5 text-sm md:text-base pl-4 flex"
+                    class="border-2 shadow-login rounded-2xl w-11/12 md:w-96 py-3 mb-5 text-sm md:text-base pl-4 flex"
                     :style="{
                         borderColor: shouldValidate ? validateInput(email) : '',
                     }"
@@ -28,7 +28,7 @@
                 </div>
                 <!-- Password -->
                 <div
-                    class="border-2 shadow-login rounded-2xl w-72 md:w-96 py-3 text-sm md:text-base pl-4 flex"
+                    class="border-2 shadow-login rounded-2xl w-11/12 md:w-96 py-3 text-sm md:text-base pl-4 flex"
                     :style="{
                         borderColor: shouldValidate
                             ? validateInput(password)
