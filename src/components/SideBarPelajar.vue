@@ -44,11 +44,11 @@ function toggleSidebar(route) {
 </script>
 
 <template>
-    <div class="flex h-screen">
+    <div class="flex min-h-screen">
         <!-- Sidebar -->
         <div
             class="bg-white w-72 flex-none z-10 shadow-home px-4 fixed inset-y-0 left-0 lg:relative lg:translate-x-0 transform -translate-x-full transition duration-300 ease-in-out min-h-full"
-            :class="{ ' translate-x-0': showSidebar }"
+            :class="{ ' translate-x-0 ': showSidebar }"
         >
             <img src="/LogoCyberTuition.png" class="w-44 m-auto mt-4 mb-5" />
             <!-- Nav Dashboard -->
@@ -63,7 +63,7 @@ function toggleSidebar(route) {
                 <div
                     class="flex items-center"
                     style="
-                        font-variation-settings: 'FILL' 1, 'wght' 300,'GRAD' 200, 'opsz' 20;
+                        font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200, 'opsz' 20;
                     "
                 >
                     <span

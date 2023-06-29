@@ -2,25 +2,25 @@
     <SideBarPelajar linkActive="yuran">
         <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="my-2 font-semibold text-xl">YURAN</h1>
-            <p class="font-semibold text-xs inline mb-4">
+            <h1 class="mt-5 font-semibold text-base md:text-xl">YURAN</h1>
+            <p class="mb-5 font-semibold text-xs md:text-xs text-black">
                 Dashboard &nbsp;
-                <span class="font-semibold text-xs inline text-red"
+                <span class="font-semibold text-xs text-red"
                     >> &nbsp; Yuran</span
                 >
             </p>
 
             <!-- Bulan & Tahun -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
-                <div class="flex gap-20">
+            <div class="shadow-login bg-white py-4 px-5 rounded-2xl mb-5">
+                <div class="flex flex-col md:flex-row gap-2 md:gap-8 lg:gap-20">
                     <div class="">
                         <!-- Bulan-->
-                        <p class="text-sm mb-3">Bulan</p>
+                        <p class="text-sm mb-1">Bulan</p>
                         <select
                             placeholder="Bulan"
                             name="Bulan"
                             v-model="month"
-                            class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-3 text-sm w-80"
+                            class="border-2 border-slate-grey rounded-md py-3 px-4 block text-xs md:text-sm w-60 lg:w-80"
                         >
                             <option disabled value="">-- Pilih Bulan --</option>
                             <option
@@ -34,12 +34,12 @@
                     </div>
                     <div class="">
                         <!-- Tahun -->
-                        <p class="text-sm mb-3">Tahun</p>
+                        <p class="text-sm mb-1">Tahun</p>
                         <select
                             placeholder="Tahun"
                             name="Tahun"
                             v-model="year"
-                            class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-3 text-sm w-80"
+                            class="border-2 border-slate-grey rounded-md py-3 px-4 block mb-1 text-xs md:text-sm w-60 lg:w-80"
                         >
                             <option disabled value="">-- Pilih Tahun --</option>
                             <option
@@ -57,16 +57,17 @@
                 >
                     {{ errorMessage }}
                 </p>
-                <div class="flex gap-6">
-                    <SubmitButton
-                        type="button"
-                        txt="Sahkan"
-                        class="px-8"
-                        @click="confirmForm()"
-                    />
+                <div class="flex gap-4">
                     <button
                         type="button"
-                        class="bg-gray-200 text-black px-8 py-2 rounded-2xl hover:bg-slate-300 text-sm font-bold"
+                        class="bg-red text-white px-5 py-2 rounded-2xl hover:bg-darkred text-xs lg:text-sm font-bold"
+                        @click="confirmForm()"
+                    >
+                        Sahkan
+                    </button>
+                    <button
+                        type="button"
+                        class="bg-gray-200 text-black px-5 rounded-2xl hover:bg-slate-300 text-xs lg:text-sm font-bold"
                         @click="resetForm()"
                     >
                         Set Semula
@@ -76,16 +77,16 @@
 
             <!-- Yuran -->
             <div
-                class="shadow-login bg-white py-4 px-10 rounded-2xl my-5 flex"
+                class="shadow-login bg-white py-4 px-4 md:px-8 rounded-2xl my-5 flex flex-col gap-3 md:flex-row"
                 v-if="isConfirm"
             >
                 <div class="flex-1">
-                    <h1 class="text-base font-semibold my-2 pb-1">
+                    <h1 class="text-base font-semibold mb-2">
                         Penyata Kewangan Pelajar
                     </h1>
                     <table class="text-sm w-4/5">
                         <tr>
-                            <td class="font-semibold pb-3 w-3/6">
+                            <td class="font-semibold pb-3 w-28 block">
                                 Nama Penuh:
                             </td>
                             <td class="text-fontgrey font-medium pb-3">
@@ -99,9 +100,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-semibold pb-3">
-                                No Kad Pengenalan:
-                            </td>
+                            <td class="font-semibold pb-3">No KP:</td>
                             <td class="text-fontgrey font-medium pb-3">
                                 {{ studentData.noICStudent }}
                             </td>
@@ -145,7 +144,7 @@
                                         tuitionFee.statusPayment ===
                                         'Telah Dibayar'
                                     "
-                                    class="bg-green text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                    class="bg-green text-white px-3 w-32 rounded-xl text-center py-[5px] text-xs inline-block"
                                 >
                                     Telah Dibayar
                                 </p>
@@ -154,7 +153,7 @@
                                         tuitionFee.statusPayment ===
                                         'Belum Dibayar'
                                     "
-                                    class="bg-darkred text-white px-8 py-1 rounded-xl text-xs inline-block"
+                                    class="bg-darkred text-white px-3 w-32 text-center py-[5px] rounded-xl text-xs inline-block"
                                 >
                                     Belum Dibayar
                                 </p>
@@ -163,7 +162,7 @@
                                         tuitionFee.statusPayment ===
                                         'Menunggu Pengesahan'
                                     "
-                                    class="bg-yellow-400 text-white px-5 py-1 rounded-xl text-xs inline-block"
+                                    class="bg-yellow-400 text-white px-3 w-44 text-center py-[5px] rounded-xl text-xs inline-block"
                                 >
                                     Menunggu Pengesahan
                                 </p>
@@ -171,47 +170,47 @@
                         </tr>
                     </table>
                 </div>
-                <table class="text-center my-auto ml-5 flex-1">
-                    <tr class="bg-red text-sm text-white">
+                <table class="text-center my-auto flex-1">
+                    <tr class="bg-red text-xs text-white">
                         <th
                             class="font-semibold py-2 px-2 rounded-l-2xl"
-                            style="height: 3rem"
+                            style="height: 1rem"
                         >
                             No
                         </th>
-                        <th class="font-semibold" style="height: 3rem">
+                        <th class="font-semibold" style="height: 1rem">
                             Nama Kelas
                         </th>
 
                         <th
                             class="font-semibold rounded-r-2xl"
-                            style="height: 3rem"
+                            style="height: 1rem"
                         >
                             Jumlah (RM)
                         </th>
                     </tr>
                     <tr
-                        class="text-fontgrey text-sm border-b-2"
+                        class="text-fontgrey text-xs border-b-2"
                         v-for="subjectData in subjectsArray"
                     >
-                        <td class="py-3 text-center" style="height: 3rem">
+                        <td class="py-2 text-center" style="height: 1rem">
                             {{ subjectsArray.indexOf(subjectData) + 1 }}
                         </td>
-                        <td class="font-semibold" style="height: 3rem">
+                        <td class="font-semibold" style="height: 1rem">
                             {{ subjectData.name }}
                         </td>
-                        <td class="font-semibold" style="height: 3rem">
+                        <td class="font-semibold" style="height: 1rem">
                             {{ subjectData.fee }}
                         </td>
                     </tr>
-                    <tr class="text-sm bg-slate-200">
+                    <tr class="text-xs bg-slate-200">
                         <td class="rounded-bl-2xl"></td>
-                        <td class="py-3 font-semibold" style="height: 3rem">
+                        <td class="py-3 font-semibold" style="height: 1rem">
                             Jumlah Pembayaran
                         </td>
                         <td
                             class="font-semibold rounded-br-2xl"
-                            style="height: 3rem"
+                            style="height: 1rem"
                         >
                             RM {{ totalFee }}
                         </td>
@@ -221,35 +220,39 @@
 
             <!-- Kaedah Pembayaran -->
             <div
-                class="shadow-login bg-white py-4 px-10 rounded-2xl my-5"
+                class="shadow-login bg-white py-4 px-6 rounded-2xl my-5"
                 v-if="tuitionFee.statusPayment === 'Belum Dibayar' && isConfirm"
             >
                 <h1 class="text-base font-semibold my-2">
                     Kaedah Pembayaran (Sila Pilih Salah Satu)
                 </h1>
                 <!-- Payment Gateway -->
-                <div class="flex">
+                <div class="flex flex-col md:flex-row">
                     <button
-                        class="shadow-login bg-white p-6 rounded-2xl my-5"
+                        class="shadow-login bg-white py-4 px-4 rounded-2xl my-3"
                         @click="createBill()"
                     >
-                        <div class="text-center space-x-4">
-                            <img src="/fpx.png" class="w-24 h-full inline" />
+                        <div
+                            class="text-center space-x-4 flex items-center justify-center"
+                        >
+                            <img src="/fpx.png" class="w-2/6 h-full inline" />
                             <img
                                 src="/toyyibpay.png"
-                                class="w-36 h-full inline"
+                                class="w-3/6 h-full inline"
                             />
                         </div>
-                        <p class="font-semibold text-center mt-4">
+                        <p class="font-semibold text-center mt-2">
                             Payment Gateway
                         </p>
-                        <p class="text-sm text-center font-semibold text-grey">
-                            Kad Kredit/Debit/ Pindahan Bank Dalam Talian
+                        <p
+                            class="text-xs md:text-sm text-center font-semibold text-grey"
+                        >
+                            Pindahan Bank Dalam Talian
                         </p>
                     </button>
                     <!-- Upload bank receipt -->
                     <button
-                        class="shadow-login bg-white py-6 px-10 rounded-2xl my-5 inline-block ml-20"
+                        class="shadow-login bg-white py-4 px-4 rounded-2xl my-5 inline-block"
                         @click="redirectTo()"
                     >
                         <div class="text-center">
@@ -258,10 +261,12 @@
                                 class="w-16 inline text-center"
                             />
                         </div>
-                        <p class="font-semibold text-center mt-4">
+                        <p class="font-semibold text-center mt-3">
                             Muat Naik Resit Bank
                         </p>
-                        <p class="text-sm text-center font-semibold text-grey">
+                        <p
+                            class="text-xs md:text-sm text-center font-semibold text-grey"
+                        >
                             Pindahan Wang Ke Akaun Bank Tuisyen
                         </p>
                     </button>

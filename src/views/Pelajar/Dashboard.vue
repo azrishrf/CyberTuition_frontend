@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <p class="my-128">adsads </p>
+            <!-- <p class="my-128">adsads </p> -->
         </template>
     </SideBarPelajar>
 </template>

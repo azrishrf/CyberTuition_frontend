@@ -2,44 +2,48 @@
     <SideBarPelajar linkActive="laporan">
         <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="my-2 font-semibold text-xl">LAPORAN</h1>
-            <p class="font-semibold text-xs inline mb-4">
+            <h1 class="mt-5 font-semibold text-base md:text-xl">LAPORAN</h1>
+            <p class="mb-5 font-semibold text-xs md:text-xs text-black">
                 Dashboard &nbsp;
-                <span class="font-semibold text-xs inline text-red"
+                <span class="font-semibold text-xs text-red"
                     >> &nbsp; Laporan</span
                 >
             </p>
 
-            <!-- Profil Diri -->
             <!-- Maklumat Pelajar -->
             <div
-                class="shadow-login bg-white py-7 px-36 rounded-2xl my-5"
+                class="shadow-login bg-white py-2 px-3 lg:py-7 lg:px-36 rounded-2xl mb-5"
                 id="data-laporan"
             >
                 <div class="text-center">
-                    <img src="/LogoCyberTuition.png" class="w-60 m-auto" />
-                    <h1 class="font-semibold">LAPORAN PELAJAR</h1>
-                    <h1 class="font-semibold mb-5">{{ this.formattedDate }}</h1>
+                    <img
+                        src="/LogoCyberTuition.png"
+                        class="w-40 lg:w-64 m-auto"
+                    />
+                    <h1 class="font-semibold text-sm">LAPORAN PELAJAR</h1>
+                    <h1 class="font-semibold mb-1 lg:mb-5 text-sm">
+                        {{ this.formattedDate }}
+                    </h1>
                 </div>
 
                 <!-- Laporan -->
-                <div class="flex pl-10">
+                <div class="flex lg:pl-10 flex-col md:flex-row md:gap-8">
                     <!-- 1 -->
                     <div class="grow">
                         <!-- Pelajar -->
-                        <div class="flex flex-col w-128 mb-5">
+                        <div class="flex flex-col lg:w-128 mb-5">
                             <h1
                                 class="font-semibold my-2 bg-gray-600 text-sm text-white py-2 px-2 rounded-2xl text-center w-full"
                             >
                                 Maklumat Diri Pelajar
                             </h1>
-                            <table class="text-sm bg-slate-100 rounded-2xl">
+                            <table class="text-xs bg-slate-100 rounded-2xl">
                                 <tr>
-                                    <td class="font-semibold py-3 pl-4">
+                                    <td class="font-semibold py-3 pl-4 w-28 block">
                                         Nama Penuh:
                                     </td>
                                     <td
-                                        class="font-semibold py-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold py-3 px-2 text-center text-fontgrey"
                                     >
                                         {{ this.studentData.nameStudent }}
                                     </td>
@@ -56,7 +60,7 @@
                                 </tr>
                                 <tr>
                                     <td class="font-semibold pb-3 pl-4">
-                                        No Kad Pengenalan:
+                                        No KP:
                                     </td>
                                     <td
                                         class="font-semibold pb-3 px-4 text-center text-fontgrey"
@@ -80,13 +84,13 @@
                     <!-- 2 -->
                     <div class="grow">
                         <!-- Yuran -->
-                        <div class="flex flex-col w-96 mb-5">
+                        <div class="flex flex-col lg:w-96 mb-5">
                             <h1
                                 class="font-semibold my-2 bg-gray-600 text-sm text-white py-2 px-2 rounded-2xl text-center w-full"
                             >
                                 Yuran
                             </h1>
-                            <table class="text-sm bg-slate-100 rounded-2xl">
+                            <table class="text-xs bg-slate-100 rounded-2xl">
                                 <tr>
                                     <td class="font-semibold py-3 pl-4">
                                         Jumlah Yuran:
@@ -147,10 +151,12 @@
                     </div>
                 </div>
 
-                <div class="flex justify-center gap-10">
+                <div
+                    class="flex justify-center md:gap-3 lg:gap-10 flex-col md:flex-row"
+                >
                     <!-- Kedatangan -->
                     <div
-                        class="flex flex-col w-72 mb-5"
+                        class="flex flex-col lg:w-72 mb-5"
                         v-for="subjectData in subjectsData"
                     >
                         <h1
@@ -158,7 +164,7 @@
                         >
                             Subjek {{ subjectData.subjectName }}
                         </h1>
-                        <table class="text-sm bg-slate-100 rounded-2xl">
+                        <table class="text-xs bg-slate-100 rounded-2xl">
                             <tr>
                                 <td class="font-semibold py-3 pl-4">
                                     Jumlah Kelas:
@@ -214,7 +220,7 @@
                 </div>
             </div>
             <!-- Generate pdf button  -->
-            <div class="flex flex-row-reverse">
+            <!-- <div class="flex flex-row-reverse">
                 <button
                     @click="generatePDF"
                     class="flex flex-col items-center py-4 px-5 bg-gray-500 hover:bg-slate-700 shadow-login rounded-2xl"
@@ -222,7 +228,7 @@
                     <i class="fa-solid fa-print text-2xl text-white"></i>
                     <p class="font-semibold text-white text-sm">Cetak</p>
                 </button>
-            </div>
+            </div> -->
         </template>
     </SideBarPelajar>
 </template>
@@ -335,24 +341,24 @@ export default {
             return this.totalAttend;
         },
         // Generate pdf
-        generatePDF() {
-            const element = document.getElementById("data-laporan");
+        // generatePDF() {
+        //     const element = document.getElementById("data-laporan");
 
-            html2pdf()
-                .set({
-                    html2canvas: {
-                        scale: 2, // Adjust the scale value to make the PDF smaller (e.g., 2 for half the size)
-                    },
-                    pagebreak: { mode: "avoid-all" }, // Optional: Set page break mode to avoid splitting content across pages
-                    filename: `Laporan Bulanan Pelajar.pdf`, // Optional: Set the desired file name
-                    jsPDF: {
-                        orientation: "landscape", // Set the page orientation to landscape
-                    },
-                })
+        //     html2pdf()
+        //         .set({
+        //             html2canvas: {
+        //                 scale: 2, // Adjust the scale value to make the PDF smaller (e.g., 2 for half the size)
+        //             },
+        //             pagebreak: { mode: "avoid-all" }, // Optional: Set page break mode to avoid splitting content across pages
+        //             filename: `Laporan Bulanan Pelajar.pdf`, // Optional: Set the desired file name
+        //             jsPDF: {
+        //                 orientation: "landscape", // Set the page orientation to landscape
+        //             },
+        //         })
 
-                .from(element)
-                .save();
-        },
+        //         .from(element)
+        //         .save();
+        // },
     },
 };
 </script>
