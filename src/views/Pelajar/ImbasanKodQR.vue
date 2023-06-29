@@ -1,31 +1,18 @@
 <template>
-    <div class="bg-slate-50 w-full min-h-screen flex">
-        <!-- Side Bar -->
-        <SideBarPelajar linkActive="kedatangan" />
-        <!-- Page Content -->
-        <div class="w-full px-8 lg:px-12 py-4">
-            <!-- Top Bar -->
-            <div
-                class="flex justify-end bg-white shadow-login rounded-2xl px-6 py-2"
-            >
-                <div
-                    class="flex items-center justify-between bg-red w-28 text-white text-xs px-4 rounded-3xl py-2 font-semibold"
-                >
-                    <i class="fa-solid fa-user text-xs"></i>Pelajar
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-            </div>
+    <SideBarPelajar linkActive="kedatangan">
+        <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="mt-2 font-semibold text-xl">IMBASAN KOD QR</h1>
-            <p class="font-semibold text-xs inline mb-4">
+            <h1 class="mt-5 font-semibold text-base md:text-xl">
+                IMBASAN KOD QR
+            </h1>
+            <p class="mb-5 font-semibold text-xs md:text-xs text-black">
                 Dashboard &nbsp; > &nbsp; Kedatangan &nbsp;
-                <span class="font-semibold text-xs inline text-red"
+                <span class="font-semibold text-xs text-red"
                     >> &nbsp; Imbasan Kod QR</span
                 >
             </p>
-
             <!-- Scan QR Codw -->
-            <div class="my-4">
+            <div class="mb-3">
                 <div class="flex justify-center">
                     <QRcodeScanner
                         v-bind:qrbox="300"
@@ -37,24 +24,28 @@
 
             <!-- Imbas Kod QR -->
             <div
-                class="shadow-login bg-white py-4 px-4 rounded-2xl my-6 w-full md:w-6/12 mx-auto"
+                class="shadow-login bg-white pt-4 pb-2 px-4 rounded-2xl w-full md:w-6/12 mx-auto"
             >
-                <h1 class="text-base font-semibold my-2">
+                <h1 class="text-base font-semibold">
                     Langkah untuk mengimbas Kod QR
                 </h1>
                 <div class="flex flex-row">
                     <div>
-                        <p class="text-fontgrey font-medium text-sm mt-2 mb-2">
+                        <p
+                            class="text-fontgrey font-medium text-xs md:text-sm mt-2 mb-2"
+                        >
                             &bull; Mesti membenarkan kebenaran untuk mengakses
                             kamera
                         </p>
-                        <p class="text-fontgrey font-medium text-sm mt-2 mb-2">
+                        <p
+                            class="text-fontgrey font-medium text-xs md:text-sm mt-2 mb-2"
+                        >
                             &bull; Pegang peranti di atas Kod QR sehingga ia
                             kelihatan jelas dalam skrin telefon pintar anda
                         </p>
                     </div>
 
-                    <img src="/scan2.png" class="w-36 h-full" />
+                    <img src="/scan2.png" class="w-[100px] md:w-32 h-full" />
                 </div>
             </div>
             <dialog
@@ -85,8 +76,8 @@
                 class="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"
                 v-bind:class="{ hidden: !dialogAttend }"
             ></div>
-        </div>
-    </div>
+        </template>
+    </SideBarPelajar>
 </template>
 <script>
 import axios from "axios";

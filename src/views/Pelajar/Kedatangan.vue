@@ -2,21 +2,23 @@
     <SideBarPelajar linkActive="kedatangan">
         <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="my-2 font-semibold text-xl">KEDATANGAN</h1>
-            <p class="font-semibold text-xs inline mb-4">
+            <h1 class="mt-5 font-semibold text-base md:text-xl">KEDATANGAN</h1>
+            <p class="mb-5 font-semibold text-xs md:text-xs text-black">
                 Dashboard &nbsp;
-                <span class="font-semibold text-xs inline text-red"
+                <span class="font-semibold text-xs text-red"
                     >> &nbsp; Kedatangan</span
                 >
             </p>
 
             <!-- Imbas Kod QR -->
             <div
-                class="shadow-login bg-white py-4 px-5 rounded-2xl my-6 w-7/12 flex"
+                class="shadow-login bg-white py-4 px-5 rounded-2xl w-full md:w-9/12 flex items-center"
             >
                 <div>
-                    <h1 class="text-base font-semibold my-2">Imbasan Kod QR</h1>
-                    <p class="text-fontgrey font-medium text-sm mt-2 mb-4">
+                    <h1 class="text-base font-semibold">Imbasan Kod QR</h1>
+                    <p
+                        class="text-fontgrey font-medium text-xs lg:text-sm mb-4"
+                    >
                         Urusan pengambilan kedatangan akan menjadi lebih pantas
                         dan mudah dengan menggunakan pengimbas kod QR
                     </p>
@@ -28,17 +30,21 @@
                     </button>
                 </div>
 
-                <img src="/scan1.png" class="w-48 h-full" />
+                <img src="/scan1.png" class="w-32 md:w-44 h-full" />
             </div>
 
             <!-- Butiran Kedatangan -->
-            <div class="shadow-login bg-white py-4 px-5 rounded-2xl my-5">
-                <h1 class="text-base font-semibold my-2">Butiran Kedatangan</h1>
+            <div
+                class="shadow-login bg-white py-4 px-3 md:px-5 rounded-2xl my-3"
+            >
+                <h1 class="text-base font-semibold ml-2 md:ml-0">
+                    Butiran Kedatangan
+                </h1>
                 <table
-                    class="w-3/4 text-center my-5"
+                    class="w-3/4 text-center my-2 md:my-5"
                     v-if="attendances.length > 0"
                 >
-                    <tr class="bg-red text-sm text-white">
+                    <tr class="bg-red text-xs md:text-sm text-white">
                         <th class="font-semibold py-2 px-2 rounded-l-2xl">
                             No
                         </th>
@@ -50,31 +56,31 @@
                     </tr>
 
                     <tr
-                        class="text-fontgrey text-sm border-b-2"
+                        class="text-fontgrey text-xs md:text-sm border-b-2"
                         v-for="attendanceData in attendances"
                     >
                         <td class="py-3 text-center">
                             {{ attendances.indexOf(attendanceData) + 1 }}
                         </td>
-                        <td class="font-semibold">
+                        <td class="font-semibold px-2">
                             {{ attendanceData.attendance.subject.name }}
                         </td>
-                        <td class="font-semibold">
+                        <td class="font-semibold px-2 py-1">
                             {{ convertDate(attendanceData.attendance.date) }}
                         </td>
-                        <td class="font-semibold">
+                        <td class="font-semibold px-2">
                             {{ convertDay(attendanceData.attendance.date) }}
                         </td>
-                        <td class="font-semibold">
+                        <td class="font-semibold px-2">
                             {{ attendanceData.attendance.time }}
                         </td>
                         <td
-                            class="font-semibold text-green"
+                            class="font-semibold text-green px-2"
                             v-if="attendanceData.isAttend === true"
                         >
                             Hadir
                         </td>
-                        <td class="font-semibold text-red" v-else>
+                        <td class="font-semibold text-red px-2" v-else>
                             Tidak Hadir
                         </td>
                     </tr>

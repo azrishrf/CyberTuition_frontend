@@ -59,7 +59,7 @@
                 Belum mendaftar lagi?
                 <router-link
                     to="/signup"
-                    class="py-2 px-3 rounded-full ml-1 hover:bg-slate-700 hover:text-white text-black font-semibold transition underline hover:no-underline"
+                    class="py-2 px-3 rounded-full ml-1 hover:bg-slate-700 hover:text-white text-black font-semibold transition underline hover:no-underline removeblue"
                     >Daftar Sekarang</router-link
                 >
             </p>
@@ -165,5 +165,9 @@ export default {
 .input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
     -webkit-text-fill-color: black !important;
+}
+
+.removeblue {
+    -webkit-tap-highlight-color: transparent;
 }
 </style>
