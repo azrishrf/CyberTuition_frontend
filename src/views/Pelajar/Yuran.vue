@@ -227,45 +227,42 @@
                     Kaedah Pembayaran (Sila Pilih Salah Satu)
                 </h1>
                 <!-- Payment Gateway -->
-                <div class="flex flex-col md:flex-row">
+                <div class="flex flex-col md:flex-row md:gap-4">
                     <button
-                        class="shadow-login bg-white py-4 px-4 rounded-2xl my-3"
+                        class="shadow-login bg-white py-4 px-4 rounded-2xl my-3 transition duration-300 ease-in-out hover:scale-105 removeblue md:w-64"
                         @click="createBill()"
                     >
                         <div
                             class="text-center space-x-4 flex items-center justify-center"
                         >
-                            <img src="/fpx.png" class="w-2/6 h-full inline" />
-                            <img
-                                src="/toyyibpay.png"
-                                class="w-3/6 h-full inline"
-                            />
+                            <img src="/fpx.png" class="w-2/6 h-full" />
+                            <img src="/toyyibpay.png" class="w-3/6 h-full" />
                         </div>
                         <p class="font-semibold text-center mt-2">
                             Payment Gateway
                         </p>
                         <p
-                            class="text-xs md:text-sm text-center font-semibold text-grey"
+                            class="text-xs lg:text-sm text-center font-semibold text-grey"
                         >
                             Pindahan Bank Dalam Talian
                         </p>
                     </button>
                     <!-- Upload bank receipt -->
                     <button
-                        class="shadow-login bg-white py-4 px-4 rounded-2xl my-5 inline-block"
+                        class="shadow-login bg-white py-4 px-4 rounded-2xl my-5 transition duration-300 ease-in-out hover:scale-105 removeblue md:w-64"
                         @click="redirectTo()"
                     >
                         <div class="text-center">
                             <img
                                 src="/duitnow.png"
-                                class="w-16 inline text-center"
+                                class="w-16 md:w-12 inline text-center"
                             />
                         </div>
                         <p class="font-semibold text-center mt-3">
                             Muat Naik Resit Bank
                         </p>
                         <p
-                            class="text-xs md:text-sm text-center font-semibold text-grey"
+                            class="text-xs lg:text-sm text-center font-semibold text-grey"
                         >
                             Pindahan Wang Ke Akaun Bank Tuisyen
                         </p>
@@ -551,3 +548,8 @@ export default {
     },
 };
 </script>
+<style>
+.removeblue {
+    -webkit-tap-highlight-color: transparent;
+}
+</style>

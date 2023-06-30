@@ -61,12 +61,16 @@
                                 : '',
                         }"
                     />
-                    <div class="flex gap-4">
-                        <SubmitButton type="submit" txt="Sahkan" class="py-2"/>
+                    <div class="flex gap-4 mt-3">
                         <button
-                            txt="Batalkan"
+                            type="submit"
+                            class="bg-red text-white px-5 py-2 rounded-2xl hover:bg-darkred text-xs lg:text-sm font-bold"
+                        >
+                            Sahkan
+                        </button>
+                        <button
                             type="button"
-                            class="bg-gray-200 text-black px-6 rounded-2xl hover:bg-slate-300 text-sm font-bold"
+                            class="bg-gray-200 text-black px-5 rounded-2xl hover:bg-slate-300 text-xs lg:text-sm font-bold"
                             @click="redirect()"
                         >
                             Batalkan

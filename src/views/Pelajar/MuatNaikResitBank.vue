@@ -1,32 +1,18 @@
 <template>
-    <div class="bg-slate-50 w-full min-h-screen flex">
-        <!-- Side Bar -->
-        <SideBarPelajar linkActive="yuran" />
-        <!-- Page Content -->
-        <div class="w-full px-6 lg:px-12 pb-4 pt-2">
-            <!-- Top Bar -->
-            <div
-                class="flex justify-end bg-white shadow-login rounded-2xl px-6 py-2"
-            >
-                <div
-                    class="flex items-center justify-between bg-red w-28 text-white text-xs px-4 rounded-3xl py-2 font-semibold"
-                >
-                    <i class="fa-solid fa-user text-xs"></i>Pelajar
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-            </div>
+    <SideBarPelajar linkActive="yuran">
+        <template v-slot:content>
             <!-- Breadcrumbs -->
-            <h1 class="mt-2 font-semibold text-xl">YURAN</h1>
-            <p class="font-semibold text-xs inline mb-4">
+            <h1 class="mt-5 font-semibold text-base md:text-xl">YURAN</h1>
+            <p class="mb-5 font-semibold text-xs md:text-xs text-black">
                 Dashboard &nbsp; > &nbsp; Yuran &nbsp;
-                <span class="font-semibold text-xs inline text-red"
-                    >> &nbsp; Muat Naik Resit Bank</span
+                <span class="font-semibold text-xs text-red"
+                    >> &nbsp; Yuran</span
                 >
             </p>
             <!-- Maklumat Akaun Bank -->
-            <div class="">
+            <div>
                 <div
-                    class="shadow-login bg-white gap-8 rounded-2xl py-6 px-4 lg:px-6 my-6 max-md:flex-col flex lg:w-3/6"
+                    class="shadow-login bg-white gap-3 md:gap-8 rounded-2xl py-4 px-4 lg:px-6 my-6 max-md:flex-col flex lg:w-3/6"
                 >
                     <div>
                         <h1 class="text-base font-semibold mb-3">
@@ -34,7 +20,9 @@
                         </h1>
                         <table class="text-sm">
                             <tr>
-                                <td class="font-semibold text-black pb-2">
+                                <td
+                                    class="font-semibold text-black pb-2 block w-28"
+                                >
                                     Nama Akaun:
                                 </td>
                                 <td
@@ -101,8 +89,22 @@
                     </div>
                 </div>
             </div>
-            <div class="justify-center">
-                <SubmitButton
+            <div class="flex gap-4">
+                <button
+                    type="button"
+                    class="bg-red text-white px-5 py-3 rounded-2xl hover:bg-darkred text-xs lg:text-sm font-bold"
+                    @click="submit()"
+                >
+                    Sahkan
+                </button>
+                <button
+                    type="button"
+                    class="bg-gray-200 text-black px-5 rounded-2xl hover:bg-slate-300 text-xs lg:text-sm font-bold"
+                    @click="cancel()"
+                >
+                    Batalkan
+                </button>
+                <!-- <SubmitButton
                     type="submit"
                     txt="Sahkan"
                     class="px-9"
@@ -115,22 +117,26 @@
                     @click="cancel()"
                 >
                     Batalkan
-                </button>
+                </button> -->
             </div>
             <!-- Dialog upload success-->
             <div
                 v-if="showDialog"
                 class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-30"
             >
-                <div class="bg-white rounded-2xl shadow-lg p-6 w-5/12">
-                    <h3 class="text-lg font-semibold mb-4 text-center">
+                <div
+                    class="bg-white rounded-2xl shadow-lg py-4 px-2 lg:p-6 w-10/12 lg:5/12"
+                >
+                    <h3
+                        class="lg:text-lg font-semibold lg:mb-4 px-10 lg:px-0 text-center"
+                    >
                         Pembayaran Yuran Secara Muat Naik Resit Bank
                     </h3>
                     <div class="flex justify-center w-full">
                         <img
                             src="/PaymentPending.jpg"
                             alt="Payment Pending"
-                            class="w-72 h-full mb-5"
+                            class="w-48 lg:w-72 h-full lg:mb-5"
                         />
                     </div>
                     <p
@@ -139,7 +145,7 @@
                         MENUNGGU PENGESAHAN KERANI
                     </p>
                     <p
-                        class="text-center font-bold text-fontgrey text-sm py-4 px-8"
+                        class="font-bold text-fontgrey text-xs lg:text-sm py-4 px-4 lg:px-8 text-justify"
                     >
                         Resit pembayaran bank anda yang dimuat naik akan
                         menjalani pengesahan oleh kerani kami dalam masa 1-2
@@ -157,8 +163,8 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
+        </template>
+    </SideBarPelajar>
 </template>
 
 <script setup>
@@ -267,7 +273,9 @@ export default {
             router.push("/pelajar/yuran");
         },
         // cancel
-        cancel() {},
+        cancel() {
+            router.push("/pelajar/yuran");
+        },
     },
 };
 </script>

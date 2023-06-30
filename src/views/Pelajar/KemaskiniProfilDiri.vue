@@ -105,7 +105,7 @@
                     </div>
 
                     <!-- Maklumat Ibu Bapa -->
-                    
+
                     <h4 class="text-base md:text-lg font-semibold mt-6 mb-4">
                         Maklumat Ibu Bapa
                     </h4>
@@ -160,12 +160,21 @@
                             />
                         </div>
                     </div>
-
-                    <SubmitButton
-                        type="submit"
-                        txt="Sahkan"
-                        class="mt-6 "
-                    />
+                    <div class="flex gap-4 mt-3">
+                        <button
+                            type="submit"
+                            class="bg-red text-white px-5 py-2 rounded-2xl hover:bg-darkred text-xs lg:text-sm font-bold"
+                        >
+                            Sahkan
+                        </button>
+                        <button
+                            type="button"
+                            class="bg-gray-200 text-black px-5 rounded-2xl hover:bg-slate-300 text-xs lg:text-sm font-bold"
+                            @click="cancel()"
+                        >
+                            Batalkan
+                        </button>
+                    </div>
                 </form>
             </div>
         </template>
@@ -178,13 +187,11 @@ const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
-import SubmitButton from "../../components/SubmitButton.vue";
 import router from "../../router";
 
 export default {
     components: {
         SideBarPelajar,
-        SubmitButton,
     },
     data() {
         return {
@@ -275,6 +282,10 @@ export default {
                 });
                 router.push("/pelajar/profil");
             }
+        },
+        // cancel
+        cancel() {
+            router.push("/pelajar/profil");
         },
     },
 };

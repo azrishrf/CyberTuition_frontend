@@ -49,28 +49,28 @@
                 </div>
             </div>
             <dialog
-                class="z-50 w-2/6 bg-white px-3 pt-4 top-1/3 rounded-xl"
+                class="z-50 bg-white px-3 pt-4 top-1/3 rounded-xl"
                 v-bind:open="dialogAttend"
             >
-                <div>
+                <div class="flex">
                     <i
                         class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
                     ></i>
-
-                    <h1 class="font-semibold text-base text-left">
-                        Info Kedatangan
-                    </h1>
-                    <p class="font-normal text-xs text-left">
-                        {{ errorMessage }}
-                    </p>
-
-                    <button
-                        @click="redirect()"
-                        class="bg-red text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
-                    >
-                        Tutup
-                    </button>
+                    <div>
+                        <h1 class="font-semibold text-base text-left">
+                            Info Kedatangan
+                        </h1>
+                        <p class="font-normal text-xs">
+                            {{ errorMessage }}
+                        </p>
+                    </div>
                 </div>
+                <button
+                    @click="redirect()"
+                    class="bg-red text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
+                >
+                    Tutup
+                </button>
             </dialog>
             <div
                 class="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"
