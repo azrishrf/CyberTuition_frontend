@@ -276,7 +276,7 @@ export default {
 
                 .then((response) => {
                     this.isOpen = !this.isOpen;
-                    this.students = this.students.filter(
+                    this.filteredStudents = this.filteredStudents.filter(
                         (student) => student.idStudent !== this.selectedStudent
                     );
                 })
