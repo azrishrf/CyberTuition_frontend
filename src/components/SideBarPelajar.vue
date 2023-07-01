@@ -171,40 +171,6 @@ onBeforeUnmount(() => {
             >
                 <i class="fa-solid fa-right-from-bracket"></i>Log Keluar
             </button>
-            <dialog
-                class="z-50 w-2/6 bg-white px-3 pt-4 top-1/3 rounded-xl"
-                v-bind:open="isOpen"
-            >
-                <div>
-                    <i
-                        class="fa-solid fa-right-from-bracket text-black text-4xl float-left mr-3"
-                    ></i>
-
-                    <h1 class="font-semibold text-base text-left">
-                        Log Keluar
-                    </h1>
-                    <p class="font-normal text-xs text-left">
-                        Adakah anda pasti mahu log keluar dari sistem?
-                    </p>
-
-                    <button
-                        @click="logout()"
-                        class="bg-red text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
-                    >
-                        Sahkan
-                    </button>
-                    <button
-                        @click="toggleConfirmDelete()"
-                        class="text-black py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
-                    >
-                        Batalkan
-                    </button>
-                </div>
-            </dialog>
-            <div
-                class="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"
-                v-bind:class="{ hidden: !isOpen }"
-            ></div>
         </div>
 
         <div class="flex-grow w-full px-4 md:px-12 py-2 md:py-4">
@@ -226,21 +192,15 @@ onBeforeUnmount(() => {
                 />
 
                 <div
-                    class="flex items-center justify-center my-auto bg-red hover:bg-darkred text-white w-7 lg:w-28 rounded-full lg:rounded-2xl lg:py-2 h-7 lg:h-8"
+                    class="flex items-center justify-center my-auto bg-red text-white w-7 lg:w-28 rounded-full lg:rounded-2xl lg:py-2 h-7 lg:h-8"
                 >
-                    <i
-                        class="fa-solid fa-user text-xs"
-                        @click="toggleLogout"
-                    ></i>
+                    <i class="fa-solid fa-user text-xs"></i>
                     <span class="hidden lg:inline text-xs font-semibold ml-2"
                         >Pelajar</span
                     >
-                    <i
-                        class="fa-solid fa-angle-down hidden lg:inline text-xs my-auto ml-2"
-                    ></i>
                 </div>
 
-                <div
+                <!-- <div
                     v-show="showLogout"
                     class="bg-white py-2 px-4 rounded-lg mt-2 absolute top-11 right-0 shadow-login animate__animated"
                     :class="{
@@ -266,9 +226,43 @@ onBeforeUnmount(() => {
                             <p>Log Keluar</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
+            <dialog
+                class="z-50 bg-white px-3 pt-4 top-1/3 rounded-xl"
+                v-bind:open="isOpen"
+            >
+                <div>
+                    <i
+                        class="fa-solid fa-right-from-bracket text-black text-4xl float-left mr-3"
+                    ></i>
+                    <div class="flex flex-col">
+                        <h1 class="font-semibold text-base text-left">
+                            Log Keluar
+                        </h1>
+                        <p class="font-normal text-xs text-left">
+                            Adakah anda pasti mahu log keluar dari sistem?
+                        </p>
+                    </div>
 
+                    <button
+                        @click="logout()"
+                        class="bg-red hover:bg-darkred text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
+                    >
+                        Sahkan
+                    </button>
+                    <button
+                        @click="toggleConfirmDelete()"
+                        class="text-black py-2 px-4 rounded-xl border-2 border-grey hover:bg-slate-300 float-right mt-5 font-semibold text-xs"
+                    >
+                        Batalkan
+                    </button>
+                </div>
+            </dialog>
+            <div
+                class="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"
+                v-bind:class="{ hidden: !isOpen }"
+            ></div>
             <!-- Main content -->
             <div class="px-4 pb-10">
                 <slot name="content"></slot>

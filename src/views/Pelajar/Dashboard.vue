@@ -118,7 +118,7 @@
                             dijelaskan
                         </p>
                         <button
-                            class="bg-red hover:bg-darkred my-auto text-white py-1 md:px-2 px-5 text-xs rounded-2xl font-semibold"
+                            class="bg-red hover:bg-darkred my-auto text-white py-1 px-5 text-xs rounded-2xl font-semibold"
                             @click="redirectToTuitionFee()"
                         >
                             Lihat Yuran
