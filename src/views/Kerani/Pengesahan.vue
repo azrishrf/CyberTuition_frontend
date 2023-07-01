@@ -31,7 +31,7 @@
                 v-if="students.length > 0"
             >
                 <!-- Search bar -->
-                <div
+                <!-- <div
                     class="font-semibold border-2 border-grey text-sm px-8 py-2 mb-6 rounded-xl w-11/12 flex justify-between items-center"
                 >
                     <input
@@ -40,7 +40,7 @@
                         class="w-full focus:outline-none"
                     />
                     <i class="fa-solid fa-magnifying-glass text-grey"></i>
-                </div>
+                </div> -->
 
                 <!-- Jadual Senarai Pelajar -->
                 <table class="w-11/12 text-center">

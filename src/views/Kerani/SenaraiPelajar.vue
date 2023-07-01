@@ -36,26 +36,43 @@
                         type="text"
                         placeholder="Carian Nama Pelajar..."
                         class="w-full focus:outline-none"
+                        v-model="searchQuery"
                     />
                     <i class="fa-solid fa-magnifying-glass text-grey"></i>
                 </div>
 
                 <!-- Jadual Senarai Pelajar -->
-                <table class="w-11/12 text-center">
+                <table class="text-center">
                     <tr class="bg-red text-sm text-white">
-                        <th class="font-semibold py-2 px-2 rounded-l-2xl">
+                        <th
+                            class="font-semibold py-2 px-2 rounded-l-2xl"
+                            style="width: 3rem"
+                        >
                             No
                         </th>
-                        <th class="font-semibold">Nama Penuh</th>
-                        <th class="font-semibold">E-Mel</th>
-                        <th class="font-semibold">Tingkatan</th>
-                        <th class="font-semibold">No Kad Pengenalan</th>
-                        <th class="font-semibold rounded-r-2xl">Tindakan</th>
+                        <th class="font-semibold" style="width: 25rem">
+                            Nama Penuh
+                        </th>
+                        <th class="font-semibold" style="width: 13rem">
+                            E-Mel
+                        </th>
+                        <th class="font-semibold" style="width: 10rem">
+                            Tingkatan
+                        </th>
+                        <th class="font-semibold" style="width: 15rem">
+                            No Kad Pengenalan
+                        </th>
+                        <th
+                            class="font-semibold rounded-r-2xl"
+                            style="width: 8rem"
+                        >
+                            Tindakan
+                        </th>
                     </tr>
 
                     <tr
                         class="text-fontgrey text-sm border-b-2"
-                        v-for="studentData in students"
+                        v-for="(studentData, index) in displayedStudents"
                     >
                         <td class="py-3 text-center">
                             {{ students.indexOf(studentData) + 1 }}
@@ -90,41 +107,7 @@
                                 "
                             ></button>
                         </td>
-                        <!-- <dialog
-                            class="z-50 w-2/6 bg-white px-3 pt-4 top-1/3 rounded-xl"
-                            v-bind:open="isOpen"
-                        >
-                            <div>
-                                <i
-                                    class="bi bi-exclamation-circle text-red text-4xl float-left mr-3"
-                                ></i>
 
-                                <h1 class="font-semibold text-base text-left">
-                                    Padam Pelajar
-                                </h1>
-                                <p class="font-normal text-xs text-left">
-                                    Adakah anda pasti mahu memadamkan data
-                                    pelajar ini?
-                                </p>
-
-                                <button
-                                    @click="deleteData(studentData.idStudent)"
-                                    class="bg-red text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
-                                >
-                                    Sahkan
-                                </button>
-                                <button
-                                    @click="toggleConfirmDelete"
-                                    class="text-black py-2 px-4 rounded-xl border-2 border-grey float-right mt-5 font-semibold text-xs"
-                                >
-                                    Batalkan
-                                </button>
-                            </div>
-                        </dialog>
-                        <div
-                            class="fixed z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60"
-                            v-bind:class="{ hidden: !isOpen }"
-                        ></div> -->
                         <!-- Dialog delete student -->
                         <div
                             v-if="isOpen"
@@ -168,14 +151,44 @@
                     </tr>
                 </table>
             </div>
+
             <!-- Display text if student not available -->
-            <div
+            <!-- <div
                 class="bg-white my-6 rounded-2xl py-5 px-5 shadow-login"
                 v-else
             >
                 <p class="text-center text-red font-semibold">
                     Tiada data pelajar yang sudah berdaftar
                 </p>
+            </div> -->
+
+            <!-- Pagination controls -->
+            <div
+                class="flex justify-center items-center text-sm mt-4 font-semibold text-fontgrey"
+            >
+                <button
+                    class="px-2 py-1 rounded-full w-7 bg-red mr-2 text-white hover:bg-darkred"
+                    @click="previousPage"
+                    :disabled="currentPage === 1"
+                >
+                    <i
+                        class="fa-solid fa-angle-left"
+                        style="color: #ffffff"
+                    ></i>
+                </button>
+                <span class="px-2 py-1 rounded bg-gray-200">
+                    Page {{ currentPage }} of {{ totalPages }}
+                </span>
+                <button
+                    class="px-2 rounded-full py-1 w-7 bg-red ml-2 text-white hover:bg-darkred"
+                    @click="nextPage"
+                    :disabled="currentPage === totalPages"
+                >
+                    <i
+                        class="fa-solid fa-angle-right"
+                        style="color: #ffffff"
+                    ></i>
+                </button>
             </div>
         </div>
     </div>
@@ -193,13 +206,35 @@ export default {
     data() {
         return {
             students: [],
+            filteredStudents: [],
             isOpen: false,
             selectedStudent: null,
+            currentPage: 1,
+            pageSize: 10,
+            searchQuery: "",
         };
     },
     async mounted() {
         const response = await axios.get(baseAPI + `/api/students_registered`);
         this.students = response.data;
+        this.filteredStudents = response.data;
+        this.currentPage = 1;
+    },
+    computed: {
+        displayedStudents() {
+            const startIndex = (this.currentPage - 1) * this.pageSize;
+            const endIndex = startIndex + this.pageSize;
+            return this.filteredStudents.slice(startIndex, endIndex);
+            // return this.filteredStudents.slice(startIndex, endIndex);
+        },
+        totalPages() {
+            return Math.ceil(this.students.length / this.pageSize);
+        },
+    },
+    watch: {
+        searchQuery: function (newQuery) {
+            this.filterStudents(newQuery);
+        },
     },
     methods: {
         // toggle confirm delete student
@@ -207,6 +242,32 @@ export default {
             document.title = "Senarai Pelajar | Kerani";
             this.selectedStudent = idStudent;
             this.isOpen = true;
+        },
+        goToPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+                this.currentPage = pageNumber;
+            }
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
+        },
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+        filterStudents() {
+            if (this.searchQuery === "") {
+                this.filteredStudents = this.students;
+            } else {
+                const searchQuery = this.searchQuery.toLowerCase();
+                this.filteredStudents = this.students.filter((studentData) => {
+                    const studentName = studentData.nameStudent.toLowerCase();
+                    return studentName.includes(searchQuery);
+                });
+            }
         },
         // Delete data
         async deleteData() {

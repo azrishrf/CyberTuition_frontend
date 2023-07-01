@@ -1,14 +1,3 @@
-<script setup>
-import SidebarGuru from "../../components/SidebarGuru.vue";
-import router from "../../router";
-
-document.title = "Kelas | Guru";
-
-async function lihatMaklumatKelas() {
-    router.push("/guru/kelas/maklumatkelas");
-}
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -88,12 +77,19 @@ async function lihatMaklumatKelas() {
     </div>
 </template>
 
+<script setup></script>
+
 <script>
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
+import SidebarGuru from "../../components/SidebarGuru.vue";
+import router from "../../router";
 
 export default {
+    components: {
+        SidebarGuru,
+    },
     data() {
         return {
             teacherData: "",
@@ -103,6 +99,8 @@ export default {
     },
 
     async mounted() {
+        document.title = "Kelas | Guru";
+
         // Get Teacher Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.teacherId = response.data.teacher.idTeacher;
@@ -113,6 +111,12 @@ export default {
                     this.teacherData = response.data;
                 });
         });
+    },
+
+    methods: {
+        lihatMaklumatKelas() {
+            router.push("/guru/kelas/maklumatkelas");
+        },
     },
 };
 </script>

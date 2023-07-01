@@ -146,6 +146,7 @@
                             type="text"
                             placeholder="Carian Nama Pelajar..."
                             class="font-semibold border-2 border-slate-grey text-sm px-8 py-2 mb-6 rounded-xl w-11/12 flex justify-between items-center"
+                            v-model="searchQuery"
                         />
                         <i
                             class="fa-solid fa-magnifying-glass text-grey absolute right-40 top-3"
@@ -170,7 +171,7 @@
 
                         <tr
                             class="text-fontgrey text-sm border-b-2"
-                            v-for="studentData in tuitionFees"
+                            v-for="(studentData, index) in displayedStudents"
                         >
                             <td class="py-3 text-center">
                                 {{ tuitionFees.indexOf(studentData) + 1 }}
@@ -229,6 +230,34 @@
                         Tiada data yuran pelajar pada bulan yang dipilih
                     </p>
                 </div>
+                <!-- Pagination controls -->
+                <div
+                    class="flex justify-center items-center text-sm mt-4 font-semibold text-fontgrey"
+                >
+                    <button
+                        class="px-2 py-1 rounded-full w-7 bg-red mr-2 text-white hover:bg-darkred"
+                        @click="previousPage"
+                        :disabled="currentPage === 1"
+                    >
+                        <i
+                            class="fa-solid fa-angle-left"
+                            style="color: #ffffff"
+                        ></i>
+                    </button>
+                    <span class="px-2 py-1 rounded bg-gray-200">
+                        Page {{ currentPage }} of {{ totalPages }}
+                    </span>
+                    <button
+                        class="px-2 rounded-full py-1 w-7 bg-red ml-2 text-white hover:bg-darkred"
+                        @click="nextPage"
+                        :disabled="currentPage === totalPages"
+                    >
+                        <i
+                            class="fa-solid fa-angle-right"
+                            style="color: #ffffff"
+                        ></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -254,6 +283,10 @@ export default {
             malayMonths: "",
             monthOptions: "",
             tuitionFees: "",
+            filteredStudents: [],
+            currentPage: 1,
+            pageSize: 10,
+            searchQuery: "",
         };
     },
 
@@ -303,6 +336,24 @@ export default {
         this.year = currentYear;
 
         this.submit();
+        this.filteredStudents = this.tuitionFees;
+        this.currentPage = 1;
+    },
+    computed: {
+        displayedStudents() {
+            const startIndex = (this.currentPage - 1) * this.pageSize;
+            const endIndex = startIndex + this.pageSize;
+            return this.filteredStudents.slice(startIndex, endIndex);
+            // return this.filteredStudents.slice(startIndex, endIndex);
+        },
+        totalPages() {
+            return Math.ceil(this.tuitionFees.length / this.pageSize);
+        },
+    },
+    watch: {
+        searchQuery: function (newQuery) {
+            this.filterStudents();
+        },
     },
     methods: {
         formatDate(date) {
@@ -324,8 +375,40 @@ export default {
                         `/api/tuitionfee/monthyear/${this.month}/${this.year}`
                 );
                 this.tuitionFees = response.data;
+                this.filteredStudents = response.data;
+                this.currentPage = 1;
             } catch (error) {
                 console.error("Error:", error);
+            }
+        },
+        goToPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+                this.currentPage = pageNumber;
+            }
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
+        },
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+        filterStudents() {
+            if (this.searchQuery === "") {
+                this.filteredStudents = this.tuitionFees;
+            } else {
+                const searchQuery = this.searchQuery.toLowerCase();
+                this.filteredStudents = this.tuitionFees.filter(
+                    (studentData) => {
+                        const studentName =
+                            studentData.student.nameStudent.toLowerCase();
+                        return studentName.includes(searchQuery);
+                    }
+                );
+                // this.currentPage = 1;
             }
         },
     },
