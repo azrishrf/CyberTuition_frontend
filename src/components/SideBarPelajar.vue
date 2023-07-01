@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import router from "../router";
 
 // dropdown for navigation pelajar
@@ -41,13 +41,31 @@ function toggleSidebar(route) {
         router.push(route);
     }, 300);
 }
+
+const showLogout = ref(false);
+function toggleLogout() {
+    showLogout.value = !showLogout.value;
+}
+
+function handleClickOutside(event) {
+    if (showLogout.value && !event.target.closest(".bg-white")) {
+        showLogout.value = false;
+    }
+}
+onMounted(() => {
+    document.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <template>
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         <div
-            class="bg-white w-72 flex-none z-10 shadow-home px-4 fixed inset-y-0 left-0 lg:relative lg:translate-x-0 transform -translate-x-full transition duration-300 ease-in-out min-h-full"
+            class="bg-white w-72 flex-none z-20 shadow-home px-4 fixed inset-y-0 left-0 lg:relative lg:translate-x-0 transform -translate-x-full transition duration-300 ease-in-out min-h-full"
             :class="{ ' translate-x-0 ': showSidebar }"
         >
             <img src="/LogoCyberTuition.png" class="w-44 m-auto mt-4 mb-5" />
@@ -63,7 +81,8 @@ function toggleSidebar(route) {
                 <div
                     class="flex items-center"
                     style="
-                        font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 200, 'opsz' 20;
+                        font-variation-settings: 'FILL' 1, 'wght' 300,
+                            'GRAD' 200, 'opsz' 20;
                     "
                 >
                     <span
@@ -191,7 +210,7 @@ function toggleSidebar(route) {
         <div class="flex-grow w-full px-4 md:px-12 py-2 md:py-4">
             <!-- Header -->
             <div
-                class="flex justify-between sticky bg-white shadow-login rounded-full md:rounded-2xl px-5 py-1 md:py-2"
+                class="flex justify-between sticky bg-white shadow-login rounded-full md:rounded-2xl px-5 py-1 md:py-2 z-10 lg:z-0"
                 :class="{ sticky: !showSidebar }"
             >
                 <button
@@ -199,23 +218,54 @@ function toggleSidebar(route) {
                     class="flex items-center justify-center my-auto w-8 rounded-full h-8 hover:bg-slate-100 removeblue"
                 >
                     <i class="fa-solid fa-bars my-auto text-base lg:hidden"></i>
-                    <!-- <i class="fa-solid fa-angle-down"></i> -->
                 </button>
 
                 <img
                     src="/LogoCyberTuition.png"
                     class="w-32 md:w-40 lg:hidden"
                 />
+
                 <div
-                    class="flex items-center justify-center my-auto bg-red text-white w-7 lg:w-28 rounded-full lg:rounded-2xl lg:py-2 h-7 lg:h-8"
+                    class="flex items-center justify-center my-auto bg-red hover:bg-darkred text-white w-7 lg:w-28 rounded-full lg:rounded-2xl lg:py-2 h-7 lg:h-8"
                 >
-                    <i class="fa-solid fa-user text-xs"></i>
+                    <i
+                        class="fa-solid fa-user text-xs"
+                        @click="toggleLogout"
+                    ></i>
                     <span class="hidden lg:inline text-xs font-semibold ml-2"
                         >Pelajar</span
                     >
                     <i
                         class="fa-solid fa-angle-down hidden lg:inline text-xs my-auto ml-2"
                     ></i>
+                </div>
+
+                <div
+                    v-show="showLogout"
+                    class="bg-white py-2 px-4 rounded-lg mt-2 absolute top-11 right-0 shadow-login animate__animated"
+                    :class="{
+                        animate__fadeIn: showLogout,
+                        animate__fadeOut: !showLogout,
+                    }"
+                    ref="logoutDiv"
+                >
+                    <p class="text-center font-semibold text-sm mb-1">
+                        Pelajar
+                    </p>
+                    <div
+                        class="text-fontgrey text-xs mb-4 font-semibold text-center bg-gray-200 py-1 px-4 rounded-xl"
+                    >
+                        <p class="w-36">Muhammad Azri Ishraf Bin Harun</p>
+                        <p>010424101067</p>
+                    </div>
+                    <div class="flex justify-end">
+                        <div
+                            class="flex text-white bg-slate-700 font-semibold text-xs py-2 w-28 rounded-2xl items-center justify-center gap-2 hover:bg-slate-600"
+                        >
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <p>Log Keluar</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -234,5 +284,31 @@ function toggleSidebar(route) {
 }
 .removeblue {
     -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.animate__fadeIn {
+    animation: fadeIn 0.2s ease-in;
+}
+
+.animate__fadeOut {
+    animation: fadeOut 0.3s ease-out;
 }
 </style>

@@ -39,7 +39,9 @@
                             </h1>
                             <table class="text-xs bg-slate-100 rounded-2xl">
                                 <tr>
-                                    <td class="font-semibold py-3 pl-4 w-28 block">
+                                    <td
+                                        class="font-semibold py-3 pl-4 w-28 block"
+                                    >
                                         Nama Penuh:
                                     </td>
                                     <td
@@ -53,7 +55,7 @@
                                         E-mel:
                                     </td>
                                     <td
-                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold pb-3 px-2 text-fontgrey"
                                     >
                                         {{ this.userEmail }}
                                     </td>
@@ -63,7 +65,7 @@
                                         No KP:
                                     </td>
                                     <td
-                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold pb-3 px-2 text-fontgrey"
                                     >
                                         {{ this.studentData.noICStudent }}
                                     </td>
@@ -73,7 +75,7 @@
                                         Tingkatan:
                                     </td>
                                     <td
-                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold pb-3 px-2 text-fontgrey"
                                     >
                                         {{ this.studentData.form }}
                                     </td>
@@ -96,7 +98,7 @@
                                         Jumlah Yuran:
                                     </td>
                                     <td
-                                        class="font-semibold py-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold py-3 px-4 text-fontgrey"
                                     >
                                         RM
                                         {{ tuitionFeeCurrentMonth.amount }}.00
@@ -107,7 +109,7 @@
                                         Yuran Telah Dibayar:
                                     </td>
                                     <td
-                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold pb-3 px-4 text-fontgrey"
                                     >
                                         <p
                                             v-if="
@@ -128,7 +130,7 @@
                                         Yuran Belum Dibayar:
                                     </td>
                                     <td
-                                        class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                        class="font-semibold pb-3 px-4 text-fontgrey"
                                     >
                                         <p
                                             v-if="
@@ -170,7 +172,7 @@
                                     Jumlah Kelas:
                                 </td>
                                 <td
-                                    class="font-semibold py-3 px-4 text-center text-fontgrey"
+                                    class="font-semibold py-3 px-4 text-fontgrey"
                                 >
                                     {{ subjectData.totalClass }}
                                 </td>
@@ -180,7 +182,7 @@
                                     Kelas Hadir:
                                 </td>
                                 <td
-                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    class="font-semibold pb-3 px-4 text-fontgrey"
                                 >
                                     {{ subjectData.attendanceCount }}
                                 </td>
@@ -190,7 +192,7 @@
                                     Peratus Hadir:
                                 </td>
                                 <td
-                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    class="font-semibold pb-3 px-4 text-fontgrey"
                                 >
                                     {{ subjectData.attendancePercentage }}%
                                 </td>
@@ -200,7 +202,7 @@
                                     Kelas Tidak Hadir:
                                 </td>
                                 <td
-                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    class="font-semibold pb-3 px-4 text-fontgrey"
                                 >
                                     {{ subjectData.classNotAttended }}
                                 </td>
@@ -210,7 +212,7 @@
                                     Peratus Tidak Hadir:
                                 </td>
                                 <td
-                                    class="font-semibold pb-3 px-4 text-center text-fontgrey"
+                                    class="font-semibold pb-3 px-4 text-fontgrey"
                                 >
                                     {{ subjectData.notAttendancePercentage }}%
                                 </td>
