@@ -6,6 +6,7 @@
         <div
             class="m-auto bg-white rounded-2xl pt-6 pb-12 w-11/12 md:w-7/12 md:p-16 lg:w-4/12 shadow-login"
         >
+            <loader></loader>
             <img src="/LogoCyberTuition.png" class="w-52 md:w-60 m-auto mb-8" />
             <!-- Login Form -->
             <form
@@ -52,7 +53,15 @@
                     txt="Log Masuk"
                     class="mt-8 md:mt-16 mb-5 flex m-auto"
                 />
+                <!-- Loading -->
+                <div
+                    class="fixed inset-0 flex items-center justify-center z-50"
+                    v-if="loading"
+                >
+                    <Loading />
+                </div>
             </form>
+
             <!-- Redirect to Sign Up Page -->
             <p class="text-xs text-center font-semibold text-grey2">
                 <i class="bi bi-question-circle-fill text-slate-600 mr-1"></i>
@@ -73,6 +82,7 @@ import { useToast } from "vue-toastification";
 import { baseAPI } from "../stores";
 import SubmitButton from "../components/SubmitButton.vue";
 import router from "../router";
+import Loading from "../components/Loading.vue";
 
 export default {
     data() {
@@ -81,6 +91,7 @@ export default {
             password: "",
             toast: useToast(),
             shouldValidate: false,
+            loading: false,
         };
     },
     mounted() {
@@ -88,6 +99,7 @@ export default {
     },
     components: {
         SubmitButton,
+        Loading,
     },
     methods: {
         validateInput(input) {
@@ -97,6 +109,7 @@ export default {
         },
         // check and send input to database to login
         async login() {
+            this.loading = true;
             this.shouldValidate = true;
             if (!this.email || !this.password) {
                 this.toast.error("E-mel dan kata laluan diperlukan!", {
@@ -126,16 +139,19 @@ export default {
                                 timeout: 3000,
                             });
                             router.push("/pelajar/dashboard");
+                            this.loading = false;
                         } else if (responseUser.data.role === "Teacher") {
                             this.toast.success("Log Masuk Berjaya", {
                                 timeout: 3000,
                             });
                             router.push("/guru/dashboard");
+                            this.loading = false;
                         } else if (responseUser.data.role === "Clerk") {
                             this.toast.success("Log Masuk Berjaya", {
                                 timeout: 3000,
                             });
                             router.push("/kerani/dashboard");
+                            this.loading = false;
                         } else if (
                             responseUser.data.student.isRegistered === false
                         ) {
@@ -143,6 +159,7 @@ export default {
                                 "Akaun anda masih belum mendapatkan pengesahan",
                                 { timeout: 3000 }
                             );
+                            this.loading = false;
                         }
                     })
                     .catch((error) => {
@@ -151,6 +168,7 @@ export default {
                             const errorMessage = error.response.data.error;
                             this.toast.warning(errorMessage, { timeout: 3000 });
                         }
+                        this.loading = false;
                     });
             }
         },
