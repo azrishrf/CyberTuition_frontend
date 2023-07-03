@@ -243,7 +243,6 @@ export default {
                     behavior: "smooth", // Use 'smooth' for smooth scrolling effect
                 });
             } else {
-                this.loading = true;
                 // Check existing user
                 const checkUser = await axios.post(
                     baseAPI + `/api/existinguser/${this.email}`
@@ -273,6 +272,7 @@ export default {
                         }
                     );
                 } else {
+                    this.loading = true;
                     const user = {
                         email: this.email,
                         password: this.noICTeacher,
@@ -315,6 +315,8 @@ export default {
                                                     }
                                                 )
                                                 .catch((error) => {
+                                                    this.loading = false;
+
                                                     this.toast.error(
                                                         "Gagal Mendaftar Subjek!",
                                                         {

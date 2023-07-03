@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">MAKLUMAT SUBJEK</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -187,11 +194,13 @@ import { baseAPI } from "../../stores";
 import router from "../../router";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SubmitButton,
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -206,11 +215,13 @@ export default {
             showAttendance: false,
             attendanceData: "",
             studentData: [],
+            loading: false,
         };
     },
 
     async mounted() {
         document.title = "Maklumat Kelas | Kerani";
+        this.loading = true;
 
         const response = await axios.get(
             baseAPI + `/api/subject/${this.idSubject}`
@@ -265,41 +276,44 @@ export default {
         this.yearOptions = yearOptions.reverse();
         this.year = currentYear;
         this.submit();
+        this.loading = false;
     },
 
     methods: {
         async submit() {
-            (this.showAttendance = true),
-                await axios
-                    .get(
-                        baseAPI +
-                            `/api/attendance?month=${this.month}&year=${this.year}&subjectId=${this.idSubject}`
-                    )
-                    .then((response) => {
-                        this.attendanceData = response.data;
+            this.showAttendance = true;
+            this.loading = true;
 
-                        this.attendanceData.forEach((attendance) => {
-                            attendance.student_Attendance.forEach(
-                                (studentAttendance) => {
-                                    const studentIndex =
-                                        this.studentData.findIndex(
-                                            (student) =>
-                                                student.idStudent ===
-                                                studentAttendance.idStudent
-                                        );
-                                    if (studentIndex === -1) {
-                                        this.studentData.push(
-                                            studentAttendance.student
-                                        );
-                                    }
+            await axios
+                .get(
+                    baseAPI +
+                        `/api/attendance?month=${this.month}&year=${this.year}&subjectId=${this.idSubject}`
+                )
+                .then((response) => {
+                    this.attendanceData = response.data;
+
+                    this.attendanceData.forEach((attendance) => {
+                        attendance.student_Attendance.forEach(
+                            (studentAttendance) => {
+                                const studentIndex = this.studentData.findIndex(
+                                    (student) =>
+                                        student.idStudent ===
+                                        studentAttendance.idStudent
+                                );
+                                if (studentIndex === -1) {
+                                    this.studentData.push(
+                                        studentAttendance.student
+                                    );
                                 }
-                            );
-                        });
-                    })
-                    .catch((error) => {
-                        // Handle the error
-                        console.error(error);
+                            }
+                        );
                     });
+                })
+                .catch((error) => {
+                    // Handle the error
+                    console.error(error);
+                });
+            this.loading = false;
         },
 
         getAttendanceStatus(studentId, attendanceDate) {

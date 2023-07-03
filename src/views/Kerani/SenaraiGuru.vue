@@ -146,6 +146,7 @@ import axios from "axios";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import Loading from "../../components/Loading.vue";
+import { useToast } from "vue-toastification";
 
 export default {
     components: {
@@ -158,6 +159,7 @@ export default {
             isOpen: false,
             selectedTeacher: null,
             loading: false,
+            toast: useToast(),
         };
     },
     async mounted() {
@@ -186,6 +188,9 @@ export default {
                         (teacher) => teacher.idTeacher !== this.selectedTeacher
                     );
                     this.loading = false;
+                    this.toast.success("Maklumat Guru Telah Dipadam", {
+                        timeout: 3000,
+                    });
                 })
                 .catch((error) => console.log(error));
         },

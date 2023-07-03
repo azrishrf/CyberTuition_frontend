@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">KEMASKINI GURU</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -117,11 +124,13 @@ import router from "../../router";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 import { useToast } from "vue-toastification";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SubmitButton,
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -130,16 +139,19 @@ export default {
             idTeacher: router.currentRoute.value.params.id,
             toast: useToast(),
             shouldValidate: false,
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Kemaskini Guru | Kerani";
+        this.loading = true;
 
         const response = await axios.get(
             baseAPI + `/api/teacher/${this.idTeacher}`
         );
         this.teacherData = response.data;
         this.userData = this.teacherData.user;
+        this.loading = false;
     },
     methods: {
         validateInput(input) {
@@ -149,6 +161,7 @@ export default {
         },
         async updateTeacher() {
             this.shouldValidate = true;
+
             if (
                 !this.teacherData.nameTeacher ||
                 !this.teacherData.noPhoneTeacher ||
@@ -185,6 +198,8 @@ export default {
                         }
                     );
                 } else {
+                    this.loading = true;
+
                     const updatedUser = {
                         email: this.userData.email,
                     };
@@ -204,6 +219,7 @@ export default {
                         baseAPI + `/api/teacher/${this.teacherData.idTeacher}`,
                         updatedTeacher
                     );
+                    this.loading = false;
 
                     this.toast.success("Pendaftaran Guru Berjaya", {
                         timeout: 3000,

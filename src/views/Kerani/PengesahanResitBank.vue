@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">
                 PENGESAHAN RESIT BANK
@@ -209,10 +216,12 @@ import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
 import router from "../../router";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -224,11 +233,12 @@ export default {
             subjectsArray: "",
             toast: useToast(),
             showDialog: false,
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Pengesahan Resit Bank | Kerani";
-
+        this.loading = true;
         const response = await axios.get(
             baseAPI + `/api/receiptbank/id/${this.receiptsBankid}`
         );
@@ -273,6 +283,7 @@ export default {
             .catch((error) => {
                 console.error(error);
             });
+        this.loading = false;
     },
 
     methods: {
@@ -287,6 +298,7 @@ export default {
             return `${formattedHours}.${formattedMinutes} ${period}`;
         },
         confirmReceiptBank() {
+            this.loading = true;
             axios
                 .put(
                     baseAPI +
@@ -294,7 +306,6 @@ export default {
                 )
                 .then((response) => {
                     const confirmed = response.data;
-
                     this.toast.success(
                         "Resit Bank Yang Dimuat Naik Oleh Pelajar Telah Disahkan",
                         {
@@ -306,12 +317,15 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
+            this.loading = false;
         },
         // show dialog delete
         showDialogCancel() {
             this.showDialog = true;
         },
         cancelReceiptBank() {
+            this.loading = true;
+
             axios
                 .delete(
                     baseAPI +
@@ -329,6 +343,7 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
+            this.loading = false;
         },
 
         formatDate(date) {

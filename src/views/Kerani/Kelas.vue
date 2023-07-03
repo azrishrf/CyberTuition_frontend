@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">SENARAI SUBJEK</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -89,23 +96,27 @@
 import axios from "axios";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
             subjects: "",
             isOpen: false,
             selectedSubject: null,
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Kelas | Kerani";
-
+        this.loading = true;
         const response = await axios.get(baseAPI + `/api/subjects`);
         this.subjects = response.data;
+        this.loading = false;
     },
 };
 </script>

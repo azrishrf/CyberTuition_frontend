@@ -4,6 +4,13 @@
         <SidebarDashboard linkActive="dashboard" />
         <!-- Page Content -->
         <div class="w-full px-12 py-4">
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Top Bar -->
             <div
                 class="flex justify-end bg-white shadow-login rounded-2xl px-6 py-2"
@@ -15,232 +22,237 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
-            <!-- Loading -->
-            <div
-                class="fixed inset-0 flex items-center justify-center z-50"
-                v-if="loading"
-            >
-                <Loading />
-            </div>
-            <!-- Welcome Text -->
-            <h1 class="mt-5 mb-1 font-semibold text-xl">Hi, Selamat Datang</h1>
-            <p class="mb-5 font-semibold text-sm text-grey2">Dashboard</p>
+            <div v-if="!loading">
+                <!-- Welcome Text -->
+                <h1 class="mt-5 mb-1 font-semibold text-xl">
+                    Hi, Selamat Datang
+                </h1>
+                <p class="mb-5 font-semibold text-sm text-grey2">Dashboard</p>
 
-            <!-- Total -->
-            <div class="flex justify-center gap-5">
-                <div
-                    class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                >
-                    <div>
-                        <img src="/student.png" class="w-20" />
-                    </div>
-                    <div class="px-5 flex-col-reverse">
-                        <p class="text-sm">Pelajar</p>
-                        <p class="text-xl text-black font-medium text-center">
-                            {{ countStudents }}
-                        </p>
-                    </div>
-                </div>
-                <div
-                    class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                >
-                    <div>
-                        <img src="/teacher.png" class="w-20" />
-                    </div>
-                    <div class="px-6 flex-col-reverse">
-                        <p class="text-sm">Guru</p>
-                        <p class="text-xl text-black font-medium text-center">
-                            {{ countTeachers }}
-                        </p>
-                    </div>
-                </div>
-                <div
-                    class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                >
-                    <div>
-                        <img src="/class.png" class="w-20" />
-                    </div>
-                    <div class="px-6 flex-col-reverse">
-                        <p class="text-sm">Kelas</p>
-                        <p class="text-xl text-black font-medium text-center">
-                            10
-                        </p>
-                    </div>
-                </div>
-                <div
-                    class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                >
-                    <div>
-                        <img src="/fee.png" class="w-20" />
-                    </div>
-                    <div class="px-5 flex-col-reverse">
-                        <p class="text-sm text-center">Yuran</p>
-                        <p class="text-xl text-black font-medium text-center">
-                            RM{{ countTuitionFee }}.00
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex gap-10 items-start mt-7">
-                <!-- Jadual Kelas -->
-                <div
-                    class="bg-white shadow-login w-5/12 py-4 pl-4 rounded-2xl relative"
-                >
-                    <p class="font-semibold text-base text-black">
-                        Jadual Kelas
-                    </p>
-                    <p class="font-semibold text-sm text-fontgrey mb-3">
-                        Julai 2023
-                    </p>
-                    <button
-                        class="bg-red hover:bg-darkred text-white py-1 px-3 md:px-6 text-xs rounded-2xl font-semibold absolute right-4 top-5"
-                        @click="redirectToClass()"
-                    >
-                        Lihat Kelas
-                    </button>
+                <!-- Total -->
+                <div class="flex justify-center gap-5">
                     <div
-                        class="flex flex-row"
-                        v-for="(group, day) in sortedGroupedSubjects"
-                        :key="day"
+                        class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
                     >
-                        <!-- Date -->
-                        <div class="border-r-4">
-                            <p class="font-semibold text-sm w-14 md:w-20">
-                                {{ nextDate(day) }}
-                            </p>
-                            <p class="font-semibold text-xs text-fontgrey">
-                                {{ day }}
-                            </p>
+                        <div>
+                            <img src="/student.png" class="w-20" />
                         </div>
-                        <table class="mb-4">
-                            <tr
-                                v-for="subject in group"
-                                :key="subject.idSubject"
-                                class="flex items-start ml-3 md:ml-10"
+                        <div class="px-5 flex-col-reverse">
+                            <p class="text-sm">Pelajar</p>
+                            <p
+                                class="text-xl text-black font-medium text-center"
                             >
-                                <td
-                                    class="w-28 md:w-[147px] font-medium text-sm pb-2"
-                                >
-                                    {{ subject.name }}
-                                </td>
-                                <td
-                                    class="font-semibold text-xs bg-green text-white py-1 w-[70px] md:w-20 text-center rounded-full ml-3 md:ml-16"
-                                >
-                                    {{ subject.time }}
-                                </td>
-                            </tr>
-                        </table>
+                                {{ countStudents }}
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
+                    >
+                        <div>
+                            <img src="/teacher.png" class="w-20" />
+                        </div>
+                        <div class="px-6 flex-col-reverse">
+                            <p class="text-sm">Guru</p>
+                            <p
+                                class="text-xl text-black font-medium text-center"
+                            >
+                                {{ countTeachers }}
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
+                    >
+                        <div>
+                            <img src="/class.png" class="w-20" />
+                        </div>
+                        <div class="px-6 flex-col-reverse">
+                            <p class="text-sm">Kelas</p>
+                            <p
+                                class="text-xl text-black font-medium text-center"
+                            >
+                                10
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
+                    >
+                        <div>
+                            <img src="/fee.png" class="w-20" />
+                        </div>
+                        <div class="px-5 flex-col-reverse">
+                            <p class="text-sm text-center">Yuran</p>
+                            <p
+                                class="text-xl text-black font-medium text-center"
+                            >
+                                RM{{ countTuitionFee }}.00
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex flex-col w-6/12 gap-5">
-                    <!-- Jadual pegesahan -->
+
+                <div class="flex gap-10 items-start mt-7">
+                    <!-- Jadual Kelas -->
                     <div
-                        class="shadow-login bg-white py-4 px-4 rounded-2xl items-center"
+                        class="bg-white shadow-login w-5/12 py-4 pl-4 rounded-2xl relative"
                     >
-                        <div class="flex justify-between">
-                            <div>
-                                <h1 class="text-base font-semibold my-2">
-                                    Pengesahan Pelajar
-                                </h1>
-                                <p
-                                    class="text-fontgrey font-medium text-xs mt-2 mb-4"
-                                    v-if="students.length > 0"
-                                >
-                                    Terdapat permohonan pendaftaran pelajar baru
-                                    yang memerlukan <br />
-                                    pengesahan anda!
-                                </p>
-                                <p
-                                    v-else
-                                    class="text-fontgrey font-medium text-xs mt-2 mb-4"
-                                >
-                                    Tiada permohonan pendaftaran pelajar baru
-                                    buat masa ini
-                                </p>
-                            </div>
-                            <div>
-                                <img src="/pengesahan.png" class="w-44" />
-                            </div>
-                        </div>
-                        <!-- Jadual Senarai Pelajar -->
-                        <table
-                            class="w-11/12 text-center mt-3"
-                            v-if="students.length > 0"
+                        <p class="font-semibold text-base text-black">
+                            Jadual Kelas
+                        </p>
+                        <p class="font-semibold text-sm text-fontgrey mb-3">
+                            Julai 2023
+                        </p>
+                        <button
+                            class="bg-red hover:bg-darkred text-white py-1 px-3 md:px-6 text-xs rounded-2xl font-semibold absolute right-4 top-5"
+                            @click="redirectToClass()"
                         >
-                            <tr class="bg-red text-xs text-white">
-                                <th
-                                    class="font-semibold py-2 px-2 rounded-l-2xl"
-                                >
-                                    No
-                                </th>
-                                <th class="font-semibold">Nama Penuh</th>
-
-                                <th class="font-semibold">Tingkatan</th>
-                                <th class="font-semibold rounded-r-2xl">
-                                    No Kad Pengenalan
-                                </th>
-                            </tr>
-
-                            <tr
-                                class="text-fontgrey text-xs border-b-2"
-                                v-for="studentData in students"
-                            >
-                                <td class="py-3 text-center">
-                                    {{ students.indexOf(studentData) + 1 }}
-                                </td>
-                                <td class="font-semibold">
-                                    {{ studentData.nameStudent }}
-                                </td>
-
-                                <td class="font-semibold">
-                                    {{ studentData.form }}
-                                </td>
-                                <td class="font-semibold">
-                                    {{ studentData.noICStudent }}
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="flex justify-end">
-                            <button
-                                class="bg-red hover:bg-darkred text-white py-1 px-5 mt-5 text-xs rounded-2xl font-semibold"
-                                @click="redirectToPengesahan()"
-                            >
-                                Lihat Pengesahan
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Yuran -->
-                    <div
-                        class="shadow-login bg-white py-4 px-4 rounded-2xl md:gap-10 items-center"
-                    >
-                        <div class="flex justify-between">
-                            <div>
-                                <h1 class="text-base font-semibold my-2">
-                                    Pembayaran Yuran Tuisyen
-                                </h1>
-                                <p
-                                    class="text-fontgrey font-medium text-xs mt-2 mb-4"
-                                >
-                                    Terdapat yuran tertunggak yang masih belum
-                                    dijelaskan
+                            Lihat Kelas
+                        </button>
+                        <div
+                            class="flex flex-row"
+                            v-for="(group, day) in sortedGroupedSubjects"
+                            :key="day"
+                        >
+                            <!-- Date -->
+                            <div class="border-r-4">
+                                <p class="font-semibold text-sm w-14 md:w-20">
+                                    {{ nextDate(day) }}
+                                </p>
+                                <p class="font-semibold text-xs text-fontgrey">
+                                    {{ day }}
                                 </p>
                             </div>
-                            <div>
-                                <img
-                                    src="/tuitionfeeunpaid.png"
-                                    class="w-28 mr-10"
-                                />
+                            <table class="mb-4">
+                                <tr
+                                    v-for="subject in group"
+                                    :key="subject.idSubject"
+                                    class="flex items-start ml-3 md:ml-10"
+                                >
+                                    <td
+                                        class="w-28 md:w-[147px] font-medium text-sm pb-2"
+                                    >
+                                        {{ subject.name }}
+                                    </td>
+                                    <td
+                                        class="font-semibold text-xs bg-green text-white py-1 w-[70px] md:w-20 text-center rounded-full ml-3 md:ml-16"
+                                    >
+                                        {{ subject.time }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-6/12 gap-5">
+                        <!-- Jadual pegesahan -->
+                        <div
+                            class="shadow-login bg-white py-4 px-4 rounded-2xl items-center"
+                        >
+                            <div class="flex justify-between">
+                                <div>
+                                    <h1 class="text-base font-semibold my-2">
+                                        Pengesahan Pelajar
+                                    </h1>
+                                    <p
+                                        class="text-fontgrey font-medium text-xs mt-2 mb-4"
+                                        v-if="students.length > 0"
+                                    >
+                                        Terdapat permohonan pendaftaran pelajar
+                                        baru yang memerlukan <br />
+                                        pengesahan anda!
+                                    </p>
+                                    <p
+                                        v-else
+                                        class="text-fontgrey font-medium text-xs mt-2 mb-4"
+                                    >
+                                        Tiada permohonan pendaftaran pelajar
+                                        baru buat masa ini
+                                    </p>
+                                </div>
+                                <div>
+                                    <img src="/pengesahan.png" class="w-44" />
+                                </div>
+                            </div>
+                            <!-- Jadual Senarai Pelajar -->
+                            <table
+                                class="w-11/12 text-center mt-3"
+                                v-if="students.length > 0"
+                            >
+                                <tr class="bg-red text-xs text-white">
+                                    <th
+                                        class="font-semibold py-2 px-2 rounded-l-2xl"
+                                    >
+                                        No
+                                    </th>
+                                    <th class="font-semibold">Nama Penuh</th>
+
+                                    <th class="font-semibold">Tingkatan</th>
+                                    <th class="font-semibold rounded-r-2xl">
+                                        No Kad Pengenalan
+                                    </th>
+                                </tr>
+
+                                <tr
+                                    class="text-fontgrey text-xs border-b-2"
+                                    v-for="studentData in students"
+                                >
+                                    <td class="py-3 text-center">
+                                        {{ students.indexOf(studentData) + 1 }}
+                                    </td>
+                                    <td class="font-semibold">
+                                        {{ studentData.nameStudent }}
+                                    </td>
+
+                                    <td class="font-semibold">
+                                        {{ studentData.form }}
+                                    </td>
+                                    <td class="font-semibold">
+                                        {{ studentData.noICStudent }}
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="flex justify-end">
+                                <button
+                                    class="bg-red hover:bg-darkred text-white py-1 px-5 mt-5 text-xs rounded-2xl font-semibold"
+                                    @click="redirectToPengesahan()"
+                                >
+                                    Lihat Pengesahan
+                                </button>
                             </div>
                         </div>
+                        <!-- Yuran -->
+                        <div
+                            class="shadow-login bg-white py-4 px-4 rounded-2xl md:gap-10 items-center"
+                        >
+                            <div class="flex justify-between">
+                                <div>
+                                    <h1 class="text-base font-semibold my-2">
+                                        Pembayaran Yuran Tuisyen
+                                    </h1>
+                                    <p
+                                        class="text-fontgrey font-medium text-xs mt-2 mb-4"
+                                    >
+                                        Terdapat yuran tertunggak yang masih
+                                        belum dijelaskan
+                                    </p>
+                                </div>
+                                <div>
+                                    <img
+                                        src="/tuitionfeeunpaid.png"
+                                        class="w-28 mr-10"
+                                    />
+                                </div>
+                            </div>
 
-                        <div class="flex">
-                            <button
-                                class="bg-red hover:bg-darkred text-white py-1 px-5 text-xs rounded-2xl font-semibold"
-                                @click="redirectToYuran()"
-                            >
-                                Lihat Yuran
-                            </button>
+                            <div class="flex">
+                                <button
+                                    class="bg-red hover:bg-darkred text-white py-1 px-5 text-xs rounded-2xl font-semibold"
+                                    @click="redirectToYuran()"
+                                >
+                                    Lihat Yuran
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -273,7 +285,6 @@ export default {
     },
     mounted() {
         document.title = "Dashboard | Kerani";
-        this.loading = true;
 
         axios.get(baseAPI + `/api/subjects`).then((response) => {
             this.subjects = response.data;
@@ -290,7 +301,8 @@ export default {
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth() + 1; // Months are zero-based, so we add 1
         const currentYear = currentDate.getFullYear();
-        axios;
+        this.loading = true;
+
         axios
             .post(baseAPI + "/api/report/tuitionfees", {
                 month: currentMonth,
@@ -299,11 +311,12 @@ export default {
             .then((response) => {
                 this.countTuitionFee = response.data.totalTuitionFees;
             });
-
         axios.get(baseAPI + `/api/students_notregistered`).then((response) => {
             this.students = response.data;
         });
-        this.loading = false;
+        setTimeout(() => {
+            this.loading = false;
+        }, 1500); // Delayed setting of loading to false
     },
 
     computed: {

@@ -15,6 +15,7 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">LAPORAN</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -64,6 +65,13 @@
                                 {{ yearOption.text }}
                             </option>
                         </select>
+                    </div>
+                    <!-- Loading -->
+                    <div
+                        class="fixed inset-0 flex items-center justify-center z-50"
+                        v-if="loading"
+                    >
+                        <Loading />
                     </div>
                     <div class="my-auto mt-9">
                         <SubmitButton
@@ -351,7 +359,7 @@
                 </div>
             </div>
             <!-- Generate pdf button -->
-            <div class="flex flex-row-reverse">
+            <div class="flex flex-row-reverse" v-if="showReport">
                 <button
                     @click="generatePDF"
                     class="flex flex-col items-center py-4 px-5 bg-gray-500 hover:bg-slate-700 shadow-login rounded-2xl"
@@ -370,11 +378,13 @@ import html2pdf from "html2pdf.js";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SubmitButton,
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -390,11 +400,11 @@ export default {
             attendanceData: "",
             tuitionFeesData: "",
             showReport: false,
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Laporan | Kerani";
-
         // Create an array of month names in Malay
         this.malayMonthNames = [
             "Januari",
@@ -440,19 +450,20 @@ export default {
 
     methods: {
         confirmForm() {
-            this.showReport = true;
-            this.monthName = this.malayMonthNames[this.month - 1];
-
             this.studentsReport();
             this.teachersReport();
             this.subjectsReport();
             this.attendanceReport();
             this.tuitionFeesReport();
+            // this.showReport = true;
+            this.monthName = this.malayMonthNames[this.month - 1];
         },
 
         async studentsReport() {
+            this.loading = true;
             // Make the API request
             try {
+                this.loading = true;
                 const response = await axios.post(
                     baseAPI + "/api/report/students",
                     {
@@ -464,9 +475,13 @@ export default {
             } catch (error) {
                 console.error("Error:", error);
             }
+            this.loading = false;
+            this.showReport = true;
         },
         async teachersReport() {
             // Make the API request
+            this.loading = true;
+
             try {
                 const response = await axios.post(
                     baseAPI + "/api/report/teachers",
@@ -479,8 +494,11 @@ export default {
             } catch (error) {
                 console.error("Error:", error);
             }
+            this.loading = false;
         },
         async subjectsReport() {
+            this.loading = true;
+
             // Make the API request
             try {
                 const response = await axios.post(
@@ -496,8 +514,11 @@ export default {
             } catch (error) {
                 console.error("Error:", error);
             }
+            this.loading = false;
         },
         async attendanceReport() {
+            this.loading = true;
+
             // Make the API request
             try {
                 const response = await axios.post(
@@ -511,8 +532,11 @@ export default {
             } catch (error) {
                 console.error("Error:", error);
             }
+            this.loading = false;
         },
         async tuitionFeesReport() {
+            this.loading = true;
+
             // Make the API request
             try {
                 const response = await axios.post(
@@ -526,9 +550,12 @@ export default {
             } catch (error) {
                 console.error("Error:", error);
             }
+            this.loading = false;
         },
         // Generate pdf
         generatePDF() {
+            this.loading = true;
+
             const element = document.getElementById("data-laporan");
 
             html2pdf()
@@ -542,9 +569,9 @@ export default {
                         orientation: "landscape", // Set the page orientation to landscape
                     },
                 })
-
                 .from(element)
                 .save();
+            this.loading = false;
         },
     },
 };

@@ -5,6 +5,13 @@
             <h4 class="text-lg font-semibold mt-2 mb-4">Maklumat Subjek</h4>
 
             <div class="flex gap-9 max-md:flex-col">
+                <!-- Loading -->
+                <div
+                    class="fixed inset-0 flex items-center justify-center z-50"
+                    v-if="loading"
+                >
+                    <Loading />
+                </div>
                 <div class="grow">
                     <!-- Full Name -->
                     <p class="text-sm mb-3">Nama Subjek</p>
@@ -87,10 +94,12 @@ import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
 import router from "../../router";
 import SubmitButton from "../../components/SubmitButton.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SubmitButton,
+        Loading,
     },
     data() {
         return {
@@ -99,9 +108,12 @@ export default {
             idSubject: router.currentRoute.value.params.id,
             teacherData: {},
             teachers: [],
+            loading: false,
         };
     },
     async mounted() {
+        this.loading = true;
+
         const response = await axios.get(
             baseAPI + `/api/subject/${this.idSubject}`
         );
@@ -115,10 +127,13 @@ export default {
         // get all teachers
         const responseTeacher = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = responseTeacher.data;
+        this.loading = false;
     },
 
     methods: {
         async updateSubject() {
+            this.loading = true;
+
             const response = await axios.get(
                 baseAPI + `/api/teacher/id/${this.teacherData.nameTeacher}`
             );
@@ -139,6 +154,8 @@ export default {
             this.toast.success("Subjek Berjaya Dikemaskini", {
                 timeout: 3000,
             });
+            this.loading = false;
+
             this.$router.back();
         },
         cancel() {

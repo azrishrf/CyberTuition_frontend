@@ -2,6 +2,13 @@
     <!-- Maklumat Subjek -->
     <div class="shadow-login bg-white py-5 px-11 rounded-2xl my-5">
         <div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <RouterLink
                 class="bg-red hover:bg-darkred text-white py-2 px-5 text-xs rounded-2xl font-semibold float-right"
                 v-bind:to="
@@ -47,16 +54,23 @@
 import axios from "axios";
 import { baseAPI } from "../../stores";
 import router from "../../router";
+import Loading from "../../components/Loading.vue";
 
 export default {
+    components: {
+        Loading,
+    },
     data() {
         return {
             subjectData: {},
             idSubject: router.currentRoute.value.params.id,
             teacher: [],
+            loading: false,
         };
     },
     async mounted() {
+        this.loading = true;
+
         const response = await axios.get(
             baseAPI + `/api/subject/${this.idSubject}`
         );
@@ -66,6 +80,7 @@ export default {
         } else {
             this.teacher = { nameTeacher: "N/A" }; // Provide a default value or placeholder object
         }
+        this.loading = false;
     },
 };
 </script>
