@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">SENARAI GURU</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -113,9 +120,7 @@
                                     </p>
 
                                     <button
-                                        @click="
-                                            deleteData(teacherData.idTeacher)
-                                        "
+                                        @click="deleteData()"
                                         class="bg-red hover:bg-darkred text-white py-2 px-5 rounded-xl float-right mr-1 ml-3 mt-5 font-semibold text-xs"
                                     >
                                         Sahkan
@@ -140,23 +145,28 @@
 import axios from "axios";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
             teachers: [],
             isOpen: false,
             selectedTeacher: null,
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Senarai Guru | Kerani";
+        this.loading = true;
 
         const response = await axios.get(baseAPI + `/api/teachers`);
         this.teachers = response.data;
+        this.loading = false;
     },
     methods: {
         toggleConfirmDelete(idTeacher) {
@@ -166,15 +176,16 @@ export default {
         },
 
         async deleteData() {
+            this.loading = true;
             await axios
                 .delete(baseAPI + `/api/teacher/${this.selectedTeacher}`)
-
                 .then((response) => {
                     this.isOpen = !this.isOpen;
 
                     this.teachers = this.teachers.filter(
                         (teacher) => teacher.idTeacher !== this.selectedTeacher
                     );
+                    this.loading = false;
                 })
                 .catch((error) => console.log(error));
         },

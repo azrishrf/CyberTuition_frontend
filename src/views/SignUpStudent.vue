@@ -290,6 +290,13 @@
                 txt="Sahkan"
                 class="mt-6 px-7 md:px-9 ml-2"
             />
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- <button
                     txt="Batalkan"
                     type="button"
@@ -309,6 +316,7 @@ import { baseAPI } from "../stores/index.js";
 import { useToast } from "vue-toastification";
 import router from "../router";
 import SubmitButton from "../components/SubmitButton.vue";
+import Loading from "../components/Loading.vue";
 
 export default {
     data() {
@@ -336,16 +344,20 @@ export default {
             shouldValidateConfirmPassword: false,
             showPassword: false,
             showConfirmPassword: false,
+            loading: false,
         };
     },
     components: {
         SubmitButton,
+        Loading,
     },
     async mounted() {
         document.title = "Log Masuk";
         // Fetch all subjects and store them in the `subjects` array
+        this.loading = true;
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
+        this.loading = false;
     },
     methods: {
         validateInput(input) {
@@ -449,6 +461,7 @@ export default {
                     }
                 );
             } else {
+                this.loading = true;
                 // Check existing user
                 const checkUser = await axios.post(
                     baseAPI + `/api/existinguser/${this.email}`
@@ -461,10 +474,12 @@ export default {
                 const existingStudent = checkStudent.data;
 
                 if (existingUser) {
+                    this.loading = false;
                     this.toast.error("Email sudah digunakan!", {
                         timeout: 3000,
                     });
                 } else if (existingStudent) {
+                    this.loading = false;
                     this.toast.error("Nombor Kad Pengenalan sudah digunakan!", {
                         timeout: 3000,
                     });
@@ -504,8 +519,11 @@ export default {
                                     this.studentId = response.data.idStudent;
                                     this.createStudentSubjects();
                                     this.createTuitionFee();
+                                    this.loading = false;
+                                    router.push("/");
                                 })
                                 .catch((error) => {
+                                    this.loading = false;
                                     console.error(
                                         "Error creating student:",
                                         error

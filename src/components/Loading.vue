@@ -3,12 +3,11 @@
         <span class="loader"></span>
     </div>
 </template>
-
 <style>
 .loader {
     width: 48px;
     height: 48px;
-    border-radius: 70%;
+    border-radius: 50%;
     display: inline-block;
     border-top: 4px solid rgb(51 65 85);
     border-right: 4px solid transparent;
@@ -23,7 +22,7 @@
     top: 0;
     width: 48px;
     height: 48px;
-    border-radius: 70%;
+    border-radius: 50%;
     border-left: 4px solid rgb(51 65 85);
     border-bottom: 4px solid transparent;
     animation: rotation 0.5s linear infinite reverse;

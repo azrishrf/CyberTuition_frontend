@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">
                 PENGESAHAN PENDAFTARAN PELAJAR BARU
@@ -113,25 +120,30 @@ import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import router from "../../router";
 import { pengesahan } from "../../stores/index";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
             students: [],
             isOpen: false,
             selectedStudent: null,
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Pengesahan | Kerani";
+        this.loading = true;
 
         const response = await axios.get(
             baseAPI + `/api/students_notregistered`
         );
         this.students = response.data;
+        this.loading = false;
     },
     methods: {
         async lihatButiran(id) {

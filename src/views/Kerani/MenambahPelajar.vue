@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">
                 MENAMBAH PELAJAR BARU
@@ -255,6 +262,7 @@ import axios from "axios";
 import { baseAPI } from "../../stores";
 import { useToast } from "vue-toastification";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import Loading from "../../components/Loading.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 import router from "../../router";
 
@@ -262,6 +270,7 @@ export default {
     components: {
         SidebarDashboard,
         SubmitButton,
+        Loading,
     },
     data() {
         return {
@@ -282,12 +291,15 @@ export default {
             studentId: null,
             toast: useToast(),
             shouldValidate: false,
+            loading: false,
         };
     },
     async mounted() {
+        this.loading = true;
         // Fetch all subjects and store them in the `subjects` array
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
+        this.loading = false;
     },
 
     methods: {
@@ -343,6 +355,7 @@ export default {
                     }
                 );
             } else {
+                this.loading = true;
                 // Check existing user
                 const checkUser = await axios.post(
                     baseAPI + `/api/existinguser/${this.email}`
@@ -395,6 +408,7 @@ export default {
                                     this.studentId = response.data.idStudent;
                                     this.createStudentSubjects();
                                     this.createTuitionFee();
+                                    this.loading = false;
                                     this.toast.success(
                                         "Pendaftaran Pelajar Berjaya",
                                         {
@@ -406,6 +420,8 @@ export default {
                                     );
                                 })
                                 .catch((error) => {
+                                    this.loading = false;
+
                                     this.toast.error(
                                         "Gagal Mendaftar Pelajar. Sila Semak Input Anda!",
                                         {
@@ -415,6 +431,8 @@ export default {
                                 });
                         })
                         .catch((error) => {
+                            this.loading = false;
+
                             this.toast.error(
                                 "Gagal Mendaftar Pelajar. Sila Semak Input Anda!",
                                 {

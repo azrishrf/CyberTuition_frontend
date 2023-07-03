@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">MENAMBAH GURU BARU</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -177,6 +184,7 @@ import axios from "axios";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
+import Loading from "../../components/Loading.vue";
 import { useToast } from "vue-toastification";
 import router from "../../router";
 
@@ -184,6 +192,7 @@ export default {
     components: {
         SubmitButton,
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -198,12 +207,15 @@ export default {
             selectedSubjects: [],
             teacherId: null,
             shouldValidate: false,
+            loading: false,
         };
     },
     async mounted() {
         // Fetch all subjects and store them in the `subjects` array
+        this.loading = true;
         const response = await axios.get(baseAPI + "/api/subjects");
         this.subjects = response.data;
+        this.loading = false;
     },
 
     methods: {
@@ -231,6 +243,7 @@ export default {
                     behavior: "smooth", // Use 'smooth' for smooth scrolling effect
                 });
             } else {
+                this.loading = true;
                 // Check existing user
                 const checkUser = await axios.post(
                     baseAPI + `/api/existinguser/${this.email}`
@@ -311,6 +324,7 @@ export default {
                                                 });
                                         }
                                     );
+                                    this.loading = false;
                                     this.toast.success(
                                         "Pendaftaran Guru Berjaya",
                                         {
@@ -320,6 +334,8 @@ export default {
                                     router.push("/kerani/guru/senaraiguru");
                                 })
                                 .catch((error) => {
+                                    this.loading = false;
+
                                     this.toast.error(
                                         "Gagal Mendaftar Guru. Sila Semak Input Anda!",
                                         {
@@ -329,6 +345,8 @@ export default {
                                 });
                         })
                         .catch((error) => {
+                            this.loading = false;
+
                             this.toast.error(
                                 "Gagal Mendaftar Guru. Sila Semak Input Anda!",
                                 {

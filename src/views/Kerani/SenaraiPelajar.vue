@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">SENARAI PELAJAR</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -198,10 +205,12 @@
 import axios from "axios";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -212,13 +221,16 @@ export default {
             currentPage: 1,
             pageSize: 10,
             searchQuery: "",
+            loading: false,
         };
     },
     async mounted() {
+        this.loading = true;
         const response = await axios.get(baseAPI + `/api/students_registered`);
         this.students = response.data;
         this.filteredStudents = response.data;
         this.currentPage = 1;
+        this.loading = false;
     },
     computed: {
         displayedStudents() {
@@ -271,6 +283,7 @@ export default {
         },
         // Delete data
         async deleteData() {
+            this.loading = true;
             await axios
                 .delete(baseAPI + `/api/student/${this.selectedStudent}`)
 
@@ -279,6 +292,7 @@ export default {
                     this.filteredStudents = this.filteredStudents.filter(
                         (student) => student.idStudent !== this.selectedStudent
                     );
+                    this.loading = false;
                 })
                 .catch((error) => console.log(error));
         },

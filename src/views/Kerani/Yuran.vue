@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">YURAN</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -268,11 +275,13 @@ import axios from "axios";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SubmitButton,
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -287,12 +296,14 @@ export default {
             currentPage: 1,
             pageSize: 10,
             searchQuery: "",
+            loading: false,
         };
     },
 
     async mounted() {
         document.title = "Yuran | Kerani";
 
+        this.loading = true;
         const response = await axios.get(baseAPI + `/api/receiptbank`);
         this.receiptsBank = response.data;
 
@@ -338,6 +349,7 @@ export default {
         this.submit();
         this.filteredStudents = this.tuitionFees;
         this.currentPage = 1;
+        this.loading = false;
     },
     computed: {
         displayedStudents() {
@@ -368,8 +380,9 @@ export default {
         },
         async submit() {
             this.isDataAvailable = true;
-
             try {
+                this.loading = true;
+
                 const response = await axios.get(
                     baseAPI +
                         `/api/tuitionfee/monthyear/${this.month}/${this.year}`
@@ -377,6 +390,7 @@ export default {
                 this.tuitionFees = response.data;
                 this.filteredStudents = response.data;
                 this.currentPage = 1;
+                this.loading = false;
             } catch (error) {
                 console.error("Error:", error);
             }

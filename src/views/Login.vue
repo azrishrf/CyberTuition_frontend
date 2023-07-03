@@ -6,7 +6,6 @@
         <div
             class="m-auto bg-white rounded-2xl pt-6 pb-12 w-11/12 md:w-7/12 md:p-16 lg:w-4/12 shadow-login"
         >
-            <loader></loader>
             <img src="/LogoCyberTuition.png" class="w-52 md:w-60 m-auto mb-8" />
             <!-- Login Form -->
             <form
@@ -109,13 +108,13 @@ export default {
         },
         // check and send input to database to login
         async login() {
-            this.loading = true;
             this.shouldValidate = true;
             if (!this.email || !this.password) {
                 this.toast.error("E-mel dan kata laluan diperlukan!", {
                     timeout: 3000,
                 });
             } else {
+                this.loading = true;
                 axios
                     .post(baseAPI + "/api/login", {
                         email: this.email,

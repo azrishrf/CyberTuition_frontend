@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Welcome Text -->
             <h1 class="mt-5 mb-1 font-semibold text-xl">Hi, Selamat Datang</h1>
             <p class="mb-5 font-semibold text-sm text-grey2">Dashboard</p>
@@ -244,6 +251,7 @@
 
 <script>
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
+import Loading from "../../components/Loading.vue";
 import axios from "axios";
 import { baseAPI } from "../../stores";
 import router from "../../router";
@@ -251,6 +259,7 @@ import router from "../../router";
 export default {
     components: {
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -259,10 +268,12 @@ export default {
             countTeachers: "",
             countTuitionFee: "",
             students: [],
+            loading: false,
         };
     },
     mounted() {
         document.title = "Dashboard | Kerani";
+        this.loading = true;
 
         axios.get(baseAPI + `/api/subjects`).then((response) => {
             this.subjects = response.data;
@@ -292,6 +303,7 @@ export default {
         axios.get(baseAPI + `/api/students_notregistered`).then((response) => {
             this.students = response.data;
         });
+        this.loading = false;
     },
 
     computed: {

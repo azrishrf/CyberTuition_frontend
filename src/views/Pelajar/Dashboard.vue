@@ -8,6 +8,7 @@
             <p class="mb-5 font-semibold text-xs md:text-sm text-grey2">
                 Dashboard
             </p>
+
             <!-- Total -->
             <div class="flex flex-col md:flex-row justify-center gap-5">
                 <div class="flex justify-center gap-4">
@@ -56,6 +57,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Jadual Kelas -->
             <div
                 class="bg-white shadow-login lg:w-5/12 py-4 pl-4 pr-16 mt-5 md:mt-7 rounded-2xl relative"
@@ -127,6 +129,14 @@
                     <img src="/tuitionfeeunpaid.png" class="w-28" />
                 </div>
             </div>
+
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
         </template>
     </SideBarPelajar>
 </template>
@@ -134,6 +144,7 @@
 <script>
 import axios from "axios";
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import Loading from "../../components/Loading.vue";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
 import router from "../../router";
@@ -141,6 +152,7 @@ import router from "../../router";
 export default {
     components: {
         SideBarPelajar,
+        Loading,
     },
     data() {
         return {
@@ -150,17 +162,20 @@ export default {
             tuitionFees: [],
             countSubject: "",
             attendancePercentage: "",
+            loading: false,
         };
     },
     mounted() {
         document.title = "Dashboard | Pelajar";
+
+        this.loading = true;
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
             axios
                 .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
-                    console.log(this.studentData);
+
                     this.tuitionFees = this.studentData.tuitionFee;
                     this.countSubject = this.studentData.student_Subject.length;
                     axios
@@ -176,7 +191,7 @@ export default {
                                 )
                                 .then((response) => {
                                     this.attendancePercentage = response.data;
-                                    console.log(this.attendancePercentage);
+                                    this.loading = false;
                                 });
                         });
                 });

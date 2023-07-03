@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">
                 MAKLUMAT PENGESAHAN PELAJAR BARU
@@ -184,12 +191,14 @@ import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
+import Loading from "../../components/Loading.vue";
 import router from "../../router";
 
 export default {
     components: {
         SubmitButton,
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -198,10 +207,12 @@ export default {
             idStudent: router.currentRoute.value.params.id,
             showDialog: false,
             toast: useToast(),
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Maklumat Pengesahan | Kerani";
+        this.loading = true;
 
         const response = await axios.get(
             baseAPI + `/api/student/${this.idStudent}`
@@ -209,10 +220,13 @@ export default {
         this.studentData = response.data;
         this.studentSubject = this.studentData.student_Subject;
         this.userData = this.studentData.user;
+        this.loading = false;
     },
     methods: {
         // Sahkan pendaftaran pelajar
         async sahkanPendaftaran(idStudent) {
+            this.loading = true;
+
             try {
                 const updatedStudent = {
                     isRegistered: true,
@@ -221,6 +235,8 @@ export default {
                     baseAPI + `/api/student/${idStudent}`,
                     updatedStudent
                 );
+                this.loading = false;
+
                 router.push("/kerani/pelajar/pengesahan");
             } catch (error) {
                 return { error: error.message };
@@ -231,8 +247,11 @@ export default {
         },
         // Batalkan pendaftaran pelajar
         async batalkanPendaftaran() {
+            this.loading = true;
+
             try {
                 await axios.delete(baseAPI + `/api/student/${this.idStudent}`);
+                this.loading = false;
                 router.push("/kerani/pelajar/pengesahan");
             } catch (error) {
                 return { error: error.message };

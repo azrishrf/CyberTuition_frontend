@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="mt-3 mb-2 font-semibold text-xl">
                 PENYATA KEWANGAN PELAJAR
@@ -339,10 +346,12 @@ import { useToast } from "vue-toastification";
 import { baseAPI } from "../../stores";
 import SidebarDashboard from "../../components/SidebarDashboard.vue";
 import router from "../../router";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarDashboard,
+        Loading,
     },
     data() {
         return {
@@ -356,10 +365,12 @@ export default {
             subjectsArray: "",
             showDialog: false,
             toast: useToast(),
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Pengesahan Resit Bank | Kerani";
+        this.loading = true;
 
         try {
             const response = await axios.get(
@@ -411,6 +422,7 @@ export default {
         } catch (error) {
             console.error("Error:", error);
         }
+        this.loading = false;
     },
 
     methods: {
