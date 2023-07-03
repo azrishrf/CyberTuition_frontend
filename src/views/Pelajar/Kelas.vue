@@ -9,7 +9,13 @@
                     >> &nbsp; Kelas</span
                 >
             </p>
-
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Maklumat Kelas -->
             <div class="flex flex-wrap gap-4 md:gap-8 py-5">
                 <div
@@ -74,21 +80,26 @@ import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SideBarPelajar,
+        Loading,
     },
     data() {
         return {
             studentData: "",
             subjects: "",
             studentId: "",
+            loading: false,
         };
     },
 
     async mounted() {
         document.title = "Kelas | Pelajar";
+        this.loading = true;
+
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.studentId = response.data.student.idStudent;
@@ -96,6 +107,7 @@ export default {
                 .get(baseAPI + `/api/student/${this.studentId}`)
                 .then((response) => {
                     this.studentData = response.data;
+                    this.loading = false;
                 });
         });
     },

@@ -15,93 +15,102 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
-            <!-- Welcome Text -->
-            <h1 class="mt-5 mb-1 font-semibold text-xl">Hi, Selamat Datang</h1>
-            <p class="mb-5 font-semibold text-sm text-grey2">Dashboard</p>
-
-            <!-- Total -->
-
-            <div class="flex justify-center gap-10">
-                <!-- Jadual Kelas -->
-                <div
-                    class="bg-white shadow-login w-5/12 py-4 pl-4 rounded-2xl relative"
-                >
-                    <p class="font-semibold text-base text-black">
-                        Jadual Kelas
-                    </p>
-                    <p class="font-semibold text-sm text-fontgrey mb-3">
-                        Julai 2023
-                    </p>
-                    <button
-                        class="bg-red hover:bg-darkred text-white py-1 px-3 md:px-6 text-xs rounded-2xl font-semibold absolute right-4 top-5"
-                        @click="redirectToClass()"
-                    >
-                        Lihat Kelas
-                    </button>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
+            <div v-if="!loading">
+                <!-- Welcome Text -->
+                <h1 class="mt-5 mb-1 font-semibold text-xl">
+                    Hi, Selamat Datang
+                </h1>
+                <p class="mb-5 font-semibold text-sm text-grey2">Dashboard</p>
+                <!-- Total -->
+                <div class="flex justify-center gap-10">
+                    <!-- Jadual Kelas -->
                     <div
-                        class="flex flex-row"
-                        v-for="(group, day) in sortedGroupedSubjects"
-                        :key="day"
+                        class="bg-white shadow-login w-5/12 py-4 pl-4 rounded-2xl relative"
                     >
-                        <!-- Date -->
-                        <div class="border-r-4">
-                            <p class="font-semibold text-sm w-14 md:w-20">
-                                {{ nextDate(day) }}
-                            </p>
-                            <p class="font-semibold text-xs text-fontgrey">
-                                {{ day }}
-                            </p>
-                        </div>
-                        <table class="mb-4">
-                            <tr
-                                v-for="subject in group"
-                                :key="subject.idSubject"
-                                class="flex items-start ml-3 md:ml-10"
-                            >
-                                <td
-                                    class="w-28 md:w-[147px] font-medium text-sm pb-2"
+                        <p class="font-semibold text-base text-black">
+                            Jadual Kelas
+                        </p>
+                        <p class="font-semibold text-sm text-fontgrey mb-3">
+                            Julai 2023
+                        </p>
+                        <button
+                            class="bg-red hover:bg-darkred text-white py-1 px-3 md:px-6 text-xs rounded-2xl font-semibold absolute right-4 top-5"
+                            @click="redirectToClass()"
+                        >
+                            Lihat Kelas
+                        </button>
+                        <div
+                            class="flex flex-row"
+                            v-for="(group, day) in sortedGroupedSubjects"
+                            :key="day"
+                        >
+                            <!-- Date -->
+                            <div class="border-r-4">
+                                <p class="font-semibold text-sm w-14 md:w-20">
+                                    {{ nextDate(day) }}
+                                </p>
+                                <p class="font-semibold text-xs text-fontgrey">
+                                    {{ day }}
+                                </p>
+                            </div>
+                            <table class="mb-4">
+                                <tr
+                                    v-for="subject in group"
+                                    :key="subject.idSubject"
+                                    class="flex items-start ml-3 md:ml-10"
                                 >
-                                    {{ subject.name }}
-                                </td>
-                                <td
-                                    class="font-semibold text-xs bg-green text-white py-1 w-[70px] md:w-20 text-center rounded-full ml-3 md:ml-16"
+                                    <td
+                                        class="w-28 md:w-[147px] font-medium text-sm pb-2"
+                                    >
+                                        {{ subject.name }}
+                                    </td>
+                                    <td
+                                        class="font-semibold text-xs bg-green text-white py-1 w-[70px] md:w-20 text-center rounded-full ml-3 md:ml-16"
+                                    >
+                                        {{ subject.time }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-5">
+                        <div
+                            class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
+                        >
+                            <div>
+                                <img src="/class.png" class="w-20" />
+                            </div>
+                            <div class="px-7 flex-col-reverse">
+                                <p class="text-sm">Subjek</p>
+                                <p
+                                    class="text-xl text-black font-medium text-center"
                                 >
-                                    {{ subject.time }}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-5">
-                    <div
-                        class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                    >
-                        <div>
-                            <img src="/class.png" class="w-20" />
+                                    {{ countSubjects }}
+                                </p>
+                            </div>
+                            <div></div>
                         </div>
-                        <div class="px-7 flex-col-reverse">
-                            <p class="text-sm">Subjek</p>
-                            <p
-                                class="text-xl text-black font-medium text-center"
-                            >
-                                {{ countSubjects }}
-                            </p>
-                        </div>
-                        <div></div>
-                    </div>
-                    <div
-                        class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
-                    >
-                        <div>
-                            <img src="/student.png" class="w-20" />
-                        </div>
-                        <div class="px-5 flex-col-reverse">
-                            <p class="text-sm">Pelajar</p>
-                            <p
-                                class="text-xl text-black font-medium text-center"
-                            >
-                                {{ countStudents }}
-                            </p>
+                        <div
+                            class="bg-white shadow-login flex py-4 px-5 items-center rounded-2xl"
+                        >
+                            <div>
+                                <img src="/student.png" class="w-20" />
+                            </div>
+                            <div class="px-5 flex-col-reverse">
+                                <p class="text-sm">Pelajar</p>
+                                <p
+                                    class="text-xl text-black font-medium text-center"
+                                >
+                                    {{ countStudents }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,10 +129,12 @@ import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
 import router from "../../router";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarGuru,
+        Loading,
     },
     data() {
         return {
@@ -131,11 +142,13 @@ export default {
             countSubjects: "",
             countStudents: "",
             teacherId: "",
+            loading: false,
         };
     },
     mounted() {
         document.title = "Dashboard | Kerani";
-        console.log(user);
+        this.loading = true;
+
         // Get Teacher Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.teacherId = response.data.teacher.idTeacher;
@@ -148,7 +161,6 @@ export default {
                         .get(baseAPI + `/api/studentscount/${this.teacherId}`)
                         .then((response) => {
                             this.countStudents = response.data;
-                            console.log(this.countStudents);
                         });
                 });
         });
@@ -156,6 +168,9 @@ export default {
         axios.get(baseAPI + `/api/subjects`).then((response) => {
             // console.log(response.data);
             this.subjects = response.data;
+            setTimeout(() => {
+                this.loading = false;
+            }, 1200); // Delayed setting of loading to false
         });
     },
 

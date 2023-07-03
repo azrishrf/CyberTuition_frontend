@@ -1,13 +1,3 @@
-<script setup>
-import SidebarGuru from "../../components/SidebarGuru.vue";
-import router from "../../router";
-
-document.title = "Profil Diri | Guru";
-async function ubahKataLaluan() {
-    router.push("/guru/profil/katalaluan");
-}
-</script>
-
 <template>
     <div class="bg-slate-50 w-full min-h-screen flex">
         <!-- Side Bar -->
@@ -25,6 +15,13 @@ async function ubahKataLaluan() {
                     <i class="fa-solid fa-user text-xs"></i>Guru
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
+            </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
             </div>
             <!-- Breadcrumbs -->
             <h1 class="my-2 font-semibold text-xl">PROFIL DIRI</h1>
@@ -123,17 +120,27 @@ async function ubahKataLaluan() {
 import axios from "axios";
 const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
+import Loading from "../../components/Loading.vue";
+import SidebarGuru from "../../components/SidebarGuru.vue";
+import router from "../../router";
 
 export default {
+    components: {
+        SidebarGuru,
+        Loading,
+    },
     data() {
         return {
             teacherData: "",
             userEmail: "",
             teacherId: "",
+            loading: false,
         };
     },
 
     async mounted() {
+        document.title = "Profil Diri | Guru";
+        this.loading = true;
         // Get Teacher Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
             this.teacherId = response.data.teacher.idTeacher;
@@ -143,6 +150,7 @@ export default {
                 .get(baseAPI + `/api/teacher/${this.teacherId}`)
                 .then((response) => {
                     this.teacherData = response.data;
+                    this.loading = false;
                 });
         });
     },
@@ -151,6 +159,9 @@ export default {
         // Kemaskini profil
         async kemaskiniProfilDiri() {
             router.push("/guru/profil/kemaskini");
+        },
+        ubahKataLaluan() {
+            router.push("/guru/profil/katalaluan");
         },
     },
 };

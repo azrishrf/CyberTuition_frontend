@@ -172,6 +172,7 @@
             <!-- Pagination controls -->
             <div
                 class="flex justify-center items-center text-sm mt-4 font-semibold text-fontgrey"
+                v-if="!loading"
             >
                 <button
                     class="px-2 py-1 rounded-full w-7 bg-red mr-2 text-white hover:bg-darkred"

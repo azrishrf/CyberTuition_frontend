@@ -9,7 +9,13 @@
                     >> &nbsp; Kedatangan</span
                 >
             </p>
-
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Imbas Kod QR -->
             <div
                 class="shadow-login bg-white py-4 px-5 rounded-2xl w-full md:w-9/12 flex items-center"
@@ -101,10 +107,12 @@ const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
 import router from "../../router";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SideBarPelajar,
+        Loading,
     },
     data() {
         return {
@@ -112,11 +120,13 @@ export default {
             studentId: "",
             attendances: "",
             statusAttendance: false,
+            loading: false,
         };
     },
 
     async mounted() {
         document.title = "Kedatangan | Pelajar";
+        this.loading = true;
 
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
@@ -128,6 +138,7 @@ export default {
                     this.studentData = response.data;
                     this.attendances = this.studentData.student_Attendance;
                     this.sortAttendancesByDate(); // Call the sorting method
+                    this.loading = false;
                 });
         });
 

@@ -15,6 +15,13 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
             </div>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
             <!-- Breadcrumbs -->
             <h1 class="my-2 font-semibold text-xl">KELAS</h1>
             <p class="font-semibold text-xs inline mb-4">
@@ -85,21 +92,25 @@ const user = JSON.parse(sessionStorage.getItem("idUser"));
 import { baseAPI } from "../../stores";
 import SidebarGuru from "../../components/SidebarGuru.vue";
 import router from "../../router";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SidebarGuru,
+        Loading,
     },
     data() {
         return {
             teacherData: "",
             userEmail: "",
             teacherId: "",
+            loading: false,
         };
     },
 
     async mounted() {
         document.title = "Kelas | Guru";
+        this.loading = true;
 
         // Get Teacher Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
@@ -109,6 +120,7 @@ export default {
                 .get(baseAPI + `/api/teacher/${this.teacherId}`)
                 .then((response) => {
                     this.teacherData = response.data;
+                    this.loading = false;
                 });
         });
     },

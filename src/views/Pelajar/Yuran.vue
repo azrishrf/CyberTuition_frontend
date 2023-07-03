@@ -9,6 +9,13 @@
                     >> &nbsp; Yuran</span
                 >
             </p>
+            <!-- Loading -->
+            <div
+                class="fixed inset-0 flex items-center justify-center z-50"
+                v-if="loading"
+            >
+                <Loading />
+            </div>
 
             <!-- Bulan & Tahun -->
             <div class="shadow-login bg-white py-4 px-5 rounded-2xl mb-5">
@@ -78,7 +85,7 @@
             <!-- Yuran -->
             <div
                 class="shadow-login bg-white py-4 px-4 md:px-8 rounded-2xl my-5 flex flex-col gap-3 md:flex-row"
-                v-if="isConfirm"
+                v-if="isConfirm && !loading"
             >
                 <div class="flex-1">
                     <h1 class="text-base font-semibold mb-2">
@@ -221,7 +228,11 @@
             <!-- Kaedah Pembayaran -->
             <div
                 class="shadow-login bg-white py-4 px-6 rounded-2xl my-5"
-                v-if="tuitionFee.statusPayment === 'Belum Dibayar' && isConfirm"
+                v-if="
+                    tuitionFee.statusPayment === 'Belum Dibayar' &&
+                    isConfirm &&
+                    !loading
+                "
             >
                 <h1 class="text-base font-semibold my-2">
                     Kaedah Pembayaran (Sila Pilih Salah Satu)
@@ -280,11 +291,13 @@ import { baseAPI } from "../../stores";
 import SideBarPelajar from "../../components/SideBarPelajar.vue";
 import router from "../../router";
 import SubmitButton from "../../components/SubmitButton.vue";
+import Loading from "../../components/Loading.vue";
 
 export default {
     components: {
         SideBarPelajar,
         SubmitButton,
+        Loading,
     },
     data() {
         return {
@@ -303,10 +316,12 @@ export default {
             monthYear: "",
             tuitionFee: "",
             subjectsArray: "",
+            loading: false,
         };
     },
     async mounted() {
         document.title = "Dashboard | Pelajar";
+        this.loading = true;
 
         // Get Student Data
         axios.get(baseAPI + `/api/user/${user}`).then((response) => {
@@ -322,6 +337,7 @@ export default {
                         (studentSubject) => studentSubject.subject
                     );
                     this.tuitionFees = response.data.tuitionFee;
+                    this.loading = false;
                 });
         });
     },
@@ -471,6 +487,7 @@ export default {
             if (!this.month || !this.year) {
                 this.errorMessage = "* Sila isi semua maklumat";
             } else {
+                this.loading = true;
                 this.isConfirm = true;
                 this.errorMessage = "";
                 this.monthYear = this.month + " / " + this.year;
@@ -513,6 +530,7 @@ export default {
                                 );
 
                                 this.totalFee = this.tuitionFee.amount;
+                                this.loading = false;
                             })
                             .catch((error) => {
                                 console.error(error);
