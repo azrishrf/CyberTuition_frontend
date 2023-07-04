@@ -371,10 +371,12 @@ export default {
                     this.toast.error("Email Sudah Digunakan!", {
                         timeout: 3000,
                     });
+                    this.loading = false;
                 } else if (existingStudent) {
                     this.toast.error("Nombor Kad Pengenalan Sudah Digunakan!", {
                         timeout: 3000,
                     });
+                    this.loading = false;
                 } else {
                     const user = {
                         email: this.email,
